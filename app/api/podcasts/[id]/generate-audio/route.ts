@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { NextRequest, NextResponse, after } from 'next/server';
 import { getCollection } from '@/lib/mongodb';
 import { textToSpeech, concatenateAudioBuffers } from '@/lib/elevenlabs';
-import { getRequestContext } from '@cloudflare/next-on-pages';
 
 export const runtime = 'nodejs';
+export const maxDuration = 300; // Audio generation takes longer
 
 // This endpoint starts the audio generation process
 export async function POST(
@@ -40,22 +40,14 @@ export async function POST(
     );
 
     // Start background audio generation
-    // We don't await this, but we catch errors to prevent unhandled rejections
-    let ctx: { waitUntil?: (promise: Promise<void>) => void } | undefined;
-    try {
-      ctx = getRequestContext() as unknown as { waitUntil?: (promise: Promise<void>) => void };
-    } catch {
-      // Ignore error if not in Cloudflare context
-    }
-
-    if (ctx?.waitUntil) {
-      ctx.waitUntil(generateAudioInBackground(id, podcast.script));
-    } else {
-      // Fallback for local dev or if waitUntil is missing
-      generateAudioInBackground(id, podcast.script).catch(err => {
+    // Use Next.js 'after' to run background task after response is sent
+    after(async () => {
+      try {
+        await generateAudioInBackground(id, podcast.script);
+      } catch (err) {
         console.error(`[Background Error] Unhandled error in audio generation for ${id}:`, err);
-      });
-    }
+      }
+    });
 
     return NextResponse.json({
       success: true,
