@@ -1,7 +1,10 @@
 # 📁 CASE FILE: ATLAS FORENSIC VAULT
-### CASE ID: #D71DE589
-### STATUS: **ACTIVE INVESTIGATION**
-### LEAD DETECTIVE: **MONGO D. BANE**
+
+**CASE ID:** #D71DE589
+
+**STATUS:** **ACTIVE INVESTIGATION**
+
+**LEAD DETECTIVE:** **MONGO D. BANE**
 
 ---
 
@@ -65,16 +68,12 @@ We don't run this operation on typewriters. We use heavy machinery.
 
 ### 🛠️ Tech Stack
 
-<div align="center">
-
 | Category | Technologies |
 | :---: | :---: |
-| **Frontend** | <a href="https://nextjs.org/"><img src="https://skillicons.dev/icons?i=nextjs,react,ts,tailwind" /></a> |
-| **Backend** | <a href="https://nodejs.org/"><img src="https://skillicons.dev/icons?i=nodejs,cloudflare" /></a> |
-| **Database** | <a href="https://www.mongodb.com/"><img src="https://skillicons.dev/icons?i=mongodb" /></a> |
-| **Tools** | <a href="https://git-scm.com/"><img src="https://skillicons.dev/icons?i=git,github,vscode" /></a> |
-
-</div>
+| **Frontend** | [![Frontend Tech](https://skillicons.dev/icons?i=nextjs,react,ts,tailwind)](https://nextjs.org/) |
+| **Backend** | [![Backend Tech](https://skillicons.dev/icons?i=nodejs,cloudflare)](https://nodejs.org/) |
+| **Database** | [![Database Tech](https://skillicons.dev/icons?i=mongodb)](https://www.mongodb.com/) |
+| **Tools** | [![Tools](https://skillicons.dev/icons?i=git,github,vscode)](https://git-scm.com/) |
 
 * **MongoDB Atlas**: The Vault. Using **Vector Search** to connect the dots between disparate commits, **Change Streams** to monitor the wire in real-time, and **Flexible Schema** to handle the messy data of the digital back alleys.
 * **Cloudflare**: The Perimeter. **Workers AI** for edge profiling, **R2** for stashing the tapes (egress-free), and **Durable Objects** to keep our terminals synced across the city.
@@ -102,29 +101,33 @@ Need to take the case to the DA? Export findings as **Redacted** (blacked-out se
 ## 🕵️‍♀️ INSTALLATION FOR AGENTS
 
 1. **Clone the Repository** (Keep it quiet):
-```bash
-git clone https://github.com/SoumyaEXE/atlas-forensic-vault.git
-cd atlas-forensic-vault
-```
 
-2. **Install Dependencies** (Load your weapon):
-```bash
-npm install
-```
+   ```bash
+   git clone https://github.com/SoumyaEXE/atlas-forensic-vault.git
+   cd atlas-forensic-vault
+   ```
 
-3. **Configure Environment** (Set your wiretap):
-Create a `.env.local` file with your clearance keys:
-```env
-MONGODB_URI=... # Atlas Connection String
-GEMINI_API_KEY=... # The Brains
-ELEVENLABS_API_KEY=... # The Voice
-CLOUDFLARE_R2_BUCKET=... # The Evidence Locker
-```
+1. **Install Dependencies** (Load your weapon):
 
-4. **Start Surveillance**:
-```bash
-npm run dev
-```
+   ```bash
+   npm install
+   ```
+
+1. **Configure Environment** (Set your wiretap):
+   Create a `.env.local` file with your clearance keys:
+
+   ```env
+   MONGODB_URI=... # Atlas Connection String
+   GEMINI_API_KEY=... # The Brains
+   ELEVENLABS_API_KEY=... # The Voice
+   CLOUDFLARE_R2_BUCKET=... # The Evidence Locker
+   ```
+
+1. **Start Surveillance**:
+
+   ```bash
+   npm run dev
+   ```
 
 ---
 

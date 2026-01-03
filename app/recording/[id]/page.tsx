@@ -145,7 +145,7 @@ export default function RecordingPage() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="fixed top-6 left-1/2 -translate-x-1/2 z-[60] w-full max-w-5xl bg-zinc-950/90 backdrop-blur-sm border border-zinc-800 shadow-2xl rounded-sm"
+        className="fixed top-6 left-1/2 -translate-x-1/2 z-60 w-full max-w-5xl bg-zinc-950/90 backdrop-blur-sm border border-zinc-800 shadow-2xl rounded-sm"
       >
         {/* Texture Overlay */}
         <div className="absolute inset-0 opacity-10 pointer-events-none mix-blend-overlay" style={{backgroundImage: 'url("https://www.transparenttextures.com/patterns/brushed-alum.png")'}}></div>
@@ -171,7 +171,7 @@ export default function RecordingPage() {
                   <div className="w-6 h-3 bg-zinc-300 rounded-sm border border-zinc-400 shadow-sm"></div>
               </div>
               
-              <div className="relative z-10 bg-white text-black px-3 py-2 transform rotate-1 shadow-lg drop-shadow-xl border border-gray-300 flex items-center gap-3 max-w-[220px]">
+              <div className="relative z-10 bg-white text-black px-3 py-2 transform rotate-1 shadow-lg drop-shadow-xl border border-gray-300 flex items-center gap-3 max-w-55">
                 <div className="w-10 h-10 bg-gray-200 border border-gray-400 overflow-hidden grayscale contrast-125 shrink-0 relative">
                   <Image 
                     src="/mongodben.jpg" 
@@ -186,7 +186,7 @@ export default function RecordingPage() {
                   <p className="text-[8px] font-mono text-gray-500">ID: 8492-A</p>
                 </div>
                 {/* Holographic Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent opacity-30 pointer-events-none"></div>
+                <div className="absolute inset-0 bg-linear-to-tr from-transparent via-white/20 to-transparent opacity-30 pointer-events-none"></div>
               </div>
             </div>
 
@@ -231,7 +231,7 @@ export default function RecordingPage() {
           {/* Vacuum Tube / Oscilloscope Container */}
           <div className="relative mx-auto w-64 h-64 mb-12">
              {/* Glass Tube Effect */}
-             <div className="absolute inset-0 rounded-full bg-gradient-to-b from-zinc-800/20 to-zinc-900/80 border border-zinc-700/50 shadow-[0_0_50px_rgba(0,0,0,0.8)] backdrop-blur-sm overflow-hidden">
+             <div className="absolute inset-0 rounded-full bg-linear-to-b from-zinc-800/20 to-zinc-900/80 border border-zinc-700/50 shadow-[0_0_50px_rgba(0,0,0,0.8)] backdrop-blur-sm overflow-hidden">
                 {/* Inner Glow */}
                 <div className="absolute inset-0 bg-radial-gradient from-red-900/10 to-transparent opacity-50"></div>
                 

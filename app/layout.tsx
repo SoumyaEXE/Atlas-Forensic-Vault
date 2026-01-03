@@ -43,7 +43,7 @@ export default function RootLayout({
         suppressHydrationWarning
       >
         {/* Global Film Grain Overlay */}
-        <div className="fixed inset-0 pointer-events-none z-[9999] opacity-[0.05] mix-blend-overlay bg-[url('/grain.gif')]"></div>
+        <div className="fixed inset-0 pointer-events-none z-9999 opacity-[0.05] mix-blend-overlay bg-[url('/grain.gif')]"></div>
         
         <AudioProvider>
           {children}
