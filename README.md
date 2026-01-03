@@ -2,7 +2,10 @@
   <img src="public/og.jpeg.jpg" alt="Atlas Forensic Vault Banner" width="100%">
 </p>
 
-<h1 align="center">🕵️ ATLAS FORENSIC VAULT</h1>
+<div align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&size=32&duration=2000&pause=400&color=CC2B2B&center=true&vCenter=true&width=1000&height=100&lines=%3E_%2B+INITIALIZING+ATLAS+FORENSIC+VAULT...;%3E_%2B+AI-POWERED+CODE+INVESTIGATION+ONLINE;%3E_%2B+NEXT.JS+%2F+MONGODB+ATLAS+CONNECTED;%3E_%2B+GEMINI+ANALYSIS+PIPELINE+ACTIVE;%3E_%2B+ELEVENLABS+VOICE+SYNTHESIS+READY;%3E_%2B+CODEBASES+TURNED+INTO+PODCASTS;%3E_%2B+EVERY+REPOSITORY+HAS+A+STORY" alt="Atlas Forensic Vault Typing Animation" />
+</div>
+
 
 <h3 align="center"><i>"Every Repository Has a Story. We Make It Talk."</i></h3>
 
