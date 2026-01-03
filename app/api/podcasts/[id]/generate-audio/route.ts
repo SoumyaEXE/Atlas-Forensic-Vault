@@ -5,8 +5,8 @@ import { textToSpeech, concatenateAudioBuffers } from '@/lib/elevenlabs';
 export const runtime = 'nodejs';
 
 // Increase timeout for Vercel serverless functions
-// Hobby: max 60s, Pro: max 300s
-export const maxDuration = 60;
+// Hobby: max 60s, Pro: max 300s (5 minutes)
+export const maxDuration = 300;
 
 // This endpoint starts the audio generation process
 export async function POST(
@@ -42,17 +42,14 @@ export async function POST(
       }
     );
 
-    // Generate audio synchronously to work within Vercel's timeout
-    // The maxDuration setting gives us enough time to complete
-    console.log(`[Audio] Starting synchronous audio generation for ${id}`);
+    // Start background audio generation WITHOUT awaiting
+    // The function continues running thanks to maxDuration
+    // Response is returned immediately to prevent client timeout
+    console.log(`[Audio] Starting background audio generation for ${id}`);
     
-    try {
-      await generateAudioInBackground(id, podcast.script);
-      console.log(`[Audio] Completed audio generation for ${id}`);
-    } catch (err) {
-      console.error(`[Audio Error] Audio generation failed for ${id}:`, err);
-      // Error is already handled inside generateAudioInBackground
-    }
+    generateAudioInBackground(id, podcast.script)
+      .then(() => console.log(`[Audio] ✅ Completed audio generation for ${id}`))
+      .catch((err) => console.error(`[Audio Error] ❌ Audio generation failed for ${id}:`, err));
 
     return NextResponse.json({
       success: true,

@@ -7,8 +7,8 @@ import { NarrativeStyle, AnalysisStatus, Podcast } from '@/lib/types';
 export const runtime = 'nodejs';
 
 // Increase timeout for Vercel serverless functions
-// Hobby: max 60s, Pro: max 300s
-export const maxDuration = 60;
+// Hobby: max 60s, Pro: max 300s (5 minutes)
+export const maxDuration = 300;
 
 export async function POST(request: NextRequest) {
   try {
@@ -55,15 +55,12 @@ export async function POST(request: NextRequest) {
     // Log that we are starting processing
     console.log(`[Analyze] Starting analysis for ${owner}/${repo} (ID: ${podcast.id})`);
 
-    // Process synchronously within Vercel's timeout limit
-    // The maxDuration setting gives us enough time to complete
-    try {
-      await processRepository(podcast.id, owner, repo, narrative_style);
-      console.log(`[Analyze] Completed analysis for ${podcast.id}`);
-    } catch (err) {
-      console.error(`[Analyze] Error in processRepository for ${podcast.id}:`, err);
-      // Error is already handled inside processRepository
-    }
+    // Start background processing WITHOUT awaiting
+    // The function continues running thanks to maxDuration
+    // Response is returned immediately to prevent client timeout
+    processRepository(podcast.id, owner, repo, narrative_style)
+      .then(() => console.log(`[Analyze] ✅ Completed analysis for ${podcast.id}`))
+      .catch((err) => console.error(`[Analyze] ❌ Error in processRepository for ${podcast.id}:`, err));
 
     return NextResponse.json({
       id: podcast.id,
