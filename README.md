@@ -339,14 +339,14 @@ Visit **http://localhost:3000**
 
 ---
 
-## 👥 Team
+## 👥 Team LowEndCorp.
 
 <div align="center">
 
-| 👨‍💻 Soumya | 👨‍💻 Subarna | 👨‍💻 Saikat | 👨‍💻 Sourish Panda |
+| 👨‍💻 Soumya | 👨‍💻 Subarna | 👨‍💻 Saikat | 👨‍💻 Sourish |
 |:-------------:|:-------------:|:-------------:|:-------------:|
 | **Full Stack Developer** | **Android Developer** | **DevOps Engineer** | **Competitive Programmer** |
-| [![GitHub](https://img.shields.io/badge/GitHub-SoumyaEXE-181717?style=flat&logo=github)](https://github.com/SoumyaEXE) | [![GitHub](https://img.shields.io/badge/GitHub-Subarna-181717?style=flat&logo=github)](https://github.com/Dronzer2Code) | [![GitHub](https://img.shields.io/badge/GitHub-Saikat-181717?style=flat&logo=github)](https://github.com/saviour2) | [![GitHub](https://img.shields.io/badge/GitHub-SourishPanda-181717?style=flat&logo=github)](https://github.com/T-Rexbytes) |
+| [![GitHub](https://img.shields.io/badge/GitHub-Soumya-181717?style=flat&logo=github)](https://github.com/SoumyaEXE) | [![GitHub](https://img.shields.io/badge/GitHub-Subarna-181717?style=flat&logo=github)](https://github.com/Dronzer2Code) | [![GitHub](https://img.shields.io/badge/GitHub-Saikat-181717?style=flat&logo=github)](https://github.com/saviour2) | [![GitHub](https://img.shields.io/badge/GitHub-Sourish-181717?style=flat&logo=github)](https://github.com/T-Rexbytes) |
 
 </div>
 
