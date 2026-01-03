@@ -49,9 +49,16 @@
 
 ### 🎬 How It Works
 
-```
-1️⃣ SUBMIT    →    2️⃣ INVESTIGATE    →    3️⃣ LISTEN    →    4️⃣ LEARN
-   GitHub URL         AI Analysis           Podcast           Understand
+```mermaid
+graph LR
+    A[1️⃣ SUBMIT<br/>GitHub URL] --> B[2️⃣ INVESTIGATE<br/>AI Analysis]
+    B --> C[3️⃣ LISTEN<br/>Podcast]
+    C --> D[4️⃣ LEARN<br/>Understand]
+    
+    style A fill:#4a5568,stroke:#718096,color:#fff
+    style B fill:#553c9a,stroke:#805ad5,color:#fff
+    style C fill:#2c7a7b,stroke:#38b2ac,color:#fff
+    style D fill:#276749,stroke:#48bb78,color:#fff
 ```
 
 ---
