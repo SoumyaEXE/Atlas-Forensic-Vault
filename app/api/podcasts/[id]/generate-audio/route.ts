@@ -3,7 +3,7 @@ import { getCollection } from '@/lib/mongodb';
 import { textToSpeech, concatenateAudioBuffers } from '@/lib/elevenlabs';
 import { getRequestContext } from '@cloudflare/next-on-pages';
 
-export const runtime = 'edge';
+export const runtime = 'nodejs';
 
 // This endpoint starts the audio generation process
 export async function POST(

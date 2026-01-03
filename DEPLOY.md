@@ -12,7 +12,7 @@ This guide explains how to deploy the **Atlas Forensic Vault** (Next.js applicat
 
 Ensure you have the necessary configuration for Cloudflare Pages.
 
-1.  **Edge Runtime**: All API routes in `app/api/` must have `export const runtime = 'edge';` (Already done).
+1.  **Runtime Configuration**: API routes are configured with `export const runtime = 'nodejs';` to ensure compatibility with MongoDB and other libraries that require Node.js modules (like `crypto`). The `@cloudflare/next-on-pages` adapter will bundle these for the Edge environment using the `nodejs_compat` flag.
 2.  **Dependencies**: `@cloudflare/next-on-pages` must be installed (Already done).
 
 ## Step 2: Create a Cloudflare Pages Project
@@ -65,4 +65,4 @@ Once the build finishes, visit the provided `*.pages.dev` URL.
 ## Troubleshooting
 
 *   **MongoDB Connection Issues**: Ensure `nodejs_compat` flag is set. Ensure your MongoDB Atlas IP Access List allows access from anywhere (`0.0.0.0/0`) since Cloudflare IPs change.
-*   **Build Errors**: Check the build logs. If it complains about `Edge Runtime`, ensure all API routes have `export const runtime = 'edge'`.
+*   **Build Errors**: Check the build logs. If you see errors about `crypto` or other Node.js modules, ensure the API routes are set to `export const runtime = 'nodejs'` and that the `nodejs_compat` flag is enabled in Cloudflare Dashboard.

@@ -5,7 +5,7 @@ import { generatePodcastScript, analyzeCodePatterns } from '@/lib/gemini';
 import { NarrativeStyle, AnalysisStatus, Podcast } from '@/lib/types';
 import { getRequestContext } from '@cloudflare/next-on-pages';
 
-export const runtime = 'edge';
+export const runtime = 'nodejs';
 
 export async function POST(request: NextRequest) {
   try {

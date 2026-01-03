@@ -6,7 +6,7 @@ main = "workers/index.ts"
 compatibility_date = "2024-01-01"
 
 # Node.js compatibility for certain modules
-node_compat = true
+compatibility_flags = ["nodejs_compat"]
 
 # Development settings
 [dev]
