@@ -1,6 +1,35 @@
-# 🚀 Deploying to Cloudflare Pages
+# 🚀 Deployment Guide
 
-This guide explains how to deploy the **Atlas Forensic Vault** (Next.js application) to Cloudflare Pages.
+This guide explains how to deploy the **Atlas Forensic Vault** (Next.js application) to **Vercel** (Recommended) or Cloudflare Pages.
+
+## Option 1: Deploy to Vercel (Recommended)
+
+Vercel provides native support for Next.js and is the easiest way to deploy this application, especially given the MongoDB dependencies.
+
+### Steps
+
+1.  **Push to GitHub**: Ensure your latest code is pushed to your GitHub repository.
+2.  **Log in to Vercel**: Go to [vercel.com](https://vercel.com) and log in with GitHub.
+3.  **Import Project**: Click "Add New..." > "Project" and select your `atlas-forensic-vault` repository.
+4.  **Configure Project**:
+    *   **Framework Preset**: Next.js (should be auto-detected).
+    *   **Root Directory**: `./` (default).
+5.  **Environment Variables**: Add the following variables in the "Environment Variables" section:
+    *   `MONGODB_URI`
+    *   `GEMINI_API_KEY`
+    *   `ELEVENLABS_API_KEY`
+    *   `GITHUB_TOKEN` (Optional, for higher rate limits)
+6.  **Deploy**: Click "Deploy".
+
+### Vercel Configuration (`vercel.json`)
+
+A `vercel.json` file has been added to configure serverless function limits (memory and duration) to ensure smooth operation of the analysis pipeline.
+
+---
+
+## Option 2: Deploy to Cloudflare Pages
+
+> **Note**: Cloudflare Pages requires specific compatibility flags for MongoDB.
 
 ## Prerequisites
 
