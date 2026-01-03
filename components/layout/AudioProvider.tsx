@@ -19,7 +19,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   const fadeIn = () => {
     if (!audioRef.current) return;
     
-    const targetVolume = 0.25;
+    const targetVolume = 0.15;
     const duration = 1000; // 1 second
     const interval = 50;
     const step = targetVolume / (duration / interval);
