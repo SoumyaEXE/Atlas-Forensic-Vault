@@ -266,3 +266,57 @@ body {
   background: radial-gradient(circle, transparent 50%, rgba(0, 0, 0, 0.8) 100%);
   pointer-events: none;
 }
+
+/* Custom Scrollbar - Mechanical Rail Style */
+/* The track (The recessed metal groove) */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0a0a0a; /* Deep charcoal */
+  border-left: 1px solid #1a1a1a;
+}
+
+/* The thumb (The magnetic tape head) */
+::-webkit-scrollbar-thumb {
+  background: #7f1d1d; /* Darker red (red-900) */
+  border-radius: 0px;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #991b1b; /* Slightly lighter red (red-800) when active */
+}
+
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+  
+  /* For Firefox */
+  .scrollbar-hide {
+    scrollbar-width: none;
+  }
+}
+
+/* Text Selection Highlight */
+::selection {
+  background-color: #7f1d1d !important; /* Dark red */
+  color: #ffffff !important;
+}
+
+::-moz-selection {
+  background-color: #7f1d1d !important; /* Dark red */
+  color: #ffffff !important;
+}
+
+*::selection {
+  background-color: #7f1d1d !important;
+  color: #ffffff !important;
+}
+
+*::-moz-selection {
+  background-color: #7f1d1d !important;
+  color: #ffffff !important;
+}

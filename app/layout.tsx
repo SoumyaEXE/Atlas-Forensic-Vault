@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Special_Elite, JetBrains_Mono, VT323, Courier_Prime } from "next/font/google";
 import "./globals.css";
 import { AudioProvider } from "@/components/layout/AudioProvider";
@@ -26,9 +26,39 @@ const vt323 = VT323({
   subsets: ["latin"],
 });
 
+export const viewport: Viewport = {
+  themeColor: "#7f1d1d",
+};
+
 export const metadata: Metadata = {
-  title: "Detective Mongo D. Bane - Repo-to-Podcast",
-  description: "Transform any GitHub repository into a True Crime-style audio investigation",
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"),
+  title: {
+    default: "Detective Mongo D. Bane | Code Crime Unit",
+    template: "%s | Detective Mongo D. Bane",
+  },
+  description: "Uncover the truth hidden in your codebase. Transform any GitHub repository into a gripping True Crime audio investigation. Analyze commits, interrogate spaghetti code, and reveal the architectural mysteries.",
+  openGraph: {
+    title: "Detective Mongo D. Bane | Code Crime Unit",
+    description: "Uncover the truth hidden in your codebase. Transform any GitHub repository into a gripping True Crime audio investigation.",
+    url: "/",
+    siteName: "Detective Mongo D. Bane",
+    images: [
+      {
+        url: "/og.jpeg",
+        width: 1200,
+        height: 630,
+        alt: "Detective Mongo D. Bane - Code Crime Unit Investigation Board",
+      },
+    ],
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Detective Mongo D. Bane | Code Crime Unit",
+    description: "Uncover the truth hidden in your codebase. Transform any GitHub repository into a gripping True Crime audio investigation.",
+    images: ["/og.jpeg"],
+  },
 };
 
 export default function RootLayout({

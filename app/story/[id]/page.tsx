@@ -725,7 +725,7 @@ export default function StoryEditorPage() {
         </div>
 
         {/* Interrogation Transcript - Manila Folder Style */}
-        <div id="interrogation-log" className="interrogation-log-container bg-[#f0e6d2] w-full max-w-[95vw] md:max-w-4xl p-4 md:p-16 shadow-2xl relative min-h-screen mx-auto transform rotate-[0.5deg] transition-all duration-500">
+        <div id="interrogation-log" className="interrogation-log-container scrollbar-hide bg-[#f0e6d2] w-full max-w-[95vw] md:max-w-4xl p-4 md:p-16 shadow-2xl relative min-h-screen mx-auto transform rotate-[0.5deg] transition-all duration-500">
           {/* Paper Texture */}
           <div className="absolute inset-0 opacity-40 pointer-events-none mix-blend-multiply z-0" style={{backgroundImage: 'url("https://www.transparenttextures.com/patterns/paper-fibers.png")'}}></div>
           {/* Static Grain for Print */}
