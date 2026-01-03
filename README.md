@@ -22,7 +22,7 @@
 
 ---
 
-## 🎯 The Problem
+# 🎯 The Problem
 
 **Developers are drowning in code they didn't write.**
 
@@ -56,7 +56,7 @@
 
 ---
 
-## 🏗️ System Architecture
+# 🏗️ System Architecture
 
 ### High-Level Overview
 
@@ -146,7 +146,7 @@ graph LR
 
 ---
 
-## 🔧 Tech Stack
+# 🔧 Tech Stack
 
 <div align="center">
 
@@ -179,7 +179,7 @@ graph LR
 
 ---
 
-## ✨ Key Features
+# ✨ Key Features
 
 ### 🎙️ 1. AI-Powered Code Narration
 Transform any GitHub repository into an engaging podcast with multiple narrative styles:
@@ -215,7 +215,7 @@ Transform any GitHub repository into an engaging podcast with multiple narrative
 
 ---
 
-## 📊 MongoDB Atlas Integration
+# 📊 MongoDB Atlas Integration
 
 ### Why MongoDB Atlas?
 
@@ -277,7 +277,7 @@ changeStream.on("change", (change) => {
 
 ---
 
-## 🚀 Getting Started
+# 🚀 Getting Started
 
 ### Prerequisites
 
@@ -343,10 +343,11 @@ Visit **http://localhost:3000**
 
 <div align="center">
 
-| 👨‍💻 Soumya | 👨‍💻 Subarna | 👨‍💻 Saikat | 👨‍💻 Sourish Panda |
-|:-------------:|:-------------:|:-------------:|:-------------:|
-| **Full Stack Developer** | **Android Developer** | **DevOps Engineer** | **Competitive Programmer** |
-| [![GitHub](https://img.shields.io/badge/GitHub-SoumyaEXE-181717?style=flat&logo=github)](https://github.com/SoumyaEXE) | [![GitHub](https://img.shields.io/badge/GitHub-Subarna-181717?style=flat&logo=github)](https://github.com/Subarna) | [![GitHub](https://img.shields.io/badge/GitHub-Saikat-181717?style=flat&logo=github)](https://github.com/Saikat) | [![GitHub](https://img.shields.io/badge/GitHub-SourishPanda-181717?style=flat&logo=github)](https://github.com/SourishPanda) |
+| 👨‍💻 Developer |
+|:-------------:|
+| **Soumya** |
+| Full Stack Developer |
+| [![GitHub](https://img.shields.io/badge/GitHub-SoumyaEXE-181717?style=flat&logo=github)](https://github.com/SoumyaEXE) |
 
 </div>
 
