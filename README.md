@@ -26,12 +26,16 @@
 
 **Developers are drowning in code they didn't write.**
 
+<div align="center">
+
 | Challenge | Pain Point |
-|-----------|------------|
+|:---------:|:----------:|
 | 📚 Documentation | Reading docs is time-consuming |
 | 🔍 New Codebases | Understanding takes hours/days |
 | 🎧 Passive Learning | Can't learn while commuting |
 | 📖 Code Reviews | Traditional reviews are dry & boring |
+
+</div>
 
 ---
 
@@ -158,8 +162,10 @@ graph LR
 
 ### 📦 Detailed Stack
 
+<div align="center">
+
 | Layer | Technology | Purpose |
-|-------|------------|---------|
+|:-----:|:----------:|:-------:|
 | **Frontend** | Next.js 16, React 19, TypeScript | Server-side rendering, type safety |
 | **Styling** | Tailwind CSS 4, Framer Motion | Responsive design, animations |
 | **3D Graphics** | Three.js, React Three Fiber | Immersive UI elements |
@@ -169,6 +175,8 @@ graph LR
 | **Hosting** | Vercel (Pro) | Serverless deployment, 300s timeout |
 | **API** | GitHub REST API | Repository data fetching |
 
+</div>
+
 ---
 
 ## ✨ Key Features
@@ -176,11 +184,15 @@ graph LR
 ### 🎙️ 1. AI-Powered Code Narration
 Transform any GitHub repository into an engaging podcast with multiple narrative styles:
 
+<div align="center">
+
 | Style | Voice | Description |
-|-------|-------|-------------|
+|:-----:|:-----:|:-----------:|
 | 🕵️ **True Crime** | Detective | Film noir investigation of "code crimes" |
 | ⚽ **Sports** | Dual Commentators | Exciting play-by-play of the codebase |
 | 🦁 **Documentary** | Attenborough | Nature doc style exploration |
+
+</div>
 
 ### 🎛️ 2. Retro Reel-to-Reel Player
 - 🎞️ Spinning tape reel animations
@@ -209,11 +221,15 @@ Transform any GitHub repository into an engaging podcast with multiple narrative
 
 We leverage **three key MongoDB Atlas features**:
 
+<div align="center">
+
 | Feature | Use Case | Benefit |
-|---------|----------|---------|
+|:-------:|:--------:|:-------:|
 | 📄 **Flexible Schema** | Store variable segment counts | No rigid table structures |
 | 🔍 **Vector Search** | Semantic transcript search | Find similar codebases |
 | 📡 **Change Streams** | Real-time progress updates | No polling required |
+
+</div>
 
 ### 1. Flexible Schema
 ```javascript
@@ -309,13 +325,17 @@ Visit **http://localhost:3000**
 
 ## 🏆 Hackathon Highlights
 
+<div align="center">
+
 | Criteria | Implementation |
-|----------|----------------|
+|:--------:|:--------------:|
 | ✅ **MongoDB Atlas** | Vector Search + Change Streams + Flexible Schema |
 | ✅ **Innovation** | First-ever code-to-podcast with Film Noir theme |
 | ✅ **AI Integration** | Gemini for analysis, ElevenLabs for voice |
 | ✅ **Production Ready** | Deployed and functional on Vercel |
 | ✅ **Real-World Utility** | Actually helps developers understand codebases |
+
+</div>
 
 ---
 
