@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { waitUntil } from '@vercel/functions';
 import { getCollection } from '@/lib/mongodb';
 import { getGitHubFetcher } from '@/lib/github/fetcher';
 import { generatePodcastScript, analyzeCodePatterns } from '@/lib/gemini';
@@ -55,12 +56,13 @@ export async function POST(request: NextRequest) {
     // Log that we are starting processing
     console.log(`[Analyze] Starting analysis for ${owner}/${repo} (ID: ${podcast.id})`);
 
-    // Start background processing WITHOUT awaiting
-    // The function continues running thanks to maxDuration
-    // Response is returned immediately to prevent client timeout
-    processRepository(podcast.id, owner, repo, narrative_style)
-      .then(() => console.log(`[Analyze] ✅ Completed analysis for ${podcast.id}`))
-      .catch((err) => console.error(`[Analyze] ❌ Error in processRepository for ${podcast.id}:`, err));
+    // Use waitUntil to keep the function alive after returning response
+    // This is critical for Vercel - without it, the function terminates immediately
+    waitUntil(
+      processRepository(podcast.id, owner, repo, narrative_style)
+        .then(() => console.log(`[Analyze] ✅ Completed analysis for ${podcast.id}`))
+        .catch((err) => console.error(`[Analyze] ❌ Error in processRepository for ${podcast.id}:`, err))
+    );
 
     return NextResponse.json({
       id: podcast.id,

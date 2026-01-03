@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { waitUntil } from '@vercel/functions';
 import { getCollection } from '@/lib/mongodb';
 import { textToSpeech, concatenateAudioBuffers } from '@/lib/elevenlabs';
 
@@ -42,14 +43,15 @@ export async function POST(
       }
     );
 
-    // Start background audio generation WITHOUT awaiting
-    // The function continues running thanks to maxDuration
-    // Response is returned immediately to prevent client timeout
+    // Use waitUntil to keep the function alive after returning response
+    // This is critical for Vercel - without it, the function terminates immediately
     console.log(`[Audio] Starting background audio generation for ${id}`);
     
-    generateAudioInBackground(id, podcast.script)
-      .then(() => console.log(`[Audio] ✅ Completed audio generation for ${id}`))
-      .catch((err) => console.error(`[Audio Error] ❌ Audio generation failed for ${id}:`, err));
+    waitUntil(
+      generateAudioInBackground(id, podcast.script)
+        .then(() => console.log(`[Audio] ✅ Completed audio generation for ${id}`))
+        .catch((err) => console.error(`[Audio Error] ❌ Audio generation failed for ${id}:`, err))
+    );
 
     return NextResponse.json({
       success: true,
