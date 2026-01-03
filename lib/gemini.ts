@@ -26,35 +26,41 @@ export async function generatePodcastScript(
   narrativeStyle: NarrativeStyle,
   context?: GenerationContext
 ): Promise<PodcastScript> {
-  const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+  // Use gemini-1.5-flash as it is the current stable fast model
+  const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
 
   // Get style-specific prompt
   const stylePrompt = getStyleSpecificPrompt(narrativeStyle, repoData, files, context);
 
   console.log('[Gemini] Generating script with style:', narrativeStyle);
   
-  const result = await model.generateContent(stylePrompt);
-  const response = result.response;
-  const text = response.text();
+  try {
+    const result = await model.generateContent(stylePrompt);
+    const response = result.response;
+    const text = response.text();
 
-  // Parse the JSON response
-  const jsonMatch = text.match(/\{[\s\S]*\}/);
-  if (!jsonMatch) {
-    console.error('[Gemini] Failed to parse JSON from response:', text.substring(0, 200));
-    throw new Error('Failed to parse script from Gemini response');
+    // Parse the JSON response
+    const jsonMatch = text.match(/\{[\s\S]*\}/);
+    if (!jsonMatch) {
+      console.error('[Gemini] Failed to parse JSON from response:', text.substring(0, 200));
+      throw new Error('Failed to parse script from Gemini response: No JSON found');
+    }
+
+    const scriptData = JSON.parse(jsonMatch[0]);
+
+    console.log(`[Gemini] ✅ Script generated: "${scriptData.title}" with ${scriptData.segments?.length || 0} segments`);
+
+    return {
+      title: scriptData.title,
+      narrator_voice: scriptData.narrator_voice || 'detective',
+      dramatic_arc: scriptData.dramatic_arc || '',
+      segments: scriptData.segments || [],
+      total_duration: 0,
+    };
+  } catch (error: any) {
+    console.error('[Gemini] Error generating content:', error);
+    throw new Error(`Gemini generation failed: ${error.message}`);
   }
-
-  const scriptData = JSON.parse(jsonMatch[0]);
-
-  console.log(`[Gemini] ✅ Script generated: "${scriptData.title}" with ${scriptData.segments?.length || 0} segments`);
-
-  return {
-    title: scriptData.title,
-    narrator_voice: scriptData.narrator_voice || 'detective',
-    dramatic_arc: scriptData.dramatic_arc || '',
-    segments: scriptData.segments || [],
-    total_duration: 0,
-  };
 }
 
 function getStyleSpecificPrompt(

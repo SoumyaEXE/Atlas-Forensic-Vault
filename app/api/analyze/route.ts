@@ -57,13 +57,18 @@ export async function POST(request: NextRequest) {
       // Ignore error if not in Cloudflare context
     }
 
+    // Log that we are starting processing
+    console.log(`[Analyze] Starting analysis for ${owner}/${repo} (ID: ${podcast.id})`);
+
     // @ts-ignore - Cloudflare Workers types mismatch
     if (ctx && ctx.waitUntil) {
       // @ts-ignore
       ctx.waitUntil(processRepository(podcast.id, owner, repo, narrative_style));
     } else {
       // Fallback for local dev or if waitUntil is missing
-      processRepository(podcast.id, owner, repo, narrative_style).catch(console.error);
+      processRepository(podcast.id, owner, repo, narrative_style).catch(err => {
+        console.error(`[Analyze] Unhandled error in processRepository for ${podcast.id}:`, err);
+      });
     }
 
     return NextResponse.json({
@@ -86,11 +91,22 @@ async function processRepository(
   repo: string,
   narrativeStyle: NarrativeStyle
 ) {
+  console.log(`[Process] Processing repository ${owner}/${repo} for podcast ${podcastId}`);
+  
+  // Check for required environment variables
+  if (!process.env.GITHUB_TOKEN) {
+    console.warn('[Process] GITHUB_TOKEN is missing. Rate limits will be strict.');
+  }
+  if (!process.env.GEMINI_API_KEY) {
+    console.error('[Process] GEMINI_API_KEY is missing. Script generation will fail.');
+  }
+
   const collection = await getCollection('podcasts');
   const fetcher = getGitHubFetcher();
 
   try {
     // Step 1: Fetch repository metadata
+    console.log('[Process] Step 1: Fetching metadata...');
     await collection.updateOne(
       { id: podcastId },
       {
@@ -102,7 +118,14 @@ async function processRepository(
       }
     );
 
-    const repository = await fetcher.getRepoMetadata(owner, repo);
+    const repository = await Promise.race([
+      fetcher.getRepoMetadata(owner, repo),
+      new Promise<never>((_, reject) => 
+        setTimeout(() => reject(new Error('Timeout fetching repository metadata. Please check if the repository exists and is public.')), 30000)
+      )
+    ]);
+
+    console.log('[Process] Metadata fetched successfully');
 
     await collection.updateOne(
       { id: podcastId },
@@ -123,6 +146,7 @@ async function processRepository(
     );
 
     // Step 2: Read ENTIRE repository structure
+    console.log('[Process] Step 2: Fetching full repository...');
     await collection.updateOne(
       { id: podcastId },
       {
@@ -133,7 +157,14 @@ async function processRepository(
       }
     );
 
-    const fullRepo = await fetcher.fetchFullRepository(owner, repo);
+    const fullRepo = await Promise.race([
+      fetcher.fetchFullRepository(owner, repo),
+      new Promise<never>((_, reject) => 
+        setTimeout(() => reject(new Error('Timeout fetching repository files. The repository might be too large.')), 120000)
+      )
+    ]);
+
+    console.log(`[Process] Full repository fetched. ${fullRepo.allFiles.length} files found.`);
 
     await collection.updateOne(
       { id: podcastId },
@@ -146,6 +177,7 @@ async function processRepository(
     );
 
     // Step 3: Analyze code patterns
+    console.log('[Process] Step 3: Analyzing patterns...');
     await collection.updateOne(
       { id: podcastId },
       {
@@ -157,6 +189,7 @@ async function processRepository(
     );
 
     const patterns = await analyzeCodePatterns(fullRepo.filesWithContent);
+    console.log(`[Process] Patterns found: ${patterns.join(', ')}`);
 
     await collection.updateOne(
       { id: podcastId },
@@ -170,6 +203,7 @@ async function processRepository(
     );
 
     // Step 4: Generate crime investigation story
+    console.log('[Process] Step 4: Generating script...');
     await collection.updateOne(
       { id: podcastId },
       {
@@ -191,6 +225,8 @@ async function processRepository(
         fullRepoContext: true,
       }
     );
+
+    console.log('[Process] Script generated successfully');
 
     await collection.updateOne(
       { id: podcastId },
@@ -222,6 +258,7 @@ async function processRepository(
         },
       }
     );
+    console.log('[Process] Analysis completed successfully');
   } catch (error: any) {
     console.error('Error processing repository:', error);
     await collection.updateOne(
