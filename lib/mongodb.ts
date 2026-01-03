@@ -5,7 +5,7 @@ if (!process.env.MONGODB_URI) {
 }
 
 const uri: string = process.env.MONGODB_URI;
-const dbName: string = process.env.DB_NAME || 'repo_to_podcast';
+const dbName: string = process.env.DB_NAME || 'repo-podcast';
 
 let cachedClient: MongoClient | null = null;
 let cachedDb: Db | null = null;
