@@ -6,15 +6,10 @@ import { useParams, useRouter } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   FileText,
-  Edit3,
   ArrowLeft,
   Loader2,
   AlertTriangle,
   Mic,
-  Volume2,
-  Clock,
-  Sparkles,
-  Check,
   X,
   Download,
   Share2,
@@ -63,20 +58,20 @@ const Reel = ({ isPlaying, speed }: { isPlaying: boolean; speed: number }) => (
   <motion.div 
     animate={{ rotate: isPlaying ? 360 : 0 }}
     transition={{ repeat: Infinity, duration: speed, ease: "linear" }}
-    className="relative w-24 h-24 md:w-32 md:h-32 rounded-full border-8 border-zinc-800 bg-[#0a0a0a] shadow-[0_0_15px_rgba(0,0,0,0.8),inset_0_0_20px_rgba(0,0,0,1)] flex items-center justify-center flex-shrink-0 overflow-hidden"
+    className="relative w-24 h-24 md:w-32 md:h-32 rounded-full border-8 border-zinc-800 bg-[#0a0a0a] shadow-[0_0_15px_rgba(0,0,0,0.8),inset_0_0_20px_rgba(0,0,0,1)] flex items-center justify-center shrink-0 overflow-hidden"
   >
     {/* Brushed Metal Texture */}
     <div className="absolute inset-0 opacity-30 rounded-full bg-[url('https://www.transparenttextures.com/patterns/brushed-alum.png')]" />
     
     {/* Tape Mass (Dark Brown) */}
-    <div className="absolute inset-1 rounded-full border-[24px] border-[#2a2018] opacity-90" />
+    <div className="absolute inset-1 rounded-full border-24 border-[#2a2018] opacity-90" />
     
     {/* Metal Spokes Container - Centered */}
     <div className="absolute inset-0 flex items-center justify-center">
         {[0, 45, 90, 135].map((deg) => (
             <div 
                 key={deg}
-                className="absolute w-full h-2 bg-gradient-to-b from-zinc-300 to-zinc-500 shadow-[0_2px_4px_rgba(0,0,0,0.8)]"
+                className="absolute w-full h-2 bg-linear-to-b from-zinc-300 to-zinc-500 shadow-[0_2px_4px_rgba(0,0,0,0.8)]"
                 style={{ transform: `rotate(${deg}deg)` }}
             >
                  {/* Cutouts/Detailing */}
@@ -101,15 +96,7 @@ const Reel = ({ isPlaying, speed }: { isPlaying: boolean; speed: number }) => (
 );
 
 const RedactedText = ({ text, reveal = false }: { text: string; reveal?: boolean }) => {
-  const [isClient, setIsClient] = useState(false);
-  
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
-
   if (!text) return null;
-
-  if (!isClient) return <span className="font-typewriter">{text}</span>;
 
   return (
     <span className="font-typewriter">
@@ -123,7 +110,7 @@ const RedactedText = ({ text, reveal = false }: { text: string; reveal?: boolean
               {word}
             </span>
             {shouldRedact && (
-              <span className="absolute inset-0 bg-black opacity-10 group-hover:opacity-0 transition-opacity duration-300 -z-0 blur-[1px] print:hidden"></span>
+              <span className="absolute inset-0 bg-black opacity-10 group-hover:opacity-0 transition-opacity duration-300 z-0 blur-[1px] print:hidden"></span>
             )}
           </span>
         );
@@ -450,7 +437,7 @@ export default function StoryEditorPage() {
             animate={{ opacity: 0 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1, ease: "easeOut" }}
-            className="fixed inset-0 bg-white z-[100] pointer-events-none mix-blend-overlay"
+            className="fixed inset-0 bg-white z-100 pointer-events-none mix-blend-overlay"
           />
         )}
       </AnimatePresence>
@@ -470,7 +457,7 @@ export default function StoryEditorPage() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="fixed top-6 left-1/2 -translate-x-1/2 z-[60] w-full max-w-5xl bg-zinc-950/90 backdrop-blur-sm border border-zinc-800 shadow-2xl rounded-sm"
+        className="fixed top-2 md:top-6 left-1/2 -translate-x-1/2 z-60 w-[95%] md:w-full max-w-5xl bg-zinc-950/90 backdrop-blur-sm border border-zinc-800 shadow-2xl rounded-sm"
       >
         {/* Texture Overlay */}
         <div className="absolute inset-0 opacity-10 pointer-events-none mix-blend-overlay" style={{backgroundImage: 'url("https://www.transparenttextures.com/patterns/brushed-alum.png")'}}></div>
@@ -496,7 +483,7 @@ export default function StoryEditorPage() {
                   <div className="w-6 h-3 bg-zinc-300 rounded-sm border border-zinc-400 shadow-sm"></div>
               </div>
               
-              <div className="relative z-10 bg-white text-black px-3 py-2 transform rotate-1 shadow-lg drop-shadow-xl border border-gray-300 flex items-center gap-3 max-w-[220px]">
+              <div className="relative z-10 bg-white text-black px-3 py-2 transform rotate-1 shadow-lg drop-shadow-xl border border-gray-300 flex items-center gap-3 max-w-55">
                 <div className="w-10 h-10 bg-gray-200 border border-gray-400 overflow-hidden grayscale contrast-125 shrink-0 relative">
                   <Image 
                     src="/mongodben.jpg" 
@@ -511,7 +498,7 @@ export default function StoryEditorPage() {
                   <p className="text-[8px] font-mono text-gray-500">ID: 8492-A</p>
                 </div>
                 {/* Holographic Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent opacity-30 pointer-events-none"></div>
+                <div className="absolute inset-0 bg-linear-to-tr from-transparent via-white/20 to-transparent opacity-30 pointer-events-none"></div>
               </div>
             </div>
 
@@ -597,7 +584,7 @@ export default function StoryEditorPage() {
               <div className="absolute -top-6 -left-6 border-4 border-red-800 text-red-800 px-4 py-2 text-2xl font-bold transform -rotate-12 opacity-80 mask-stamp z-20 bg-red-900/10 backdrop-blur-sm">
                 CONFIDENTIAL
               </div>
-              <h1 className="text-4xl md:text-5xl font-bold mb-4 mt-4 leading-tight max-w-2xl text-[#e7e5e4]">
+              <h1 className="text-2xl md:text-5xl font-bold mb-4 mt-4 leading-tight max-w-2xl text-[#e7e5e4]">
                 {script?.title || podcast.title}
               </h1>
               <div className="flex flex-wrap gap-4 text-sm font-bold text-gray-400 uppercase tracking-wider font-mono">
@@ -644,7 +631,9 @@ export default function StoryEditorPage() {
             </div>
             
             <div className="flex flex-col md:flex-row items-center justify-center gap-12 py-8 relative z-10">
-              <Reel isPlaying={isPlaying && activeSegmentIndex !== null} speed={4} />
+              <div className="hidden sm:block">
+                <Reel isPlaying={isPlaying && activeSegmentIndex !== null} speed={4} />
+              </div>
               
               <div className="flex flex-col items-center gap-6 z-10">
                 {podcast.audio_url ? (
@@ -659,7 +648,7 @@ export default function StoryEditorPage() {
                     />
                     <button 
                       onClick={togglePlayback}
-                      className="w-20 h-20 bg-gradient-to-b from-zinc-800 to-zinc-900 rounded-full border-4 border-zinc-700 shadow-[0_0_20px_rgba(0,0,0,0.8),inset_0_2px_5px_rgba(255,255,255,0.1)] flex items-center justify-center hover:brightness-110 transition active:scale-95 group relative overflow-hidden"
+                      className="w-20 h-20 bg-linear-to-b from-zinc-800 to-zinc-900 rounded-full border-4 border-zinc-700 shadow-[0_0_20px_rgba(0,0,0,0.8),inset_0_2px_5px_rgba(255,255,255,0.1)] flex items-center justify-center hover:brightness-110 transition active:scale-95 group relative overflow-hidden"
                     >
                       {/* Button Texture */}
                       <div className="absolute inset-0 opacity-30 bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')] mix-blend-multiply" />
@@ -667,7 +656,7 @@ export default function StoryEditorPage() {
                       {isPlaying ? (
                         <div className="w-6 h-6 bg-red-500 shadow-[0_0_15px_#ef4444] animate-pulse"></div>
                       ) : (
-                        <div className="w-0 h-0 border-t-[12px] border-t-transparent border-l-[24px] border-l-zinc-400 border-b-[12px] border-b-transparent ml-2 drop-shadow-md group-hover:border-l-white transition-colors"></div>
+                        <div className="w-0 h-0 border-t-12 border-t-transparent border-l-24 border-l-zinc-400 border-b-12 border-b-transparent ml-2 drop-shadow-md group-hover:border-l-white transition-colors"></div>
                       )}
                     </button>
                   </div>
@@ -696,10 +685,10 @@ export default function StoryEditorPage() {
                 
                 <div className="h-20 w-80 bg-black border-4 border-zinc-700 rounded-lg relative overflow-hidden shadow-[inset_0_0_20px_rgba(0,0,0,1)]">
                   {/* CRT Scanlines */}
-                  <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-20 bg-[length:100%_4px,6px_100%] pointer-events-none"></div>
+                  <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%),linear-gradient(90deg,rgba(255,0,0,0.06),rgba(0,255,0,0.02),rgba(0,0,255,0.06))] z-20 bg-size-[100%_4px,6px_100%] pointer-events-none"></div>
                   
                   {/* Grid */}
-                  <div className="absolute inset-0 bg-[linear-gradient(transparent_19px,#333_20px),linear-gradient(90deg,transparent_19px,#333_20px)] bg-[size:20px_20px] opacity-20 z-10"></div>
+                  <div className="absolute inset-0 bg-[linear-gradient(transparent_19px,#333_20px),linear-gradient(90deg,transparent_19px,#333_20px)] bg-size-[20px_20px] opacity-20 z-10"></div>
 
                   <div className="absolute inset-0 flex items-center justify-center">
                     <div className="w-full h-px bg-red-900/30"></div>
@@ -728,13 +717,15 @@ export default function StoryEditorPage() {
                 </div>
               </div>
 
-              <Reel isPlaying={isPlaying && activeSegmentIndex !== null} speed={4} />
+              <div className="hidden sm:block">
+                <Reel isPlaying={isPlaying && activeSegmentIndex !== null} speed={4} />
+              </div>
             </div>
           </div>
         </div>
 
         {/* Interrogation Transcript - Manila Folder Style */}
-        <div id="interrogation-log" className="interrogation-log-container bg-[#f0e6d2] p-8 md:p-16 shadow-2xl relative min-h-screen max-w-4xl mx-auto transform rotate-[0.5deg] transition-all duration-500">
+        <div id="interrogation-log" className="interrogation-log-container bg-[#f0e6d2] w-full max-w-[95vw] md:max-w-4xl p-4 md:p-16 shadow-2xl relative min-h-screen mx-auto transform rotate-[0.5deg] transition-all duration-500">
           {/* Paper Texture */}
           <div className="absolute inset-0 opacity-40 pointer-events-none mix-blend-multiply z-0" style={{backgroundImage: 'url("https://www.transparenttextures.com/patterns/paper-fibers.png")'}}></div>
           {/* Static Grain for Print */}
@@ -790,7 +781,7 @@ export default function StoryEditorPage() {
           <div className="absolute bottom-8 right-8 text-xs font-mono text-gray-500">DO NOT DUPLICATE</div>
 
           <div className="flex flex-col items-center justify-center mb-12 mt-8 border-b-2 border-black/20 pb-4 relative z-30">
-            <h2 className="text-3xl md:text-4xl font-bold uppercase tracking-widest flex items-center gap-4 text-black font-typewriter mb-4">
+            <h2 className="text-xl md:text-4xl font-bold uppercase tracking-widest flex items-center gap-4 text-black font-typewriter mb-4">
               <Siren className="w-8 h-8 text-red-800 animate-pulse" />
               Interrogation Log
               <Siren className="w-8 h-8 text-red-800 animate-pulse transform scale-x-[-1]" />
@@ -813,8 +804,13 @@ export default function StoryEditorPage() {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 10 }}
-                      className="absolute right-0 mt-2 w-72 bg-[#f0e6d2] border-2 border-black shadow-[8px_8px_0px_rgba(0,0,0,0.2)] z-50"
+                      className="fixed inset-0 md:absolute md:inset-auto md:right-0 md:mt-2 w-full md:w-72 h-full md:h-auto bg-[#f0e6d2]/95 md:bg-[#f0e6d2] backdrop-blur-sm md:backdrop-blur-none border-2 border-black shadow-[8px_8px_0px_rgba(0,0,0,0.2)] z-50 flex flex-col justify-center md:block"
                     >
+                      <div className="absolute top-4 right-4 md:hidden">
+                        <button onClick={() => setShowExportMenu(false)} className="p-2 border-2 border-black rounded-full">
+                            <X className="w-6 h-6 text-black" />
+                        </button>
+                      </div>
                       <div className="p-2 bg-black/5 border-b border-black/10 text-[10px] font-mono uppercase text-gray-600 text-center tracking-widest">
                         Select Clearance Level
                       </div>
@@ -893,7 +889,7 @@ export default function StoryEditorPage() {
                     )}
 
                     <div className="flex flex-col md:flex-row gap-2 md:gap-8 relative z-10">
-                      <div className="w-32 flex-shrink-0 pt-1 text-right border-r-2 border-gray-300 pr-4">
+                      <div className="w-32 shrink-0 pt-1 text-right border-r-2 border-gray-300 pr-4">
                         <span className={`font-bold uppercase text-xs tracking-wider block mb-1 transition-colors ${isActive ? 'text-red-700' : 'text-gray-600'}`}>
                           {getSpeakerLabel(segment.speaker)}
                         </span>
@@ -972,7 +968,7 @@ export default function StoryEditorPage() {
             <div className="relative h-full bg-zinc-300 text-zinc-900 px-6 font-bold uppercase tracking-widest text-sm border-2 border-zinc-600 flex flex-col items-center justify-center gap-2 shadow-[inset_0_0_20px_rgba(0,0,0,0.1)] group-hover:bg-zinc-200 transition-colors overflow-hidden transform -skew-x-2">
                 {/* Grime/Texture Overlay */}
                 <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/concrete-wall.png')] mix-blend-multiply pointer-events-none"></div>
-                <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent opacity-50 pointer-events-none"></div>
+                <div className="absolute inset-0 bg-linear-to-br from-white/40 to-transparent opacity-50 pointer-events-none"></div>
                 
                 {/* Stamped Text Effect */}
                 <FileText className="w-6 h-6 relative z-10 drop-shadow-[0_1px_0_rgba(255,255,255,0.5)]" />
@@ -997,7 +993,7 @@ export default function StoryEditorPage() {
             <div className="relative h-full bg-red-900 text-white px-6 font-bold uppercase tracking-widest text-sm border-2 border-zinc-900 flex flex-col items-center justify-center gap-2 shadow-[inset_0_0_30px_rgba(0,0,0,0.6)] group-hover:bg-red-800 transition-colors overflow-hidden transform -skew-x-2">
                 {/* Leather/Metal Texture Overlay */}
                 <div className="absolute inset-0 opacity-30 bg-[url('https://www.transparenttextures.com/patterns/black-scales.png')] mix-blend-multiply pointer-events-none"></div>
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none"></div>
+                <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent pointer-events-none"></div>
                 
                 {/* Stenciled Text Effect */}
                 <Download className="w-6 h-6 relative z-10 drop-shadow-[0_2px_0_rgba(0,0,0,0.5)]" />

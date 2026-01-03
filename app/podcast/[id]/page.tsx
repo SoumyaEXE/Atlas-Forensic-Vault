@@ -261,7 +261,7 @@ export default function PodcastPlayerPage() {
       )}
 
       {/* Rack-Mounted Detective Console Navbar */}
-      <nav className="fixed top-6 left-1/2 -translate-x-1/2 z-[60] w-full max-w-5xl bg-zinc-950/90 backdrop-blur-sm border border-zinc-800 shadow-2xl rounded-sm">
+      <nav className="fixed top-2 md:top-6 left-1/2 -translate-x-1/2 z-[60] w-[95%] md:w-full max-w-5xl bg-zinc-950/90 backdrop-blur-sm border border-zinc-800 shadow-2xl rounded-sm">
         {/* Texture Overlay */}
         <div className="absolute inset-0 opacity-10 pointer-events-none mix-blend-overlay" style={{backgroundImage: 'url("https://www.transparenttextures.com/patterns/brushed-alum.png")'}}></div>
         
@@ -410,7 +410,7 @@ export default function PodcastPlayerPage() {
                 <div className="inline-block border border-zinc-700 text-zinc-500 px-2 py-0.5 text-xs font-bold tracking-[0.2em] mb-2 bg-zinc-900/50">
                   CASE FILE #{podcastId.slice(0, 6).toUpperCase()}
                 </div>
-                <h1 className="text-3xl md:text-5xl font-bold text-[#e7e5e4] leading-none tracking-tighter mb-2 font-typewriter">
+                <h1 className="text-2xl md:text-5xl font-bold text-[#e7e5e4] leading-none tracking-tighter mb-2 font-typewriter">
                   {podcast.script?.title || podcast.title}
                 </h1>
                 
@@ -508,7 +508,9 @@ export default function PodcastPlayerPage() {
 
               <div className="relative z-10">
                 <div className="flex justify-between items-center mb-8 md:mb-12 px-2 md:px-10">
-                  <Reel isPlaying={isPlaying} speed={4} />
+                  <div className="hidden sm:block">
+                    <Reel isPlaying={isPlaying} speed={4} />
+                  </div>
                   
                   {/* Central Tape Head Area */}
                   <div className="flex flex-col items-center mx-4 flex-1">
@@ -548,7 +550,9 @@ export default function PodcastPlayerPage() {
                     <span className="text-[10px] font-mono text-green-500 uppercase tracking-[0.2em] text-center drop-shadow-[0_0_5px_rgba(34,197,94,0.8)]">WIRETAP INTERFACE V.0.9</span>
                   </div>
 
-                  <Reel isPlaying={isPlaying} speed={4} />
+                  <div className="hidden sm:block">
+                    <Reel isPlaying={isPlaying} speed={4} />
+                  </div>
                 </div>
 
                 {/* Controls Panel */}
@@ -648,7 +652,7 @@ export default function PodcastPlayerPage() {
               <div className="absolute -top-3 -left-2 bg-red-700 text-white text-xs font-bold px-2 py-1 transform -rotate-2 shadow z-20">
                 CONFIDENTIAL
               </div>
-              <div className="bg-[#fdfbf7] text-black p-8 shadow-xl relative font-typewriter border-l-4 border-red-900">
+              <div className="bg-[#fdfbf7] text-black p-4 md:p-8 shadow-xl relative font-typewriter border-l-4 border-red-900">
                 <div className="absolute top-0 right-0 w-16 h-16 border-t-[20px] border-r-[20px] border-t-gray-300 border-r-transparent transform rotate-90 opacity-50"></div>
                 
                 <h2 className="text-xl font-bold mb-6 border-b-2 border-black pb-2 uppercase tracking-widest flex justify-between items-center">
