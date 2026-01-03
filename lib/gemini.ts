@@ -1,6 +1,6 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { NarrativeStyle, PodcastScript } from './types';
-import { FileWithContent } from './github/fetcher';
+import { FileWithContent, AnalysisStatistics } from './github/fetcher';
 import { GitHubRepo } from './github/client';
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
@@ -15,11 +15,7 @@ export const VOICE_IDS = {
 
 export interface GenerationContext {
   selectedFilesSummary?: unknown;
-  statistics?: {
-    analyzedFiles?: number;
-    languages?: Record<string, number>;
-    [key: string]: unknown;
-  };
+  statistics?: AnalysisStatistics;
   patterns?: string[];
   fullRepoContext?: boolean;
 }
