@@ -61,11 +61,30 @@ export async function generatePodcastScript(
 
   console.log(`[Gemini] ✅ Script generated: "${scriptData.title}" with ${scriptData.segments?.length || 0} segments`);
 
+  // Validate and sanitize segments to prevent undefined text errors
+  const validatedSegments = (scriptData.segments || [])
+    .filter((seg: any) => seg && typeof seg === 'object')
+    .map((seg: any) => ({
+      speaker: seg.speaker || 'narrator',
+      text: String(seg.text || '').trim(),
+      emotion: seg.emotion || undefined,
+      sound_effect: seg.sound_effect || undefined,
+      code_reference: seg.code_reference || undefined,
+    }))
+    .filter((seg: any) => seg.text.length > 0); // Remove empty text segments
+
+  if (validatedSegments.length === 0) {
+    console.error('[Gemini] No valid segments found in script');
+    throw new Error('Generated script has no valid segments');
+  }
+
+  console.log(`[Gemini] ✅ Validated ${validatedSegments.length} segments`);
+
   return {
-    title: scriptData.title,
+    title: scriptData.title || 'Untitled Investigation',
     narrator_voice: scriptData.narrator_voice || 'detective',
     dramatic_arc: scriptData.dramatic_arc || '',
-    segments: scriptData.segments || [],
+    segments: validatedSegments,
     total_duration: 0,
   };
 }

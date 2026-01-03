@@ -3,6 +3,9 @@ import { getCollection } from '@/lib/mongodb';
 
 export const runtime = 'nodejs';
 
+// Increase timeout for Vercel serverless functions
+export const maxDuration = 30;
+
 // This endpoint returns the current audio generation status
 export async function GET(
   request: NextRequest,

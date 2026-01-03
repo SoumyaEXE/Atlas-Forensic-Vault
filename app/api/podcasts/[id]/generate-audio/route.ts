@@ -1,9 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getCollection } from '@/lib/mongodb';
 import { textToSpeech, concatenateAudioBuffers } from '@/lib/elevenlabs';
-import { getRequestContext } from '@cloudflare/next-on-pages';
 
 export const runtime = 'nodejs';
+
+// Increase timeout for Vercel serverless functions
+// Hobby: max 60s, Pro: max 300s
+export const maxDuration = 60;
 
 // This endpoint starts the audio generation process
 export async function POST(
@@ -39,22 +42,16 @@ export async function POST(
       }
     );
 
-    // Start background audio generation
-    // We don't await this, but we catch errors to prevent unhandled rejections
-    let ctx: { waitUntil?: (promise: Promise<void>) => void } | undefined;
+    // Generate audio synchronously to work within Vercel's timeout
+    // The maxDuration setting gives us enough time to complete
+    console.log(`[Audio] Starting synchronous audio generation for ${id}`);
+    
     try {
-      ctx = getRequestContext() as unknown as { waitUntil?: (promise: Promise<void>) => void };
-    } catch {
-      // Ignore error if not in Cloudflare context
-    }
-
-    if (ctx?.waitUntil) {
-      ctx.waitUntil(generateAudioInBackground(id, podcast.script));
-    } else {
-      // Fallback for local dev or if waitUntil is missing
-      generateAudioInBackground(id, podcast.script).catch(err => {
-        console.error(`[Background Error] Unhandled error in audio generation for ${id}:`, err);
-      });
+      await generateAudioInBackground(id, podcast.script);
+      console.log(`[Audio] Completed audio generation for ${id}`);
+    } catch (err) {
+      console.error(`[Audio Error] Audio generation failed for ${id}:`, err);
+      // Error is already handled inside generateAudioInBackground
     }
 
     return NextResponse.json({
@@ -123,14 +120,19 @@ async function generateAudioInBackground(podcastId: string, script: PodcastScrip
         const speakerName = segment.speaker || 'Narrator';
         const segmentText = segment.text || '';
         
-        // Skip empty segments
-        if (!segmentText.trim()) {
-          console.log(`⚠️ Skipping empty segment ${i + 1}`);
+        // Skip empty segments with enhanced logging
+        if (!segmentText || !segmentText.trim()) {
+          console.error(`⚠️ CRIME SCENE DATA MISSING: Segment ${i + 1} text is empty or undefined`);
           continue;
         }
         
+        // Safe substring for logging - prevent undefined errors
+        const textPreview = segmentText.length > 50 
+          ? segmentText.substring(0, 50) + '...' 
+          : segmentText;
+        
         // Call ElevenLabs API to generate audio
-        console.log(`Generating audio for segment ${i + 1} (${speakerName}): "${segmentText.substring(0, 50)}..."`);
+        console.log(`Generating audio for segment ${i + 1} (${speakerName}): "${textPreview}"`);
         
         const audioBuffer = await textToSpeech({
           text: segmentText,
@@ -150,12 +152,16 @@ async function generateAudioInBackground(podcastId: string, script: PodcastScrip
         console.error(`Error generating segment ${i + 1}:`, segmentError);
         lastError = segmentError instanceof Error ? segmentError : new Error(String(segmentError));
         const errorMsg = lastError.message || 'Unknown error';
+        // Safe substring to prevent undefined errors
+        const safeErrorMsg = errorMsg && errorMsg.length > 50 
+          ? errorMsg.substring(0, 50) + '...' 
+          : errorMsg || 'Unknown';
         // Continue with other segments, but log the error
         await collection.updateOne(
           { id: podcastId },
           {
             $set: {
-              audio_message: `⚠️ Warning: Segment ${i + 1} failed: ${errorMsg.substring(0, Math.min(50, errorMsg.length))}...`,
+              audio_message: `⚠️ Warning: Segment ${i + 1} failed: ${safeErrorMsg}`,
             },
           }
         );

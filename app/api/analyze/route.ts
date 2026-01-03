@@ -3,9 +3,12 @@ import { getCollection } from '@/lib/mongodb';
 import { getGitHubFetcher } from '@/lib/github/fetcher';
 import { generatePodcastScript, analyzeCodePatterns } from '@/lib/gemini';
 import { NarrativeStyle, AnalysisStatus, Podcast } from '@/lib/types';
-import { getRequestContext } from '@cloudflare/next-on-pages';
 
 export const runtime = 'nodejs';
+
+// Increase timeout for Vercel serverless functions
+// Hobby: max 60s, Pro: max 300s
+export const maxDuration = 60;
 
 export async function POST(request: NextRequest) {
   try {
@@ -49,26 +52,17 @@ export async function POST(request: NextRequest) {
     const collection = await getCollection('podcasts');
     await collection.insertOne(podcast);
 
-    // Start background processing
-    let ctx: any = {};
-    try {
-      ctx = getRequestContext();
-    } catch (e) {
-      // Ignore error if not in Cloudflare context
-    }
-
     // Log that we are starting processing
     console.log(`[Analyze] Starting analysis for ${owner}/${repo} (ID: ${podcast.id})`);
 
-    // @ts-ignore - Cloudflare Workers types mismatch
-    if (ctx && ctx.waitUntil) {
-      // @ts-ignore
-      ctx.waitUntil(processRepository(podcast.id, owner, repo, narrative_style));
-    } else {
-      // Fallback for local dev or if waitUntil is missing
-      processRepository(podcast.id, owner, repo, narrative_style).catch(err => {
-        console.error(`[Analyze] Unhandled error in processRepository for ${podcast.id}:`, err);
-      });
+    // Process synchronously within Vercel's timeout limit
+    // The maxDuration setting gives us enough time to complete
+    try {
+      await processRepository(podcast.id, owner, repo, narrative_style);
+      console.log(`[Analyze] Completed analysis for ${podcast.id}`);
+    } catch (err) {
+      console.error(`[Analyze] Error in processRepository for ${podcast.id}:`, err);
+      // Error is already handled inside processRepository
     }
 
     return NextResponse.json({
