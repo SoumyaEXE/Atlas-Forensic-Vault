@@ -234,18 +234,18 @@ cp .env.example .env.local
 env
 ```
 
-# MongoDB Atlas :
+## 🥬 MongoDB Atlas :
 ```bash
 MONGODB_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/atlas_forensic_vault
 ```
 
-# AI Services :
+## 🤖 AI Services :
 ```bash
 GEMINI_API_KEY=your_gemini_api_key
 ELEVENLABS_API_KEY=your_elevenlabs_api_key
 ```
 
-# GitHub (optional – improves rate limits)
+## ✒️ GitHub (optional – improves rate limits)
 ```bash
 GITHUB_TOKEN=your_github_token
 ```
