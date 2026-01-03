@@ -51,7 +51,14 @@ export async function POST(request: NextRequest) {
 
     // Start background processing
     const ctx = getRequestContext();
-    ctx.waitUntil(processRepository(podcast.id, owner, repo, narrative_style));
+    // @ts-ignore - Cloudflare Workers types mismatch
+    if (ctx.waitUntil) {
+      // @ts-ignore
+      ctx.waitUntil(processRepository(podcast.id, owner, repo, narrative_style));
+    } else {
+      // Fallback for local dev or if waitUntil is missing
+      processRepository(podcast.id, owner, repo, narrative_style).catch(console.error);
+    }
 
     return NextResponse.json({
       id: podcast.id,
