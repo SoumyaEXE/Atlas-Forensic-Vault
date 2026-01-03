@@ -121,11 +121,19 @@ async function generateAudioInBackground(podcastId: string, script: PodcastScrip
 
       try {
         const speakerName = segment.speaker || 'Narrator';
+        const segmentText = segment.text || '';
+        
+        // Skip empty segments
+        if (!segmentText.trim()) {
+          console.log(`⚠️ Skipping empty segment ${i + 1}`);
+          continue;
+        }
+        
         // Call ElevenLabs API to generate audio
-        console.log(`Generating audio for segment ${i + 1} (${speakerName}): "${segment.text.substring(0, 50)}..."`);
+        console.log(`Generating audio for segment ${i + 1} (${speakerName}): "${segmentText.substring(0, 50)}..."`);
         
         const audioBuffer = await textToSpeech({
-          text: segment.text,
+          text: segmentText,
           speaker: speakerName, // Pass speaker to determine voice ID
           // Adjust voice settings based on emotion if present
           stability: getStabilityForEmotion(segment.emotion),
@@ -141,12 +149,13 @@ async function generateAudioInBackground(podcastId: string, script: PodcastScrip
       } catch (segmentError: unknown) {
         console.error(`Error generating segment ${i + 1}:`, segmentError);
         lastError = segmentError instanceof Error ? segmentError : new Error(String(segmentError));
+        const errorMsg = lastError.message || 'Unknown error';
         // Continue with other segments, but log the error
         await collection.updateOne(
           { id: podcastId },
           {
             $set: {
-              audio_message: `⚠️ Warning: Segment ${i + 1} failed: ${lastError.message.substring(0, 50)}...`,
+              audio_message: `⚠️ Warning: Segment ${i + 1} failed: ${errorMsg.substring(0, Math.min(50, errorMsg.length))}...`,
             },
           }
         );

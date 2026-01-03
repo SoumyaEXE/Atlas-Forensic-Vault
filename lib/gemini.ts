@@ -31,18 +31,33 @@ export async function generatePodcastScript(
 
   console.log('[Gemini] Generating script with style:', narrativeStyle);
   
+  if (!process.env.GEMINI_API_KEY) {
+    throw new Error('GEMINI_API_KEY is not configured');
+  }
+  
   const result = await model.generateContent(stylePrompt);
   const response = result.response;
   const text = response.text();
 
+  if (!text) {
+    throw new Error('Gemini returned an empty response');
+  }
+
   // Parse the JSON response
   const jsonMatch = text.match(/\{[\s\S]*\}/);
   if (!jsonMatch) {
-    console.error('[Gemini] Failed to parse JSON from response:', text.substring(0, 200));
+    const previewText = text.length > 200 ? text.substring(0, 200) : text;
+    console.error('[Gemini] Failed to parse JSON from response:', previewText);
     throw new Error('Failed to parse script from Gemini response');
   }
 
-  const scriptData = JSON.parse(jsonMatch[0]);
+  let scriptData;
+  try {
+    scriptData = JSON.parse(jsonMatch[0]);
+  } catch (parseError) {
+    console.error('[Gemini] JSON parse error:', parseError);
+    throw new Error('Failed to parse JSON from Gemini response');
+  }
 
   console.log(`[Gemini] ✅ Script generated: "${scriptData.title}" with ${scriptData.segments?.length || 0} segments`);
 
