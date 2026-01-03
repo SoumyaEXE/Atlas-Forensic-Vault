@@ -14,7 +14,9 @@ let cachedDb: Db | null = null;
 const options = {
   // These options are required for MongoDB driver to work in Cloudflare Workers
   // when using the nodejs_compat flag
-  driverInfo: { name: 'next-js-edge' }
+  driverInfo: { name: 'next-js-edge' },
+  // Disable monitoring to avoid using unsupported Node.js modules
+  monitorCommands: false,
 };
 
 export async function connectToDatabase() {
