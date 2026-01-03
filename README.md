@@ -1,134 +1,433 @@
-# 📁 CASE FILE: ATLAS FORENSIC VAULT
-### CASE ID: #D71DE589
-### STATUS: **ACTIVE INVESTIGATION**
-### LEAD DETECTIVE: **MONGO D. BANE**
+<![CDATA[<div align="center">
 
----
+![Atlas Forensic Vault Banner](public/og.jpeg.jpg)
 
-## 🕵️‍♂️ THE MISSION
+# 🕵️ ATLAS FORENSIC VAULT
 
-It’s a cold world out there. Code gets written, pushed, and forgotten—buried in the commit history like a body in the foundation of a new skyscraper. That’s where we come in.
+### *"Every Repository Has a Story. We Make It Talk."*
 
-**The Atlas Forensic Vault.**
+[![Next.js](https://img.shields.io/badge/Next.js-16.1-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![MongoDB Atlas](https://img.shields.io/badge/MongoDB-Atlas-47A248?style=for-the-badge&logo=mongodb)](https://www.mongodb.com/atlas)
+[![ElevenLabs](https://img.shields.io/badge/ElevenLabs-AI_Voice-5D5FEF?style=for-the-badge)](https://elevenlabs.io/)
+[![Gemini](https://img.shields.io/badge/Gemini-2.5_Flash-4285F4?style=for-the-badge&logo=google)](https://deepmind.google/technologies/gemini/)
+[![Vercel](https://img.shields.io/badge/Deployed_on-Vercel-000?style=for-the-badge&logo=vercel)](https://vercel.com)
 
-We don't just read code; we interrogate it. We turn those silent repositories into singing canaries. Our operation is simple but brutal: we take a suspicious GitHub repository, run it through the wringer, and spit out a **Forensic Audio Case File**.
-
-To the layman, it looks like a podcast. To us? It’s the truth, served cold. We use advanced **Vector Search** to find the motive, **Change Streams** to catch them in the act, and generative AI to narrate the confession.
-
----
-
-## 🏗️ SURVEILLANCE ARCHITECTURE
-
-We've built a system that sees everything. Nothing leaves the precinct without being logged, analyzed, and filed.
-
-### 🎞️ The Chain of Custody (Sequence of Events)
-
-```mermaid
-sequenceDiagram
-    participant Suspect as 🕵️ User (Informant)
-    participant System as 🖥️ Next.js Terminal
-    participant Brain as 🧠 Gemini 3.0 Flash
-    participant Vault as 🍃 MongoDB Atlas
-    participant Voice as 🎙️ ElevenLabs v2
-    participant Storage as ☁️ Cloudflare R2
-
-    Suspect->>System: Submits Repo URL (The Tip)
-    System->>Brain: Deep-Code Analysis Request
-    Brain->>Brain: Profiling Codebase & Commits
-    Brain-->>System: Generated Script & Motive
-    System->>Vault: Store Vector Embeddings (The Evidence)
-    System->>Voice: Request Narration (The Confession)
-    Voice-->>Storage: Upload Audio File
-    Storage-->>Suspect: Stream Forensic Case File
-```
-
-### 🚦 Clearance Protocols
-
-Not every rookie gets to see the full picture. We have protocols.
-
-```mermaid
-graph TD
-    A[Evidence Collected] --> B{Sensitivity Check}
-    B -->|Public Repo| C[🟢 CLEARANCE: REDACTED]
-    B -->|Private/Sensitive| D[🔴 CLEARANCE: CLASSIFIED]
-    C --> E[Flexible Schema: Public Fields]
-    D --> F[Flexible Schema: Encrypted Fields]
-    E --> G[Generate Forensic Report]
-    F --> G
-```
-
----
-
-## 🔫 HARDWARE SPECS
-
-We don't run this operation on typewriters. We use heavy machinery.
-
-### 🛠️ Tech Stack
-
-<div align="center">
-
-| Category | Technologies |
-| :---: | :---: |
-| **Frontend** | <a href="https://nextjs.org/"><img src="https://skillicons.dev/icons?i=nextjs,react,ts,tailwind" /></a> |
-| **Backend** | <a href="https://nodejs.org/"><img src="https://skillicons.dev/icons?i=nodejs,cloudflare" /></a> |
-| **Database** | <a href="https://www.mongodb.com/"><img src="https://skillicons.dev/icons?i=mongodb" /></a> |
-| **Tools** | <a href="https://git-scm.com/"><img src="https://skillicons.dev/icons?i=git,github,vscode" /></a> |
+[🌐 Live Demo](https://mlh.isoumya.xyz) • [📺 Video Demo](#demo) • [🎧 Sample Episode](#)
 
 </div>
 
-* **MongoDB Atlas**: The Vault. Using **Vector Search** to connect the dots between disparate commits, **Change Streams** to monitor the wire in real-time, and **Flexible Schema** to handle the messy data of the digital back alleys.
-* **Cloudflare**: The Perimeter. **Workers AI** for edge profiling, **R2** for stashing the tapes (egress-free), and **Durable Objects** to keep our terminals synced across the city.
-* **Gemini 3.0 Flash**: The Brains. Digs deep into the syntax to find the hidden intent and writes the script.
-* **ElevenLabs Multilingual v2**: The Voice. Gravelly, tired, and honest.
+---
+
+## 📋 Table of Contents
+
+- [🎯 The Problem](#-the-problem)
+- [💡 Our Solution](#-our-solution)
+- [🏗️ System Architecture](#️-system-architecture)
+- [🔧 Tech Stack](#-tech-stack)
+- [✨ Key Features](#-key-features)
+- [🚀 Getting Started](#-getting-started)
+- [📊 MongoDB Atlas Integration](#-mongodb-atlas-integration)
+- [🎨 Screenshots](#-screenshots)
+- [👥 Team](#-team)
+- [📄 License](#-license)
 
 ---
 
-## 📂 FORENSIC EVIDENCE (KEY FEATURES)
+## 🎯 The Problem
 
-### 1. The Wiretap Interface v.0.9
+**Developers are drowning in code they didn't write.**
 
-A custom-built audio player with brushed-metal chassis and hex-bolts. Featuring **spinning reel-to-reel animations** that activate as the signal is decrypted.
-
-### 2. Transcript Log
-
-We don't trust memory. Real-time highlighting and auto-scrolling synced to the audio. As Det. Bane narrates, the text illuminates sentence-by-sentence.
-
-### 3. Clearance Level Exports
-
-Need to take the case to the DA? Export findings as **Redacted** (blacked-out sensitive logic) or **Classified** (full unredacted dossier) forensic PDFs.
+- 📚 Reading documentation is time-consuming
+- 🔍 Understanding new codebases takes hours/days
+- 🎧 Learning while commuting or exercising is impossible
+- 📖 Traditional code reviews are dry and boring
 
 ---
 
-## 🕵️‍♀️ INSTALLATION FOR AGENTS
+## 💡 Our Solution
 
-1. **Clone the Repository** (Keep it quiet):
-```bash
-git clone https://github.com/SoumyaEXE/atlas-forensic-vault.git
-cd atlas-forensic-vault
+**Atlas Forensic Vault** transforms any GitHub repository into an engaging **AI-generated podcast** narrated in a Film Noir detective style.
+
+> *"In this city, every line of code tells a story. Most of them are tragedies. Some are comedies. But in my precinct? They're all mysteries until I say otherwise."*  
+> — **Det. Mongo D. Bane**
+
+### 🎬 How It Works
+
+1. **Submit** a GitHub repository URL
+2. **Watch** as our AI detective investigates the codebase
+3. **Listen** to a dramatic narration of the code's "crime story"
+4. **Learn** the architecture, patterns, and secrets within
+
+---
+
+## 🏗️ System Architecture
+
+### 📊 High-Level Architecture
+
+```mermaid
+flowchart TB
+    subgraph Client["🖥️ Client Layer"]
+        UI[Next.js 16 Frontend]
+        Player[Reel-to-Reel Audio Player]
+        Transcript[Live Transcript Viewer]
+    end
+
+    subgraph API["⚡ API Layer"]
+        Analyze["/api/analyze"]
+        Generate["/api/podcasts/generate-audio"]
+        Stream["/api/podcasts/audio"]
+    end
+
+    subgraph Services["🧠 AI Services"]
+        GitHub[GitHub API]
+        Gemini[Gemini 2.5 Flash]
+        ElevenLabs[ElevenLabs TTS]
+    end
+
+    subgraph Database["🍃 MongoDB Atlas"]
+        Podcasts[(Podcasts Collection)]
+        VectorSearch[Vector Search Index]
+        ChangeStreams[Change Streams]
+    end
+
+    UI --> Analyze
+    Analyze --> GitHub
+    GitHub --> Gemini
+    Gemini --> Podcasts
+    Podcasts --> Generate
+    Generate --> ElevenLabs
+    ElevenLabs --> Podcasts
+    Podcasts --> Stream
+    Stream --> Player
+    Podcasts --> VectorSearch
+    ChangeStreams --> UI
+    Podcasts --> Transcript
 ```
 
-2. **Install Dependencies** (Load your weapon):
+### 🔄 Data Flow Sequence
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant User as 🕵️ User
+    participant App as 🖥️ Next.js App
+    participant GitHub as 📦 GitHub API
+    participant Gemini as 🧠 Gemini AI
+    participant MongoDB as 🍃 MongoDB Atlas
+    participant ElevenLabs as 🎙️ ElevenLabs
+
+    User->>App: Submit Repository URL
+    App->>MongoDB: Create Podcast Record
+    App->>GitHub: Fetch Repository Metadata
+    GitHub-->>App: Files, Structure, README
+    App->>MongoDB: Update Progress (25%)
+    App->>Gemini: Generate Crime Investigation Script
+    Gemini-->>App: Noir-Style Script with Segments
+    App->>MongoDB: Store Script (75%)
+    App->>ElevenLabs: Generate Audio for Each Segment
+    ElevenLabs-->>App: Audio Buffers
+    App->>MongoDB: Store Final Audio (100%)
+    MongoDB-->>User: Real-time Progress via Change Streams
+    User->>App: Play Podcast
+    App->>MongoDB: Fetch Audio Data
+    MongoDB-->>App: Audio + Transcript
+    App-->>User: Stream Audio with Live Transcript
+```
+
+### 🎭 Narrative Styles State Machine
+
+```mermaid
+stateDiagram-v2
+    [*] --> SelectStyle: User Starts
+
+    SelectStyle --> TrueCrime: Film Noir
+    SelectStyle --> Sports: Sports Commentary
+    SelectStyle --> Documentary: Nature Documentary
+
+    TrueCrime --> Analyzing: Detective Voice
+    Sports --> Analyzing: Dual Commentators
+    Documentary --> Analyzing: Attenborough Style
+
+    Analyzing --> ScriptGen: Files Fetched
+    ScriptGen --> AudioGen: Script Ready
+    AudioGen --> Complete: Audio Merged
+    Complete --> [*]: Podcast Ready
+
+    note right of TrueCrime
+        "The rain pelted the windows
+        as I opened the case file..."
+    end note
+
+    note right of Sports
+        "AND HE'S DONE IT! 
+        A BEAUTIFUL REACT HOOK!"
+    end note
+
+    note right of Documentary
+        "Here we observe the API
+        in its natural habitat..."
+    end note
+```
+
+---
+
+## 🔧 Tech Stack
+
+<div align="center">
+
+```mermaid
+mindmap
+  root((Atlas Forensic Vault))
+    Frontend
+      Next.js 16
+      React 19
+      TypeScript
+      Tailwind CSS
+      Framer Motion
+      Three.js
+    Backend
+      Node.js
+      Vercel Functions
+      waitUntil API
+    Database
+      MongoDB Atlas
+        Vector Search
+        Change Streams
+        Flexible Schema
+    AI Services
+      Gemini 2.5 Flash
+        Script Generation
+        Pattern Analysis
+      ElevenLabs v2
+        Text to Speech
+        Multiple Voices
+    Infrastructure
+      Vercel
+      GitHub API
+```
+
+</div>
+
+### 📦 Detailed Stack
+
+| Layer | Technology | Purpose |
+|-------|------------|---------|
+| **Frontend** | Next.js 16, React 19, TypeScript | Server-side rendering, type safety |
+| **Styling** | Tailwind CSS, Framer Motion | Responsive design, animations |
+| **3D Graphics** | Three.js, React Three Fiber | Immersive UI elements |
+| **Database** | MongoDB Atlas | Document storage, vector search |
+| **AI - Script** | Google Gemini 2.5 Flash | Codebase analysis, script generation |
+| **AI - Voice** | ElevenLabs Multilingual v2 | High-quality text-to-speech |
+| **Hosting** | Vercel | Serverless deployment |
+| **API** | GitHub REST API | Repository data fetching |
+
+---
+
+## ✨ Key Features
+
+### 🎙️ 1. AI-Powered Code Narration
+Transform any GitHub repository into an engaging podcast with multiple narrative styles:
+- **🕵️ True Crime** - Film noir detective investigating "code crimes"
+- **⚽ Sports Commentary** - Exciting play-by-play of the codebase
+- **🦁 Documentary** - Nature documentary style exploration
+
+### 🎛️ 2. Retro Reel-to-Reel Player
+Custom-built audio player featuring:
+- Spinning tape reel animations
+- Vintage brushed-metal aesthetic
+- Progress tracking with visual feedback
+
+### 📜 3. Live Transcript Synchronization
+- Real-time highlighting as audio plays
+- Auto-scroll follows the narration
+- Click-to-seek on any text segment
+
+### 🔍 4. MongoDB Atlas Vector Search
+- Semantic search across podcast transcripts
+- Find similar codebases and patterns
+- Intelligent content recommendations
+
+### 📊 5. Real-Time Progress Updates
+- MongoDB Change Streams for live status
+- Visual progress bar with stage indicators
+- No page refresh needed
+
+### 📄 6. Export Options
+- **Redacted** - Shareable summary
+- **Classified** - Full investigation report with code references
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Node.js 18+
+- MongoDB Atlas account
+- API keys for Gemini & ElevenLabs
+
+### Installation
+
 ```bash
+# Clone the repository
+git clone https://github.com/SoumyaEXE/Atlas-Forensic-Vault.git
+cd Atlas-Forensic-Vault
+
+# Install dependencies
 npm install
+
+# Configure environment variables
+cp .env.example .env.local
 ```
 
-3. **Configure Environment** (Set your wiretap):
-Create a `.env.local` file with your clearance keys:
+### Environment Variables
+
 ```env
-MONGODB_URI=... # Atlas Connection String
-GEMINI_API_KEY=... # The Brains
-ELEVENLABS_API_KEY=... # The Voice
-CLOUDFLARE_R2_BUCKET=... # The Evidence Locker
+# MongoDB Atlas
+MONGODB_URI=mongodb+srv://...
+
+# AI Services
+GEMINI_API_KEY=your_gemini_api_key
+ELEVENLABS_API_KEY=your_elevenlabs_api_key
+
+# GitHub (optional, increases rate limit)
+GITHUB_TOKEN=your_github_token
 ```
 
-4. **Start Surveillance**:
+### Run Development Server
+
 ```bash
 npm run dev
 ```
 
+Visit [http://localhost:3000](http://localhost:3000)
+
 ---
 
-## ⚖️ THE VERDICT
+## 📊 MongoDB Atlas Integration
 
-> "In this city, every line of code tells a story. Most of them are tragedies. Some are comedies. But in my precinct? They're all mysteries until I say otherwise. Case closed."
-> — **Det. Mongo D. Bane**
+### Why MongoDB Atlas?
+
+Atlas Forensic Vault leverages **three key MongoDB Atlas features**:
+
+```mermaid
+graph LR
+    subgraph MongoDB Atlas
+        A[📄 Flexible Schema] --> D[Store Complex Scripts]
+        B[🔍 Vector Search] --> E[Semantic Transcript Search]
+        C[📡 Change Streams] --> F[Real-Time Progress Updates]
+    end
+
+    D --> G[Variable Segment Counts]
+    D --> H[Nested Metadata]
+    E --> I[Find Similar Codebases]
+    E --> J[Pattern Matching]
+    F --> K[Live UI Updates]
+    F --> L[No Polling Required]
+```
+
+### 1. Flexible Schema
+```javascript
+// Each podcast has different segment counts and metadata
+{
+  id: "abc-123",
+  script: {
+    title: "CASE FILE #REACT-HOOKS",
+    segments: [
+      { speaker: "narrator", text: "...", emotion: "mysterious" },
+      { speaker: "sound_effect", text: "thunder" },
+      // Variable number of segments
+    ]
+  },
+  analysis_summary: {
+    // Dynamic fields based on repo
+  }
+}
+```
+
+### 2. Vector Search
+```javascript
+// Find similar podcast transcripts
+db.podcasts.aggregate([
+  {
+    $vectorSearch: {
+      queryVector: embeddings,
+      path: "script_embedding",
+      numCandidates: 100,
+      limit: 5
+    }
+  }
+])
+```
+
+### 3. Change Streams
+```javascript
+// Real-time progress updates to frontend
+const changeStream = collection.watch([
+  { $match: { "fullDocument.id": podcastId } }
+]);
+
+changeStream.on("change", (change) => {
+  // Push update to client via SSE/WebSocket
+  updateClientProgress(change.fullDocument.progress);
+});
+```
+
+---
+
+## 🎨 Screenshots
+
+<div align="center">
+
+| Landing Page | Investigation in Progress |
+|:---:|:---:|
+| ![Landing](public/og.jpeg.jpg) | *Analysis UI* |
+
+| Audio Player | Transcript View |
+|:---:|:---:|
+| *Reel-to-Reel Player* | *Live Sync Transcript* |
+
+</div>
+
+---
+
+## 🏆 Hackathon Highlights
+
+- ✅ **Innovative Use of MongoDB Atlas** - Vector Search + Change Streams + Flexible Schema
+- ✅ **AI-First Architecture** - Gemini for analysis, ElevenLabs for voice
+- ✅ **Production Ready** - Deployed and functional on Vercel
+- ✅ **Unique UX** - Film noir theme with retro audio player
+- ✅ **Real-World Utility** - Actually helps developers understand codebases
+
+---
+
+## 👥 Team
+
+<div align="center">
+
+| Developer |
+|:---:|
+| **Soumya** |
+| Full Stack Developer |
+| [GitHub](https://github.com/SoumyaEXE) |
+
+</div>
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+<div align="center">
+
+### 🕵️ *"Case Closed."*
+
+**Built with ❤️ for MongoDB x DEV Hackathon**
+
+[![MongoDB](https://img.shields.io/badge/Powered_by-MongoDB_Atlas-47A248?style=for-the-badge&logo=mongodb)](https://www.mongodb.com/atlas)
+
+</div>
+]]>
