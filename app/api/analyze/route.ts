@@ -3,6 +3,9 @@ import { getCollection } from '@/lib/mongodb';
 import { getGitHubFetcher } from '@/lib/github/fetcher';
 import { generatePodcastScript, analyzeCodePatterns } from '@/lib/gemini';
 import { NarrativeStyle, AnalysisStatus, Podcast } from '@/lib/types';
+import { getRequestContext } from '@cloudflare/next-on-pages';
+
+export const runtime = 'edge';
 
 export async function POST(request: NextRequest) {
   try {
@@ -47,9 +50,8 @@ export async function POST(request: NextRequest) {
     await collection.insertOne(podcast);
 
     // Start background processing
-    processRepository(podcast.id, owner, repo, narrative_style).catch(
-      console.error
-    );
+    const ctx = getRequestContext();
+    ctx.waitUntil(processRepository(podcast.id, owner, repo, narrative_style));
 
     return NextResponse.json({
       id: podcast.id,

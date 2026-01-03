@@ -7,6 +7,8 @@ import {
   GitHubApiError,
 } from '@/lib/github/config';
 
+export const runtime = 'edge';
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();

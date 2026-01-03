@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { getCollection } from '@/lib/mongodb';
 
+export const runtime = 'edge';
+
 // This endpoint returns the current audio generation status
 export async function GET(
   request: NextRequest,
