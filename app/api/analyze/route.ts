@@ -208,18 +208,23 @@ async function processRepository(
       }
     );
 
-    const script = await generatePodcastScript(
-      repository,
-      fullRepo.filesWithContent,
-      narrativeStyle,
-      {
-        statistics: fullRepo.statistics,
-        patterns,
-        fullRepoContext: true,
-      }
-    );
-
-    console.log('[Process] Script generated successfully');
+    let script;
+    try {
+      script = await generatePodcastScript(
+        repository,
+        fullRepo.filesWithContent,
+        narrativeStyle,
+        {
+          statistics: fullRepo.statistics,
+          patterns,
+          fullRepoContext: true,
+        }
+      );
+      console.log('[Process] Script generated successfully');
+    } catch (geminiError: any) {
+      console.error('[Process] ❌ Gemini script generation failed:', geminiError?.message);
+      throw new Error(`Script generation failed: ${geminiError?.message || 'Unknown Gemini error'}`);
+    }
 
     await collection.updateOne(
       { id: podcastId },
@@ -253,14 +258,17 @@ async function processRepository(
     );
     console.log('[Process] Analysis completed successfully');
   } catch (error: any) {
-    console.error('Error processing repository:', error);
+    const errorMessage = error?.message || 'Unknown error occurred';
+    console.error('[Process] ❌ Error processing repository:', errorMessage);
+    console.error('[Process] Full error:', error);
+    
     await collection.updateOne(
       { id: podcastId },
       {
         $set: {
           status: AnalysisStatus.FAILED,
-          error_message: error.message,
-          progress_message: 'Investigation hit a dead end',
+          error_message: errorMessage,
+          progress_message: `❌ Investigation failed: ${errorMessage.substring(0, 100)}`,
         },
       }
     );

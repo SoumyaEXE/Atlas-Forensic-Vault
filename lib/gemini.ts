@@ -32,10 +32,26 @@ export async function generatePodcastScript(
   console.log('[Gemini] Generating script with style:', narrativeStyle);
   
   if (!process.env.GEMINI_API_KEY) {
+    console.error('[Gemini] ❌ GEMINI_API_KEY is missing!');
     throw new Error('GEMINI_API_KEY is not configured');
   }
   
-  const result = await model.generateContent(stylePrompt);
+  console.log('[Gemini] Calling Gemini API...');
+  
+  let result;
+  try {
+    // Add timeout for Gemini API call (90 seconds)
+    result = await Promise.race([
+      model.generateContent(stylePrompt),
+      new Promise<never>((_, reject) => 
+        setTimeout(() => reject(new Error('Gemini API timeout after 90 seconds')), 90000)
+      )
+    ]);
+  } catch (apiError: any) {
+    console.error('[Gemini] ❌ API call failed:', apiError?.message);
+    throw new Error(`Gemini API error: ${apiError?.message || 'Unknown error'}`);
+  }
+  
   const response = result.response;
   const text = response.text();
 
