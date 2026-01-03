@@ -19,7 +19,7 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
   const fadeIn = () => {
     if (!audioRef.current) return;
     
-    const targetVolume = 0.3;
+    const targetVolume = 0.25;
     const duration = 1000; // 1 second
     const interval = 50;
     const step = targetVolume / (duration / interval);
@@ -52,8 +52,8 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
       audioRef.current.play().catch(e => console.error("Play failed", e));
       setIsPlaying(true);
       // Ensure volume is set if it was muted or not initialized
-      if (audioRef.current.volume < 0.3) {
-          audioRef.current.volume = 0.3;
+      if (audioRef.current.volume < 0.25) {
+          audioRef.current.volume = 0.25;
       }
     }
   };

@@ -49,6 +49,8 @@ export async function POST(
     }
 
     if (ctx?.waitUntil) {
+      ctx.waitUntil(generateAudioInBackground(id, podcast.script));
+    } else {
       // Fallback for local dev or if waitUntil is missing
       generateAudioInBackground(id, podcast.script).catch(err => {
         console.error(`[Background Error] Unhandled error in audio generation for ${id}:`, err);

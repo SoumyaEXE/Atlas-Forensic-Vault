@@ -12,10 +12,15 @@ import {
   Volume2,
   VolumeX,
   Download,
+  Share2,
   ArrowLeft,
+  Loader2,
   AlertTriangle,
   FileText,
+  Clock,
   Radio,
+  Sparkles,
+  Github,
   Paperclip,
 } from 'lucide-react';
 import DevelopingEvidence from '@/components/ui/DevelopingEvidence';
@@ -25,20 +30,20 @@ const Reel = ({ isPlaying, speed }: { isPlaying: boolean; speed: number }) => (
   <motion.div 
     animate={{ rotate: isPlaying ? 360 : 0 }}
     transition={{ repeat: Infinity, duration: speed, ease: "linear" }}
-    className="relative w-24 h-24 md:w-32 md:h-32 rounded-full border-8 border-zinc-800 bg-[#0a0a0a] shadow-[0_0_15px_rgba(0,0,0,0.8),inset_0_0_20px_rgba(0,0,0,1)] flex items-center justify-center shrink-0 overflow-hidden"
+    className="relative w-24 h-24 md:w-32 md:h-32 rounded-full border-8 border-zinc-800 bg-[#0a0a0a] shadow-[0_0_15px_rgba(0,0,0,0.8),inset_0_0_20px_rgba(0,0,0,1)] flex items-center justify-center flex-shrink-0 overflow-hidden"
   >
     {/* Brushed Metal Texture */}
     <div className="absolute inset-0 opacity-30 rounded-full bg-[url('https://www.transparenttextures.com/patterns/brushed-alum.png')]" />
     
     {/* Tape Mass (Dark Brown) */}
-    <div className="absolute inset-1 rounded-full border-24 border-[#2a2018] opacity-90" />
+    <div className="absolute inset-1 rounded-full border-[24px] border-[#2a2018] opacity-90" />
     
     {/* Metal Spokes Container - Centered */}
     <div className="absolute inset-0 flex items-center justify-center">
         {[0, 45, 90, 135].map((deg) => (
             <div 
                 key={deg}
-                className="absolute w-full h-2 bg-linear-to-b from-zinc-300 to-zinc-500 shadow-[0_2px_4px_rgba(0,0,0,0.8)]"
+                className="absolute w-full h-2 bg-gradient-to-b from-zinc-300 to-zinc-500 shadow-[0_2px_4px_rgba(0,0,0,0.8)]"
                 style={{ transform: `rotate(${deg}deg)` }}
             >
                  {/* Cutouts/Detailing */}
@@ -256,7 +261,7 @@ export default function PodcastPlayerPage() {
       )}
 
       {/* Rack-Mounted Detective Console Navbar */}
-      <nav className="fixed top-2 md:top-6 left-1/2 -translate-x-1/2 z-60 w-[95%] md:w-full max-w-5xl bg-zinc-950/90 backdrop-blur-sm border border-zinc-800 shadow-2xl rounded-sm">
+      <nav className="fixed top-2 md:top-6 left-1/2 -translate-x-1/2 z-[60] w-[95%] md:w-full max-w-5xl bg-zinc-950/90 backdrop-blur-sm border border-zinc-800 shadow-2xl rounded-sm">
         {/* Texture Overlay */}
         <div className="absolute inset-0 opacity-10 pointer-events-none mix-blend-overlay" style={{backgroundImage: 'url("https://www.transparenttextures.com/patterns/brushed-alum.png")'}}></div>
         
@@ -281,7 +286,7 @@ export default function PodcastPlayerPage() {
                   <div className="w-6 h-3 bg-zinc-300 rounded-sm border border-zinc-400 shadow-sm"></div>
               </div>
               
-              <div className="relative z-10 bg-white text-black px-3 py-2 transform rotate-1 shadow-lg drop-shadow-xl border border-gray-300 flex items-center gap-3 max-w-55">
+              <div className="relative z-10 bg-white text-black px-3 py-2 transform rotate-1 shadow-lg drop-shadow-xl border border-gray-300 flex items-center gap-3 max-w-[220px]">
                 <div className="w-10 h-10 bg-gray-200 border border-gray-400 overflow-hidden grayscale contrast-125 shrink-0 relative">
                   <Image 
                     src="/mongodben.jpg" 
@@ -296,7 +301,7 @@ export default function PodcastPlayerPage() {
                   <p className="text-[8px] font-mono text-gray-500">ID: 8492-A</p>
                 </div>
                 {/* Holographic Overlay */}
-                <div className="absolute inset-0 bg-linear-to-tr from-transparent via-white/20 to-transparent opacity-30 pointer-events-none"></div>
+                <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent opacity-30 pointer-events-none"></div>
               </div>
             </div>
 
@@ -379,13 +384,13 @@ export default function PodcastPlayerPage() {
                     <Paperclip className="w-12 h-12 rotate-45" strokeWidth={1.5} />
                 </div>
                 
-                <div className="w-72 h-auto bg-white p-3 pb-12 shadow-2xl transform -rotate-2 transition-transform group-hover:rotate-0 duration-500 ease-out">
+                <div className="w-72 h-auto bg-white p-3 pb-12 shadow-2xl transform rotate-[-2deg] transition-transform group-hover:rotate-0 duration-500 ease-out">
                     <div className="w-full aspect-square bg-[#050505] relative overflow-hidden grayscale contrast-125 group-hover:grayscale-0 transition-all duration-700 border border-zinc-800">
                             {/* Image Placeholder or Icon */}
                             <div className="absolute inset-0 flex items-center justify-center bg-zinc-900">
                                 <Radio className="w-24 h-24 text-zinc-700" />
                                 {/* Evidence Watermark */}
-                                <span className="absolute text-red-600 font-bold font-typewriter text-5xl -rotate-20 opacity-0 scale-150 group-hover:opacity-40 group-hover:scale-100 transition-all duration-200 ease-out pointer-events-none border-4 border-red-600 px-4 py-2 z-20">
+                                <span className="absolute text-red-600 font-bold font-typewriter text-5xl -rotate-[20deg] opacity-0 scale-150 group-hover:opacity-40 group-hover:scale-100 transition-all duration-200 ease-out pointer-events-none border-4 border-red-600 px-4 py-2 z-20">
                                     EVIDENCE
                                 </span>
                             </div>
@@ -448,7 +453,7 @@ export default function PodcastPlayerPage() {
                     <div className="relative bg-zinc-300 text-zinc-900 px-8 py-4 font-bold uppercase tracking-widest text-sm border-2 border-zinc-600 flex items-center gap-3 shadow-[inset_0_0_20px_rgba(0,0,0,0.1)] group-hover:bg-zinc-200 transition-colors overflow-hidden">
                         {/* Grime/Texture Overlay */}
                         <div className="absolute inset-0 opacity-20 bg-[url('https://www.transparenttextures.com/patterns/concrete-wall.png')] mix-blend-multiply pointer-events-none"></div>
-                        <div className="absolute inset-0 bg-linear-to-br from-white/40 to-transparent opacity-50 pointer-events-none"></div>
+                        <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent opacity-50 pointer-events-none"></div>
                         
                         {/* Stamped Text Effect */}
                         <FileText className="w-5 h-5 relative z-10 drop-shadow-[0_1px_0_rgba(255,255,255,0.5)]" />
@@ -474,7 +479,7 @@ export default function PodcastPlayerPage() {
                     <div className="relative bg-red-900 text-white/90 px-8 py-4 font-bold uppercase tracking-widest text-sm border-2 border-zinc-900 flex items-center gap-3 shadow-[inset_0_0_30px_rgba(0,0,0,0.6)] group-hover:bg-red-800 transition-colors overflow-hidden">
                         {/* Leather/Metal Texture Overlay */}
                         <div className="absolute inset-0 opacity-30 bg-[url('https://www.transparenttextures.com/patterns/black-scales.png')] mix-blend-multiply pointer-events-none"></div>
-                        <div className="absolute inset-0 bg-linear-to-t from-black/40 to-transparent pointer-events-none"></div>
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent pointer-events-none"></div>
                         
                         {/* Stenciled Text Effect */}
                         <Download className="w-5 h-5 relative z-10 drop-shadow-[0_2px_0_rgba(0,0,0,0.5)]" />
@@ -511,7 +516,7 @@ export default function PodcastPlayerPage() {
                   <div className="flex flex-col items-center mx-4 flex-1">
                     <div className="h-24 w-full max-w-xs bg-[#050505] border-2 border-zinc-700 rounded-sm mb-4 overflow-hidden relative flex items-center justify-center shadow-[inset_0_0_20px_rgba(0,0,0,1)]">
                         {/* Grid Background */}
-                        <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,0,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,0,0.1)_1px,transparent_1px)] bg-size-[20px_20px]"></div>
+                        <div className="absolute inset-0 bg-[linear-gradient(rgba(0,255,0,0.1)_1px,transparent_1px),linear-gradient(90deg,rgba(0,255,0,0.1)_1px,transparent_1px)] bg-[size:20px_20px]"></div>
                         
                         {/* Lie Detector Needle */}
                         <svg className="w-full h-full absolute inset-0" preserveAspectRatio="none">
@@ -533,7 +538,7 @@ export default function PodcastPlayerPage() {
                         </svg>
                         
                         {/* Scanline Overlay */}
-                        <div className="absolute inset-0 bg-[linear-gradient(transparent_50%,rgba(0,0,0,0.8)_50%)] bg-size-[100%_4px] pointer-events-none"></div>
+                        <div className="absolute inset-0 bg-[linear-gradient(transparent_50%,rgba(0,0,0,0.8)_50%)] bg-[length:100%_4px] pointer-events-none"></div>
                         
                         {/* CRT Flicker */}
                         <motion.div 
@@ -594,7 +599,7 @@ export default function PodcastPlayerPage() {
                       <button onClick={() => skip(-10)} className="p-2 text-zinc-500 hover:text-white transition-colors"><SkipBack size={24} /></button>
                       <button 
                         onClick={togglePlay}
-                        className="w-16 h-16 bg-linear-to-b from-red-900 to-red-950 hover:from-red-800 hover:to-red-900 text-red-100 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(127,29,29,0.5)] transition-all active:scale-95 border-4 border-zinc-800 ring-1 ring-zinc-600 group"
+                        className="w-16 h-16 bg-gradient-to-b from-red-900 to-red-950 hover:from-red-800 hover:to-red-900 text-red-100 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(127,29,29,0.5)] transition-all active:scale-95 border-4 border-zinc-800 ring-1 ring-zinc-600 group"
                       >
                         {isPlaying ? <Pause fill="currentColor" size={28} className="drop-shadow-[0_0_5px_rgba(255,255,255,0.5)]" /> : <Play fill="currentColor" className="ml-1 drop-shadow-[0_0_5px_rgba(255,255,255,0.5)]" size={28} />}
                       </button>
@@ -648,7 +653,7 @@ export default function PodcastPlayerPage() {
                 CONFIDENTIAL
               </div>
               <div className="bg-[#fdfbf7] text-black p-4 md:p-8 shadow-xl relative font-typewriter border-l-4 border-red-900">
-                <div className="absolute top-0 right-0 w-16 h-16 border-t-20 border-r-20 border-t-gray-300 border-r-transparent transform rotate-90 opacity-50"></div>
+                <div className="absolute top-0 right-0 w-16 h-16 border-t-[20px] border-r-[20px] border-t-gray-300 border-r-transparent transform rotate-90 opacity-50"></div>
                 
                 <h2 className="text-xl font-bold mb-6 border-b-2 border-black pb-2 uppercase tracking-widest flex justify-between items-center">
                   <span>Transcript Log</span>
@@ -658,7 +663,7 @@ export default function PodcastPlayerPage() {
                 <div className="space-y-6">
                   {podcast.script.segments.slice(0, 5).map((segment, index) => (
                     <div key={index} className="flex gap-4">
-                      <div className="w-24 shrink-0 text-xs font-bold uppercase text-gray-500 pt-1 text-right">
+                      <div className="w-24 flex-shrink-0 text-xs font-bold uppercase text-gray-500 pt-1 text-right">
                         {segment.speaker}
                       </div>
                       <div className="flex-1 relative">

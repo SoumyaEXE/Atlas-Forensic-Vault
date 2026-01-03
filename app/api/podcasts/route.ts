@@ -7,7 +7,7 @@ export async function GET(request: NextRequest) {
   try {
     const collection = await getCollection('podcasts');
     const { searchParams } = new URL(request.url);
-    const limit = parseInt(searchParams.get('limit') || '10');
+    const limit = parseInt(searchParams.get('limit') || '100');
     const skip = parseInt(searchParams.get('skip') || '0');
 
     const podcasts = await collection
