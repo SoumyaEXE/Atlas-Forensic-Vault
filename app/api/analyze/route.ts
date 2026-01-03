@@ -1,11 +1,11 @@
-import { NextRequest, NextResponse, after } from 'next/server';
+import { NextRequest, NextResponse } from 'next/server';
 import { getCollection } from '@/lib/mongodb';
 import { getGitHubFetcher } from '@/lib/github/fetcher';
 import { generatePodcastScript, analyzeCodePatterns } from '@/lib/gemini';
 import { NarrativeStyle, AnalysisStatus, Podcast } from '@/lib/types';
+import { getRequestContext } from '@cloudflare/next-on-pages';
 
 export const runtime = 'nodejs';
-export const maxDuration = 60; // Set max duration for Vercel
 
 export async function POST(request: NextRequest) {
   try {
@@ -49,17 +49,27 @@ export async function POST(request: NextRequest) {
     const collection = await getCollection('podcasts');
     await collection.insertOne(podcast);
 
+    // Start background processing
+    let ctx: any = {};
+    try {
+      ctx = getRequestContext();
+    } catch (e) {
+      // Ignore error if not in Cloudflare context
+    }
+
     // Log that we are starting processing
     console.log(`[Analyze] Starting analysis for ${owner}/${repo} (ID: ${podcast.id})`);
 
-    // Use Next.js 'after' to run background task after response is sent
-    after(async () => {
-      try {
-        await processRepository(podcast.id, owner, repo, narrative_style);
-      } catch (err) {
+    // @ts-ignore - Cloudflare Workers types mismatch
+    if (ctx && ctx.waitUntil) {
+      // @ts-ignore
+      ctx.waitUntil(processRepository(podcast.id, owner, repo, narrative_style));
+    } else {
+      // Fallback for local dev or if waitUntil is missing
+      processRepository(podcast.id, owner, repo, narrative_style).catch(err => {
         console.error(`[Analyze] Unhandled error in processRepository for ${podcast.id}:`, err);
-      }
-    });
+      });
+    }
 
     return NextResponse.json({
       id: podcast.id,
