@@ -70,6 +70,28 @@ export function AudioProvider({ children }: { children: React.ReactNode }) {
     }
   }, [currentTrack]);
 
+  // Attempt autoplay on mount
+  useEffect(() => {
+    if (audioRef.current) {
+      // Set initial volume to 0 for fade in
+      audioRef.current.volume = 0;
+      
+      const playPromise = audioRef.current.play();
+      
+      if (playPromise !== undefined) {
+        playPromise
+          .then(() => {
+            setIsPlaying(true);
+            setHasInteracted(true);
+            fadeIn();
+          })
+          .catch((e) => {
+            console.log("Autoplay blocked by browser policy. Waiting for interaction.", e);
+          });
+      }
+    }
+  }, []);
+
   useEffect(() => {
     const handleInteraction = () => {
       if (!hasInteracted && audioRef.current) {
