@@ -1,5 +1,5 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
-import { NarrativeStyle, PodcastScript, ScriptSegment } from './types';
+import { NarrativeStyle, PodcastScript } from './types';
 import { FileWithContent } from './github/fetcher';
 import { GitHubRepo } from './github/client';
 
@@ -13,16 +13,22 @@ export const VOICE_IDS = {
   documentary: '8iDUAV5slUpRv30f3cyz', // Documentary narrator
 };
 
+export interface GenerationContext {
+  selectedFilesSummary?: unknown;
+  statistics?: {
+    analyzedFiles?: number;
+    languages?: Record<string, number>;
+    [key: string]: unknown;
+  };
+  patterns?: string[];
+  fullRepoContext?: boolean;
+}
+
 export async function generatePodcastScript(
   repoData: GitHubRepo,
   files: FileWithContent[],
   narrativeStyle: NarrativeStyle,
-  context?: {
-    selectedFilesSummary?: any;
-    statistics?: any;
-    patterns?: string[];
-    fullRepoContext?: boolean;
-  }
+  context?: GenerationContext
 ): Promise<PodcastScript> {
   const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
@@ -59,7 +65,7 @@ function getStyleSpecificPrompt(
   style: NarrativeStyle,
   repoData: GitHubRepo,
   files: FileWithContent[],
-  context?: any
+  context?: GenerationContext
 ): string {
   const baseRepoInfo = `
 📂 REPOSITORY INFORMATION:
@@ -113,35 +119,25 @@ ${f.content?.substring(0, 400)}${f.content && f.content.length > 400 ? '...' : '
 }
 
 function getTrueCrimePrompt(repoData: GitHubRepo, baseRepoInfo: string): string {
-  return `You are Detective Mongo D Bane., lead investigator for the Code Crime Unit. The rain is pouring, and this codebase is the primary suspect.
+  return `You are Detective Mongo D. Bane, lead investigator for the Code Crime Unit. The rain is hammering the office window like a persistent debt collector, and ${repoData.name} is sitting in the interrogation chair under a flickering bulb.
 
 ${baseRepoInfo}
 
-🎬 CREATE A HARD-BOILED TRUE CRIME SCRIPT (STRICTLY 4 MINUTES MAX - 550 to 600 words)
+🎬 CREATE A HARD-BOILED FORENSIC SCRIPT (550 - 600 WORDS)
 
-CRITICAL EXECUTION RULES:
-1. **CREDIT CONSERVATION**: Maximum 600 words. ElevenLabs credits are precious—make every word count.
-2. **THE NOIR VIBE**: Use gritty Noir tropes. The repo isn't "software"; it's a "suspect." Functions are "alibis." Classes are "accomplices." Complex code segments are "evidence of a struggle."
-3. **INTERROGATE THE TARGET**: Don't be polite. Grill the architecture. Find the "motive" behind the design choices. Is it a clean operation or a messy hit?
-4. **FORMAT**: 
-   - "narrator" = The Detective (Cynical, gravelly, low-tone dialogue).
-   - "sound_effect" = Use sparingly for high-impact atmosphere.
+NOIR EXECUTION RULES:
+1. THE VAULT IS THE KEY: Mention how the "Atlas Forensic Vault" is indexing this suspect's motives using Vector Search.
+2. SHADOWY METAPHORS: Functions aren't logic; they're "hired muscle." Complex files are "shady alibis." A messy tech stack is a "crime scene that was cleaned in a hurry."
+3. GRILL THE SUSPECT: Address the code directly. "Why'd you use that nested loop, pal? Who were you protecting?"
+4. THE EDGE PERIMETER: Mention the "Cloudflare Wiretap" intercepting signals at the edge.
 
 STRUCTURE:
-1. **THE CRIME SCENE** (30s): Atmosphere. The discovery of ${repoData.name}.
-2. **THE AUTOPSY** (1m): Break down the tech stack as the victim's anatomy.
-3. **THE GRILLING** (1.5m): Confront the Key Files and Patterns. Point out the "shady" logic and complex files.
-4. **THE VERDICT** (1m): Final judgment on the codebase. Is it going to the chair or walking free?
+- THE TIP-OFF (45s): The phone rings. A repo name pops up. The air smells like copper and stale coffee.
+- THE PATHOLOGY REPORT (1m): Dissect the tech stack. Is the 'victim' (repo) healthy, or is this architecture DOA?
+- THE INTERROGATION (1.5m): Confront the 'Evidence' (complex files). Squeeze them until the logic breaks.
+- THE SENTENCING (45s): Does it get archived in the 'Vault' or burned in the 'R2' incinerator?
 
-📋 REQUIRED JSON FORMAT:
-{
-  "title": "CASE FILE #${repoData.name.toUpperCase()}: The [Gritty Noir Subtitle]",
-  "narrator_voice": "detective",
-  "dramatic_arc": "A high-stakes forensic analysis of ${repoData.fullName}",
-  "segments": [...]
-}
-
-AVAILABLE SOUND EFFECTS: suspenseful_music, dramatic_pause, thunder, keyboard_typing, door_slam, footsteps, record_scratch, static_noise`;
+FORMAT: Use "narrator" (Bane) and high-impact "sound_effect" (thunder, door_slam, record_scratch).`;
 }
 
 function getSportsCommentaryPrompt(repoData: GitHubRepo, baseRepoInfo: string): string {
