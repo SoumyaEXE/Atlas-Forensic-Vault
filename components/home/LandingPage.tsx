@@ -178,7 +178,7 @@ export default function LandingPage({ initialPodcasts, initialStats }: LandingPa
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="fixed top-6 left-1/2 -translate-x-1/2 z-[60] w-full max-w-5xl bg-zinc-950/90 backdrop-blur-sm border border-zinc-800 shadow-2xl rounded-sm"
+        className="relative mx-auto mt-6 z-[60] w-full max-w-5xl bg-zinc-950/90 backdrop-blur-sm border border-zinc-800 shadow-2xl rounded-sm"
       >
         {/* Texture Overlay */}
         <div className="absolute inset-0 opacity-10 pointer-events-none mix-blend-overlay" style={{backgroundImage: 'url("https://www.transparenttextures.com/patterns/brushed-alum.png")'}}></div>
@@ -282,7 +282,7 @@ export default function LandingPage({ initialPodcasts, initialStats }: LandingPa
         transition={{ duration: 1.2, ease: "easeOut" }}
       >
       {/* Hero Section */}
-      <section id="analyze" className="relative min-h-screen flex flex-col items-center justify-center px-4 overflow-hidden pt-[180px] font-typewriter">
+      <section id="analyze" className="relative min-h-screen flex flex-col items-center justify-center px-4 overflow-hidden pt-12 font-typewriter">
         {/* Top Crime Tape Border */}
         <div className="absolute top-0 left-0 right-0 z-50 crime-tape-container">
           <div className="crime-tape w-full h-full">

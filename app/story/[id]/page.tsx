@@ -398,7 +398,7 @@ export default function StoryEditorPage() {
   };
 
   return (
-    <div className={`min-h-screen bg-[#050505] text-[#e7e5e4] font-typewriter relative overflow-x-hidden pt-32 ${printMode ? 'print-mode' : ''}`}>
+    <div className={`min-h-screen bg-[#050505] text-[#e7e5e4] font-typewriter relative overflow-x-hidden ${printMode ? 'print-mode' : ''}`}>
       {/* Print Styles */}
       <style jsx global>{`
         @media print {
@@ -457,7 +457,7 @@ export default function StoryEditorPage() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="fixed top-2 md:top-6 left-1/2 -translate-x-1/2 z-60 w-[95%] md:w-full max-w-5xl bg-zinc-950/90 backdrop-blur-sm border border-zinc-800 shadow-2xl rounded-sm"
+        className="relative mx-auto mt-2 md:mt-6 z-60 w-[95%] md:w-full max-w-5xl bg-zinc-950/90 backdrop-blur-sm border border-zinc-800 shadow-2xl rounded-sm"
       >
         {/* Texture Overlay */}
         <div className="absolute inset-0 opacity-10 pointer-events-none mix-blend-overlay" style={{backgroundImage: 'url("https://www.transparenttextures.com/patterns/brushed-alum.png")'}}></div>

@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Special_Elite, JetBrains_Mono, VT323, Courier_Prime } from "next/font/google";
 import "./globals.css";
 import { AudioProvider } from "@/components/layout/AudioProvider";
+import { Footer } from "@/components/layout/Footer";
 
 const specialElite = Special_Elite({
   weight: "400",
@@ -69,14 +70,17 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${specialElite.variable} ${jetbrainsMono.variable} ${vt323.variable} ${courierPrime.variable} antialiased bg-[#050505] text-[#e7e5e4]`}
+        className={`${specialElite.variable} ${jetbrainsMono.variable} ${vt323.variable} ${courierPrime.variable} antialiased bg-[#050505] text-[#e7e5e4] flex flex-col min-h-screen`}
         suppressHydrationWarning
       >
         {/* Global Film Grain Overlay */}
         <div className="fixed inset-0 pointer-events-none z-[9999] opacity-[0.05] mix-blend-overlay bg-[url('/grain.gif')]"></div>
         
         <AudioProvider>
-          {children}
+          <main className="flex-1 flex flex-col">
+            {children}
+          </main>
+          <Footer />
         </AudioProvider>
       </body>
     </html>
