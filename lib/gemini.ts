@@ -27,7 +27,7 @@ export async function generatePodcastScript(
   context?: GenerationContext
 ): Promise<PodcastScript> {
   // Use gemini-1.5-flash as it is the current stable fast model
-  const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+  const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
 
   // Get style-specific prompt
   const stylePrompt = getStyleSpecificPrompt(narrativeStyle, repoData, files, context);
