@@ -65,12 +65,16 @@ We don't run this operation on typewriters. We use heavy machinery.
 
 ### 🛠️ Tech Stack
 
+<div align="center">
+
 | Category | Technologies |
-|----------|-------------|
+| :---: | :---: |
 | **Frontend** | <a href="https://nextjs.org/"><img src="https://skillicons.dev/icons?i=nextjs,react,ts,tailwind" /></a> |
 | **Backend** | <a href="https://nodejs.org/"><img src="https://skillicons.dev/icons?i=nodejs,cloudflare" /></a> |
 | **Database** | <a href="https://www.mongodb.com/"><img src="https://skillicons.dev/icons?i=mongodb" /></a> |
 | **Tools** | <a href="https://git-scm.com/"><img src="https://skillicons.dev/icons?i=git,github,vscode" /></a> |
+
+</div>
 
 * **MongoDB Atlas**: The Vault. Using **Vector Search** to connect the dots between disparate commits, **Change Streams** to monitor the wire in real-time, and **Flexible Schema** to handle the messy data of the digital back alleys.
 * **Cloudflare**: The Perimeter. **Workers AI** for edge profiling, **R2** for stashing the tapes (egress-free), and **Durable Objects** to keep our terminals synced across the city.
