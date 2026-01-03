@@ -41,9 +41,15 @@ export async function POST(
 
     // Start background audio generation
     // We don't await this, but we catch errors to prevent unhandled rejections
-    const ctx = getRequestContext();
+    let ctx: any = {};
+    try {
+      ctx = getRequestContext();
+    } catch (e) {
+      // Ignore error if not in Cloudflare context
+    }
+
     // @ts-ignore - Cloudflare Workers types mismatch
-    if (ctx.waitUntil) {
+    if (ctx && ctx.waitUntil) {
       // @ts-ignore
       ctx.waitUntil(generateAudioInBackground(id, podcast.script));
     } else {

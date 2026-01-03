@@ -50,9 +50,15 @@ export async function POST(request: NextRequest) {
     await collection.insertOne(podcast);
 
     // Start background processing
-    const ctx = getRequestContext();
+    let ctx: any = {};
+    try {
+      ctx = getRequestContext();
+    } catch (e) {
+      // Ignore error if not in Cloudflare context
+    }
+
     // @ts-ignore - Cloudflare Workers types mismatch
-    if (ctx.waitUntil) {
+    if (ctx && ctx.waitUntil) {
       // @ts-ignore
       ctx.waitUntil(processRepository(podcast.id, owner, repo, narrative_style));
     } else {

@@ -265,7 +265,8 @@ export default function StoryEditorPage() {
         data.script.segments = data.script.segments.map((seg: ScriptSegment) => {
             // Use existing times if available, otherwise calculate
             const startTime = seg.startTime ?? currentTime;
-            const duration = seg.duration || (seg.text.length / 15); // Estimate ~15 chars per second if no duration
+            const textLength = seg.text ? seg.text.length : 0;
+            const duration = seg.duration || (textLength / 15); // Estimate ~15 chars per second if no duration
             const endTime = seg.endTime ?? (startTime + duration);
             
             currentTime = endTime;
