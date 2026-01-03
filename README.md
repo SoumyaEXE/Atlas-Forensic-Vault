@@ -9,37 +9,46 @@
 <p align="center">
   <a href="https://nextjs.org/"><img src="https://img.shields.io/badge/Next.js-16.1-black?style=for-the-badge&logo=next.js" alt="Next.js"></a>
   <a href="https://www.mongodb.com/atlas"><img src="https://img.shields.io/badge/MongoDB-Atlas-47A248?style=for-the-badge&logo=mongodb" alt="MongoDB Atlas"></a>
-  <a href="https://elevenlabs.io/"><img src="https://img.shields.io/badge/ElevenLabs-AI_Voice-5D5FEF?style=for-the-badge" alt="ElevenLabs"></a>
+  <a href="https://elevenlabs.io/"><img src="https://img.shields.io/badge/ElevenLabs-AI_Voice-5D5FEF?style=for-the-badge" alt="ElevenLabs"></a><br/>
   <a href="https://deepmind.google/technologies/gemini/"><img src="https://img.shields.io/badge/Gemini-2.5_Flash-4285F4?style=for-the-badge&logo=google" alt="Gemini"></a>
   <a href="https://vercel.com"><img src="https://img.shields.io/badge/Deployed_on-Vercel-000?style=for-the-badge&logo=vercel" alt="Vercel"></a>
 </p>
 
-<p align="center">
-  <a href="https://mlh.isoumya.xyz">🌐 Live Demo</a> •
-  <a href="#-demo-video">📺 Video Demo</a> •
-  <a href="#-key-features">✨ Features</a>
-</p>
-
----
-
-# 🎯 The Problem
+# 🎯 The Problem :
 
 **Developers are drowning in code they didn't write.**
 
 <div align="center">
 
-| Challenge | Pain Point |
-|:---------:|:----------:|
-| 📚 Documentation | Reading docs is time-consuming |
-| 🔍 New Codebases | Understanding takes hours/days |
-| 🎧 Passive Learning | Can't learn while commuting |
-| 📖 Code Reviews | Traditional reviews are dry & boring |
+```mermaid
+flowchart TB
+    A[👨‍💻 Developer]
+    B[📚 Documentation]
+    C[🔍 New Codebases]
+    D[🎧 Passive Learning]
+    E[📖 Code Reviews]
+
+    A --> B
+    A --> C
+    A --> D
+    A --> E
+
+    B --> B1[⏳ Reading is time-consuming]
+    C --> C1[🕒 Understanding takes hours/days]
+    D --> D1[🚫 Can't learn while commuting]
+    E --> E1[😴 Reviews are dry & boring]
+
+    B1 --> F[❌ Productivity Loss]
+    C1 --> F
+    D1 --> F
+    E1 --> F
+```
+
 
 </div>
 
----
 
-## 💡 Our Solution
+## 💡 Our Solution :
 
 **Atlas Forensic Vault** transforms any GitHub repository into an engaging **AI-generated podcast** narrated in a Film Noir detective style.
 
@@ -50,20 +59,13 @@
 ### 🎬 How It Works
 
 ```mermaid
-graph LR
-    A[1️⃣ SUBMIT<br/>GitHub URL] --> B[2️⃣ INVESTIGATE<br/>AI Analysis]
-    B --> C[3️⃣ LISTEN<br/>Podcast]
-    C --> D[4️⃣ LEARN<br/>Understand]
-    
-    style A fill:#4a5568,stroke:#718096,color:#fff
-    style B fill:#553c9a,stroke:#805ad5,color:#fff
-    style C fill:#2c7a7b,stroke:#38b2ac,color:#fff
-    style D fill:#276749,stroke:#48bb78,color:#fff
+flowchart LR
+    A[🧾 1. Submit<br/>GitHub Repository] --> B[🕵️ 2. Investigate<br/>AI Code Analysis]
+    B --> C[🎙️ 3. Listen<br/>Generated Podcast]
+    C --> D[🧠 4. Learn<br/>Deep Understanding]
 ```
 
----
-
-# 🏗️ System Architecture
+# 🏗️ System Architecture :
 
 ### High-Level Overview
 
@@ -151,23 +153,21 @@ graph LR
     G --> H
 ```
 
----
-
-# 🔧 Tech Stack
+# 🔧 Tech Stack :
 
 <div align="center">
 
 | Category | Technologies |
 |:--------:|:------------:|
-| **Frontend** | ![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js) ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react) ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript) ![Tailwind](https://img.shields.io/badge/Tailwind-4-06B6D4?logo=tailwindcss) |
-| **Animation** | ![Framer](https://img.shields.io/badge/Framer_Motion-12-FF0080?logo=framer) ![Three.js](https://img.shields.io/badge/Three.js-0.182-000000?logo=three.js) |
-| **Database** | ![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?logo=mongodb) |
-| **AI Services** | ![Gemini](https://img.shields.io/badge/Gemini-2.5_Flash-4285F4?logo=google) ![ElevenLabs](https://img.shields.io/badge/ElevenLabs-v2-5D5FEF) |
-| **Deployment** | ![Vercel](https://img.shields.io/badge/Vercel-Serverless-000?logo=vercel) |
+| **Frontend** | ![Next.js](https://img.shields.io/badge/Next.js-16-black?style=for-the-badge&logo=next.js&logoColor=white) ![React](https://img.shields.io/badge/React-19-61DAFB?style=for-the-badge&logo=react&logoColor=black) ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?style=for-the-badge&logo=typescript&logoColor=white) ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-4-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white) |
+| **Animation / UI** | ![Framer Motion](https://img.shields.io/badge/Framer_Motion-12-FF0080?style=for-the-badge&logo=framer&logoColor=white) ![shadcn/ui](https://img.shields.io/badge/shadcn%2Fui-Components-000000?style=for-the-badge&logo=shadcnui&logoColor=white) |
+| **Database** | ![MongoDB Atlas](https://img.shields.io/badge/MongoDB_Atlas-Database-47A248?style=for-the-badge&logo=mongodb&logoColor=white) |
+| **AI Services** | ![Gemini](https://img.shields.io/badge/Gemini-2.5_Flash-4285F4?style=for-the-badge&logo=google&logoColor=white) ![ElevenLabs](https://img.shields.io/badge/ElevenLabs-v2-5D5FEF?style=for-the-badge&logo=elevenlabs&logoColor=white) |
+| **Deployment** | ![Vercel](https://img.shields.io/badge/Vercel-Serverless-000000?style=for-the-badge&logo=vercel&logoColor=white) |
 
 </div>
 
-### 📦 Detailed Stack
+### 📦 Detailed Stack :
 
 <div align="center">
 
@@ -184,169 +184,102 @@ graph LR
 
 </div>
 
----
-
-# ✨ Key Features
-
-### 🎙️ 1. AI-Powered Code Narration
-Transform any GitHub repository into an engaging podcast with multiple narrative styles:
+# ✨ Key Features :
 
 <div align="center">
 
-| Style | Voice | Description |
-|:-----:|:-----:|:-----------:|
-| 🕵️ **True Crime** | Detective | Film noir investigation of "code crimes" |
-| ⚽ **Sports** | Dual Commentators | Exciting play-by-play of the codebase |
-| 🦁 **Documentary** | Attenborough | Nature doc style exploration |
+| Feature | Description |
+|:------:|:-----------:|
+| 🎙️ **AI Code Narration** | GitHub repo → AI podcast |
+| 🎛️ **Retro Audio Player** | Reel animations · Vintage UI |
+| 📜 **Live Transcript** | Real-time sync · Click-to-seek |
+| 🔍 **MongoDB Atlas** | Vector Search · Change Streams |
+| 📄 **Export Reports** | Redacted · Classified |
 
 </div>
 
-### 🎛️ 2. Retro Reel-to-Reel Player
-- 🎞️ Spinning tape reel animations
-- 🔘 Vintage brushed-metal aesthetic
-- 📊 Progress tracking with visual feedback
+# 🚀 Getting Started :
 
-### 📜 3. Live Transcript Synchronization
-- ✨ Real-time highlighting as audio plays
-- 📍 Auto-scroll follows the narration
-- 👆 Click-to-seek on any text segment
+> Spin up **Atlas Forensic Vault** locally in minutes.
 
-### 🔍 4. MongoDB Atlas Integration
-- **Vector Search** - Semantic search across transcripts
-- **Change Streams** - Real-time progress updates
-- **Flexible Schema** - Dynamic podcast structures
+## 🧰 Requirements :
 
-### 📄 5. Export Options
-- **🟢 Redacted** - Shareable summary
-- **🔴 Classified** - Full investigation report
+_Ensure the following are installed and ready_
 
----
+- **Node.js** ≥ 18 (LTS recommended)
+- **MongoDB Atlas** cluster (free tier works)
+- **API Keys**
+  - Google **Gemini**
+  - **ElevenLabs** (Text-to-Speech)
+- *(Optional)* GitHub token for higher API rate limits
 
-# 📊 MongoDB Atlas Integration
 
-### Why MongoDB Atlas?
+## 📦 Project Setup :
 
-We leverage **three key MongoDB Atlas features**:
-
-<div align="center">
-
-| Feature | Use Case | Benefit |
-|:-------:|:--------:|:-------:|
-| 📄 **Flexible Schema** | Store variable segment counts | No rigid table structures |
-| 🔍 **Vector Search** | Semantic transcript search | Find similar codebases |
-| 📡 **Change Streams** | Real-time progress updates | No polling required |
-
-</div>
-
-### 1. Flexible Schema
-```javascript
-// Each podcast has different segment counts and metadata
-{
-  id: "abc-123",
-  script: {
-    title: "CASE FILE #REACT-HOOKS",
-    segments: [
-      { speaker: "narrator", text: "...", emotion: "mysterious" },
-      { speaker: "sound_effect", text: "thunder" },
-      // Variable number of segments per podcast
-    ]
-  },
-  analysis_summary: { /* Dynamic fields based on repo */ }
-}
-```
-
-### 2. Vector Search
-```javascript
-// Find similar podcast transcripts
-db.podcasts.aggregate([
-  {
-    $vectorSearch: {
-      queryVector: embeddings,
-      path: "script_embedding",
-      numCandidates: 100,
-      limit: 5
-    }
-  }
-]);
-```
-
-### 3. Change Streams
-```javascript
-// Real-time progress updates to frontend
-const changeStream = collection.watch([
-  { $match: { "fullDocument.id": podcastId } }
-]);
-
-changeStream.on("change", (change) => {
-  updateClientProgress(change.fullDocument.progress);
-});
-```
-
----
-
-# 🚀 Getting Started
-
-### Prerequisites
-
-- Node.js 18+
-- MongoDB Atlas account
-- API keys for Gemini & ElevenLabs
-
-### Installation
+_Clone the repository and install dependencies_
 
 ```bash
-# Clone the repository
 git clone https://github.com/SoumyaEXE/Atlas-Forensic-Vault.git
 cd Atlas-Forensic-Vault
-
-# Install dependencies
 npm install
+```
+## 🔐 Environment Configuration :
+_Create a local environment file_
 
-# Configure environment variables
+```bash
 cp .env.example .env.local
 ```
-
-### Environment Variables
-
-```env
-# MongoDB Atlas
-MONGODB_URI=mongodb+srv://...
-
-# AI Services
-GEMINI_API_KEY=your_gemini_api_key
-ELEVENLABS_API_KEY=your_elevenlabs_api_key
-
-# GitHub (optional, increases rate limit)
-GITHUB_TOKEN=your_github_token
+> Add the required keys:
+```bash
+env
 ```
 
-### Run Development Server
+# MongoDB Atlas :
+```bash
+MONGODB_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/atlas_forensic_vault
+```
+
+# AI Services :
+```bash
+GEMINI_API_KEY=your_gemini_api_key
+ELEVENLABS_API_KEY=your_elevenlabs_api_key
+```
+
+# GitHub (optional – improves rate limits)
+```bash
+GITHUB_TOKEN=your_github_token
+```
+▶️ Run the App
+Start the development server:
 
 ```bash
 npm run dev
 ```
+> The app will boot with hot reload enabled.
 
-Visit **http://localhost:3000**
+🌐 Access the Application
+Open in your browser:
 
----
+```bash
+http://localhost:3000
+```
+> You’re ready to investigate repositories. 🕵️
 
-## 🏆 Hackathon Highlights
+## 🏆 Hackathon Highlights :
 
 <div align="center">
 
-| Criteria | Implementation |
-|:--------:|:--------------:|
-| ✅ **MongoDB Atlas** | Vector Search + Change Streams + Flexible Schema |
-| ✅ **Innovation** | First-ever code-to-podcast with Film Noir theme |
-| ✅ **AI Integration** | Gemini for analysis, ElevenLabs for voice |
-| ✅ **Production Ready** | Deployed and functional on Vercel |
-| ✅ **Real-World Utility** | Actually helps developers understand codebases |
+| Focus Area | What We Delivered |
+|:----------:|:-----------------:|
+| 🍃 **MongoDB Atlas Excellence** | Vector Search · Change Streams · Flexible Schema |
+| 💡 **Product Innovation** | Code-to-podcast experience with Film Noir narrative |
+| 🧠 **AI-First Architecture** | Gemini for deep analysis · ElevenLabs for narration |
+| 🚀 **Production Readiness** | Fully deployed, live, and scalable on Vercel |
+| 🛠️ **Developer Impact** | Faster onboarding and deeper code understanding |
 
 </div>
 
----
-
-## 👥 Team LowEndCorp.
+## 👥 Team LowEndCorp. Members :
 
 <div align="center">
 
@@ -357,20 +290,22 @@ Visit **http://localhost:3000**
 
 </div>
 
----
-
+<!--
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
+<div align="center"> --->
+
 <div align="center">
-
-### 🕵️ *"Case Closed."*
-
+  
+_**"🕵️ Case Closed."**_ <br/>
 **Built with ❤️ for MLH Hack For Hackers!**
 
-[![MongoDB](https://img.shields.io/badge/Powered_by-MongoDB_Atlas-47A248?style=for-the-badge&logo=mongodb)](https://www.mongodb.com/atlas)
+[![MongoDB Atlas](https://img.shields.io/badge/Powered_by-MongoDB_Atlas-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/atlas)
+[![Cloudflare](https://img.shields.io/badge/Powered_by-Cloudflare-F38020?style=for-the-badge&logo=cloudflare&logoColor=white)](https://www.cloudflare.com/)
+[![ElevenLabs](https://img.shields.io/badge/Powered_by-ElevenLabs-5D5FEF?style=for-the-badge&logo=elevenlabs&logoColor=white)](https://elevenlabs.io/)
 
 </div>
