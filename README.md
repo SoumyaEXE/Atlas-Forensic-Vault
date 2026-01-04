@@ -235,7 +235,7 @@ N_{\text{requests}} = \frac{180\text{s}}{2\text{s/request}} = 90 \text{ requests
 
 **With Change Streams:**
 ```math
-N_{\text{updates}} = 4 \text{ (at 25%, 50%, 75%, 100%)}
+N_{\text{updates}} = 4 \text{ (at 25\%, 50\%, 75\%, 100\%)}
 ```
 
 **Bandwidth Reduction:**
@@ -377,7 +377,7 @@ With $N$ concurrent users streaming audio:
 
 **Performance improvement:**
 ```math
-\text{Speedup} = \frac{500\text{ms}}{30\text{ms}} \approx 16.7\times
+$$\text{Speedup} = \frac{500\text{ms}}{30\text{ms}} \approx 16.7 \times$$
 ```
 
 **Bandwidth Cost Optimization:**
