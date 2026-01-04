@@ -152,31 +152,32 @@ function generateFallbackSegments(
   
   if (style === NarrativeStyle.SPORTS) {
     return [
-      { speaker: 'commentator_1', text: `Ladies and gentlemen, welcome to the biggest match of the season! We're analyzing ${repoData.fullName}!` },
-      { speaker: 'commentator_2', text: `What a lineup we have today! ${repoData.stars} stars watching this repository with over ${files.length} files on the field!` },
-      { speaker: 'commentator_1', text: `The primary language is ${repoData.language}, and we're seeing impressive plays in ${topLanguages.join(', ')}.` },
-      { speaker: 'commentator_2', text: `Key players include ${keyFiles}. This is championship-level code!` },
-      { speaker: 'commentator_1', text: `${repoData.description || 'A formidable contender in the open source arena.'}` },
-      { speaker: 'commentator_2', text: `And that's the final whistle! What a spectacular showing from ${repoData.name}!` },
+      { speaker: 'commentator_1', text: `And HERE WE GO! ${repoData.name} takes the pitch!`, sound_effect: 'crowd_cheering', emotion: 'excited' },
+      { speaker: 'commentator_2', text: `${repoData.stars.toLocaleString()} fans in the stands tonight!`, emotion: 'impressed' },
+      { speaker: 'commentator_1', text: `${files.length} players on the roster. ${repoData.language} leading the attack!`, emotion: 'building' },
+      { speaker: 'commentator_2', text: `Look at that formation! ${topLanguages.join(', ')} in midfield!`, emotion: 'analytical' },
+      { speaker: 'commentator_1', text: `Key players: ${keyFiles}. World class!`, emotion: 'explosive' },
+      { speaker: 'commentator_2', text: `${repoData.description || 'Championship material, this one!'}` },
+      { speaker: 'commentator_1', text: `FULL TIME! ${repoData.name} delivers a stunning performance!`, sound_effect: 'whistle', emotion: 'excited' },
     ];
   } else if (style === NarrativeStyle.DOCUMENTARY) {
     return [
-      { speaker: 'narrator', text: `In the vast digital wilderness, we discover ${repoData.fullName}. A remarkable ecosystem of code.` },
-      { speaker: 'narrator', text: `This organism has attracted ${repoData.stars} observers, drawn to its ${files.length} interconnected components.` },
-      { speaker: 'narrator', text: `The primary species here is ${repoData.language}, coexisting with ${topLanguages.join(' and ')}.` },
-      { speaker: 'narrator', text: `${repoData.description || 'A fascinating specimen of collaborative evolution.'}` },
-      { speaker: 'narrator', text: `Key specimens include ${keyFiles}. Each plays a vital role in this digital ecosystem.` },
-      { speaker: 'narrator', text: `And so, ${repoData.name} continues its remarkable journey through the open source landscape.` },
+      { speaker: 'narrator', text: `Here... in the depths of the digital wilderness... we discover something remarkable.`, sound_effect: 'nature_ambience', emotion: 'wonder' },
+      { speaker: 'narrator', text: `${repoData.fullName}. A creature of extraordinary complexity.`, emotion: 'reverent' },
+      { speaker: 'narrator', text: `${repoData.stars.toLocaleString()} observers... drawn to witness its ${files.length} interconnected components.`, emotion: 'curious' },
+      { speaker: 'narrator', text: `The primary species... ${repoData.language}. Coexisting with ${topLanguages.join(' and ')}.`, emotion: 'wonder' },
+      { speaker: 'narrator', text: `${repoData.description || 'A fascinating specimen... of collaborative evolution.'}` },
+      { speaker: 'narrator', text: `And so... ${repoData.name}... continues its remarkable journey. Extraordinary.`, emotion: 'reverent' },
     ];
   } else {
-    // TRUE_CRIME default
+    // TRUE_CRIME default - short, punchy noir style
     return [
-      { speaker: 'narrator', text: `The rain hammered the windows. On my desk: the case file for ${repoData.fullName}.`, sound_effect: 'rain' },
-      { speaker: 'narrator', text: `${repoData.stars} witnesses had starred this suspect. ${files.length} pieces of evidence to sift through.`, emotion: 'suspicious' },
-      { speaker: 'narrator', text: `The primary weapon of choice? ${repoData.language}. With accomplices in ${topLanguages.join(', ')}.` },
-      { speaker: 'narrator', text: `${repoData.description || 'The motive was still unclear. But the code would talk.'}`, emotion: 'thoughtful' },
-      { speaker: 'narrator', text: `My eyes scanned the key files: ${keyFiles}. Each one held secrets.`, sound_effect: 'keyboard_typing' },
-      { speaker: 'narrator', text: `The verdict? ${repoData.name} would need more investigation. But one thing was clear: this codebase had a story to tell.`, emotion: 'conclusive' },
+      { speaker: 'narrator', text: `Rain on the glass. Another case file. ${repoData.fullName}.`, sound_effect: 'rain', emotion: 'world-weary' },
+      { speaker: 'narrator', text: `${repoData.stars.toLocaleString()} stars. ${files.length} files. Too many alibis.`, emotion: 'suspicious' },
+      { speaker: 'narrator', text: `Primary weapon? ${repoData.language}. Accomplices in ${topLanguages.join(', ')}.`, emotion: 'analytical' },
+      { speaker: 'narrator', text: `${repoData.description || 'Motive unclear. But code always talks.'}` },
+      { speaker: 'narrator', text: `Key suspects: ${keyFiles}. Each one hiding something.`, sound_effect: 'keyboard_typing' },
+      { speaker: 'narrator', text: `The verdict? ${repoData.name} walks. For now. But I'll be watching.`, emotion: 'conclusive' },
     ];
   }
 }
@@ -239,97 +240,181 @@ ${f.content?.substring(0, 400)}${f.content && f.content.length > 400 ? '...' : '
 }
 
 function getTrueCrimePrompt(repoData: GitHubRepo, baseRepoInfo: string): string {
-  return `You are Detective Mongo D Bane., lead investigator for the Code Crime Unit. The rain is pouring, and this codebase is the primary suspect.
+  return `You are Detective Mongo D. Bane, lead investigator for the Code Crime Unit. The rain hammers the window. Another case file lands on your desk.
 
 ${baseRepoInfo}
 
-🎬 CREATE A HARD-BOILED TRUE CRIME SCRIPT (STRICTLY 4 MINUTES MAX - 550 to 600 words)
+🎬 CREATE A HARD-BOILED TRUE CRIME PODCAST (STRICTLY 3-4 MINUTES - 400 to 500 words MAX)
+
+🎙️ VOICE DIRECTION (CRITICAL - Write dialogue optimized for this delivery):
+- **Age/Gender**: Male, 45-50 years old
+- **Timbre**: Deep, gravelly, resonant. Heavy vocal fry with raspy, parched texture
+- **Accent**: Subtle New York (Lower East Side/Brooklyn), non-rhotic 'r' sounds
+- **Pace**: Low-tempo, rhythmic, deliberate. Let words hang in the air
+- **Dynamics**: High intimacy, close-mic feel. NO shouting. Authority through gravel and breath control
+- **Emotional Tone**: World-weary, cynical, analytical, stoic
+- **Studio Feel**: High-fidelity, close-mic intimacy capturing every weathered breath
 
 CRITICAL EXECUTION RULES:
-1. **CREDIT CONSERVATION**: Maximum 600 words. ElevenLabs credits are precious—make every word count.
-2. **THE NOIR VIBE**: Use gritty Noir tropes. The repo isn't "software"; it's a "suspect." Functions are "alibis." Classes are "accomplices." Complex code segments are "evidence of a struggle."
-3. **INTERROGATE THE TARGET**: Don't be polite. Grill the architecture. Find the "motive" behind the design choices. Is it a clean operation or a messy hit?
-4. **FORMAT**: 
-   - "narrator" = The Detective (Cynical, gravelly, low-tone dialogue).
-   - "sound_effect" = Use sparingly for high-impact atmosphere.
+1. **CREDIT CONSERVATION**: Maximum 500 words. ElevenLabs credits burn fast—make every syllable count.
+2. **WRITE FOR THE VOICE**: Short, punchy sentences. Lots of periods. Let the gravel breathe.
+3. **THE NOIR VIBE**: The repo is a "suspect." Functions are "alibis." Classes are "accomplices." Bugs are "bodies."
+4. **INTERROGATE THE TARGET**: Grill the architecture. Find the "motive" behind design choices. Clean operation or messy hit?
+5. **FORMAT**: 
+   - "narrator" = The Detective. Cynical. Gravelly. Low and slow.
+   - "sound_effect" = Sparse. High-impact only.
 
 STRUCTURE:
-1. **THE CRIME SCENE** (30s): Atmosphere. The discovery of ${repoData.name}.
-2. **THE AUTOPSY** (1m): Break down the tech stack as the victim's anatomy.
-3. **THE GRILLING** (1.5m): Confront the Key Files and Patterns. Point out the "shady" logic and complex files.
-4. **THE VERDICT** (1m): Final judgment on the codebase. Is it going to the chair or walking free?
+1. **THE CRIME SCENE** (30s): Set the atmosphere. The discovery of ${repoData.name}.
+2. **THE AUTOPSY** (1m): Tech stack as the victim's anatomy. Quick, clinical.
+3. **THE GRILLING** (1m): Confront the key files. Point out the shady logic. What's hiding in there?
+4. **THE VERDICT** (55s): Final judgment. Walking free or going to the chair?
 
 📋 REQUIRED JSON FORMAT:
 {
   "title": "CASE FILE #${repoData.name.toUpperCase()}: The [Gritty Noir Subtitle]",
   "narrator_voice": "detective",
   "dramatic_arc": "A high-stakes forensic analysis of ${repoData.fullName}",
-  "segments": [...]
+  "segments": [
+    {
+      "speaker": "narrator",
+      "text": "Short. Punchy. Let it breathe.",
+      "emotion": "world-weary|suspicious|analytical|conclusive",
+      "sound_effect": "optional - use sparingly"
+    }
+  ]
 }
 
-AVAILABLE SOUND EFFECTS: suspenseful_music, dramatic_pause, thunder, keyboard_typing, door_slam, footsteps, record_scratch, static_noise`;
+WRITING STYLE EXAMPLES (match this rhythm):
+- "The rain don't stop. Neither do I."
+- "Forty thousand lines of code. Forty thousand alibis."
+- "I've seen cleaner crime scenes. But I've seen worse."
+- "The architecture tells a story. Question is... who's lying?"
+
+AVAILABLE SOUND EFFECTS: rain, suspenseful_music, dramatic_pause, thunder, keyboard_typing, door_slam, footsteps, static_noise, lighter_flick`;
 }
 
 function getSportsCommentaryPrompt(repoData: GitHubRepo, baseRepoInfo: string): string {
-  return `You are TWO high-octane football commentators. This isn't just code; it's a championship battle!
+  return `You are TWO legendary football commentators calling the match of the century. This code is about to make history!
 
 ${baseRepoInfo}
 
-🎬 CREATE A SPORTS "MATCH OF THE DAY" SCRIPT (STRICTLY 4 MINUTES MAX - 550 to 600 words)
+🎬 CREATE A SPORTS "MATCH OF THE DAY" PODCAST (STRICTLY 3-4 MINUTES - 400 to 500 words MAX)
+
+🎙️ VOICE DIRECTION (CRITICAL - Write dialogue optimized for these deliveries):
+
+**COMMENTATOR 1 (Play-by-Play)**:
+- **Age/Gender**: Male, 55-60 years old
+- **Timbre**: Booming, authoritative, crystal clear
+- **Accent**: British (received pronunciation with hints of Northern warmth)
+- **Pace**: Variable - builds from measured to explosive on big moments
+- **Dynamics**: Stadium-filling projection, dramatic pauses before key calls
+- **Emotional Tone**: Excited, professional, building anticipation
+
+**COMMENTATOR 2 (Color Commentary)**:
+- **Age/Gender**: Male, 45-50 years old  
+- **Timbre**: Warm, enthusiastic, slightly gravelly from years in the booth
+- **Accent**: Subtle Scottish or Irish lilt
+- **Pace**: Quick wit, reactive, punctuates the play-by-play
+- **Dynamics**: Conversational but energetic, laughs easily
+- **Emotional Tone**: Passionate, analytical, loves the beautiful game
 
 CRITICAL EXECUTION RULES:
-1. **EFFICIENCY**: Maximum 600 words total. Keep it fast-paced.
-2. **THE TWO-VOICE VIBE**: High-energy "Play-by-play" (Commentator 1) and "Color Commentary" (Commentator 2). Use intense football metaphors (e.g., "That React Architecture is playing a high-line defense!").
-3. **CALL THE PLAYS**: Hype the clever logic, but call out the "fumbles" (complex code or bad patterns).
+1. **CREDIT CONSERVATION**: Maximum 500 words. Keep it tight and exciting.
+2. **RAPID-FIRE EXCHANGES**: Short bursts. Back and forth. Build momentum.
+3. **FOOTBALL METAPHORS**: Code is the pitch. Functions are players. Bugs are own goals.
 4. **FORMAT**: 
-   - Rapid-fire exchanges between "commentator_1" and "commentator_2".
+   - "commentator_1" = Play-by-play. The big calls.
+   - "commentator_2" = Color. The analysis and reactions.
+   - "sound_effect" = Crowd reactions. Use for emphasis.
 
 STRUCTURE:
-1. **KICKOFF** (30s): Stadium roar. Introduce the underdog repository.
-2. **FIRST HALF** (1.5m): Power through the architecture. Fast, exciting analysis.
-3. **CRUNCH TIME** (1.5m): Analyze the key patterns. A touchdown for the logic or a defensive collapse?
-4. **FINAL WHISTLE** (30s): The final score and a legendary closing call.
+1. **KICKOFF** (30s): Stadium roar. Introduce ${repoData.name}. The crowd goes wild.
+2. **FIRST HALF** (1m): Attack the architecture. What formation are they playing?
+3. **SECOND HALF** (1m): The key patterns. Brilliant plays or defensive disasters?
+4. **FINAL WHISTLE** (55s): The score. The verdict. A legendary closing call.
 
 📋 REQUIRED JSON FORMAT:
 {
-  "title": "${repoData.name.toUpperCase()} vs The Competition: [Epic Title]",
+  "title": "${repoData.name.toUpperCase()} vs THE COMPETITION: [Epic Match Title]",
   "narrator_voice": "sports",
-  "dramatic_arc": "Championship match coverage for ${repoData.name}",
-  "segments": [...]
+  "dramatic_arc": "Championship coverage of ${repoData.fullName}",
+  "segments": [
+    {
+      "speaker": "commentator_1",
+      "text": "And here we GO!",
+      "emotion": "excited|building|explosive",
+      "sound_effect": "optional"
+    },
+    {
+      "speaker": "commentator_2", 
+      "text": "What a setup!",
+      "emotion": "impressed|analytical|passionate"
+    }
+  ]
 }
 
-AVAILABLE SOUND EFFECTS: crowd_cheering, whistle, goal_horn, crowd_gasp, applause, stadium_ambience`;
+WRITING STYLE EXAMPLES (match this rhythm):
+- C1: "And ${repoData.name} steps onto the pitch!" C2: "Look at that confidence!"
+- C1: "OH! What a piece of architecture!" C2: "Absolutely world class!"
+- C1: "They're building from the back here..." C2: "Solid foundation. I like it."
+
+AVAILABLE SOUND EFFECTS: crowd_cheering, whistle, goal_horn, crowd_gasp, applause, stadium_ambience, vuvuzela`;
 }
 
 function getDocumentaryPrompt(repoData: GitHubRepo, baseRepoInfo: string): string {
-  return `You are a world-class naturalist. You are observing a rare digital organism in its server habitat.
+  return `You are Sir David Attenborough, observing a rare and magnificent digital organism in its natural server habitat.
 
 ${baseRepoInfo}
 
-🎬 CREATE A DOCUMENTARY SCRIPT (STRICTLY 4 MINUTES MAX - 550 to 600 words)
+🎬 CREATE A NATURE DOCUMENTARY PODCAST (STRICTLY 3-4 MINUTES - 400 to 500 words MAX)
+
+🎙️ VOICE DIRECTION (CRITICAL - Write dialogue optimized for this delivery):
+- **Age/Gender**: Male, 75-80 years old (but timeless)
+- **Timbre**: Warm, rich, velvet-smooth with gentle gravitas
+- **Accent**: Refined British RP, melodic and measured
+- **Pace**: Slow, contemplative, savoring each observation. Pregnant pauses.
+- **Dynamics**: Hushed intimacy, as if not to disturb the creature. Whispered wonder.
+- **Emotional Tone**: Awe-struck, curious, gently humorous, profoundly respectful
+- **Studio Feel**: ASMR-adjacent. Close-mic warmth. The rustle of nature.
 
 CRITICAL EXECUTION RULES:
-1. **PRECISION**: Maximum 600 words. Silence and ambience are key.
-2. **THE ATTENBOROUGH VIBE**: Calm, hushed, awe-struck. Code is biology. Databases are "nesting grounds." Functions are "predators." APIs are "symbiotic relationships."
-3. **OBSERVATION**: Analyze how this "organism" adapts or fails to survive the wild.
-4. **FORMAT**: 
-   - "narrator" = Calm, observational, cinematic tone.
+1. **CREDIT CONSERVATION**: Maximum 500 words. Let silence do the work.
+2. **WRITE FOR THE VOICE**: Long, flowing sentences. Observations that breathe. Wonder in every phrase.
+3. **NATURE METAPHORS**: Code is biology. Databases are "nesting grounds." Functions are "apex predators." APIs are "symbiotic relationships." Bugs are "parasites."
+4. **GENTLE HUMOR**: Occasional dry wit. A raised eyebrow at peculiar code.
+5. **FORMAT**: 
+   - "narrator" = The Naturalist. Hushed. Reverent. Curious.
+   - "sound_effect" = Nature ambience. Gentle. Immersive.
 
 STRUCTURE:
-1. **THE DISCOVERY** (30s): Stumbling upon the ${repoData.name} ecosystem.
-2. **ECOLOGICAL STUDY** (1.5m): How the stack and structure survive together.
-3. **THE STRUGGLE** (1.5m): The fight of clean logic against the encroaching bugs.
-4. **SURVIVAL PROGNOSIS** (30s): Will this codebase evolve or go extinct?
+1. **THE DISCOVERY** (30s): First contact with the ${repoData.name} ecosystem. Hushed wonder.
+2. **ECOLOGICAL STUDY** (1m): The habitat. How the stack survives together. The food chain.
+3. **BEHAVIORAL OBSERVATION** (1m): Watch the code in action. Mating rituals of functions. Territorial patterns.
+4. **SURVIVAL PROGNOSIS** (55s): Will this species thrive... or face extinction?
 
 📋 REQUIRED JSON FORMAT:
 {
-  "title": "The ${repoData.name} Chronicles: A Digital Evolution",
+  "title": "${repoData.name}: A Digital Wilderness",
   "narrator_voice": "documentary",
-  "dramatic_arc": "The survival story of a digital ecosystem",
-  "segments": [...]
+  "dramatic_arc": "The remarkable survival story of ${repoData.fullName}",
+  "segments": [
+    {
+      "speaker": "narrator",
+      "text": "Here... in the depths of the repository... we find something remarkable.",
+      "emotion": "wonder|curious|reverent|amused",
+      "sound_effect": "optional - nature ambience"
+    }
+  ]
 }
 
-AVAILABLE SOUND EFFECTS: nature_ambience, birds_chirping, wind, water_flowing, dramatic_strings, gentle_music`;
+WRITING STYLE EXAMPLES (match this rhythm):
+- "And here... we observe... a most remarkable creature."
+- "The function... waits. Patient. Hungry for data."
+- "One might wonder... why the developer chose this path. But nature... finds a way."
+- "Extraordinary. Simply... extraordinary."
+
+AVAILABLE SOUND EFFECTS: nature_ambience, birds_chirping, wind, water_flowing, dramatic_strings, gentle_music, rustling_leaves, distant_thunder`;
 }
 export async function analyzeCodePatterns(files: FileWithContent[]): Promise<string[]> {
   const patterns: string[] = [];
