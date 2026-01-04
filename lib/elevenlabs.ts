@@ -6,10 +6,10 @@ const ELEVENLABS_API_URL = 'https://api.elevenlabs.io/v1';
 // Voice IDs for different speakers
 export const VOICE_IDS = {
   // Default detective/narrator voice
-  default: '8iDUAV5slUpRv30f3cyz',
-  narrator: '8iDUAV5slUpRv30f3cyz',
-  detective: '8iDUAV5slUpRv30f3cyz',
-  documentary: '8iDUAV5slUpRv30f3cyz',
+  default: 'vVi6DAt8DSjWrQDUBGjg',
+  narrator: '4u5cJuSmHP9d6YRolsOu',
+  detective: 'vVi6DAt8DSjWrQDUBGjg',
+  documentary: '9Ft9sm9dzvprPILZmLJl',
   // Sports commentary voices
   commentator_1: 'gU0LNdkMOQCOrPrwtbee',
   commentator_2: 'UPZIegnxY8z2Ya7jignw',
