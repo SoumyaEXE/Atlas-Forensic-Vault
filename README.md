@@ -419,7 +419,7 @@ cd Atlas-Forensic-Vault
 npm install
 ```
 
-## 🔐 Environment Configuration :
+### 🔐 Environment Configuration :
 _Create a local environment file_
 
 ```bash
@@ -444,16 +444,16 @@ ELEVENLABS_API_KEY=your_elevenlabs_api_key
 GITHUB_TOKEN=your_github_token
 ```
 
-## ▶️ Run the App
-Start the development server:
+### ▶️ Run the App :
+> Start the development server -
 
 ```bash
 npm run dev
 ```
 > The app will boot with hot reload enabled.
 
-## 🌐 Access the Application
-Open in your browser:
+## 🌐 Access the Application :
+> Open in your browser -
 
 ```bash
 http://localhost:3000
