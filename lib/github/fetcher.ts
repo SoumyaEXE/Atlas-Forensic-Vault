@@ -378,11 +378,12 @@ export class GitHubFetcher {
       const codeExtensions = [
         '.js', '.jsx', '.ts', '.tsx',
         '.py', '.java', '.go', '.rs',
-        '.rb', '.php', '.c', '.cpp',
+        '.rb', '.php', '.c', '.cpp', '.h', '.hpp',
         '.cs', '.swift', '.kt', '.scala',
         '.vue', '.svelte', '.md',
         '.json', '.yml', '.yaml', '.toml',
         '.html', '.css', '.scss', '.sass',
+        'Makefile', 'Kconfig', '.mk',
       ];
 
       return codeExtensions.some(ext => file.path.endsWith(ext));

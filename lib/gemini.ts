@@ -30,6 +30,17 @@ export async function generatePodcastScript(
   const stylePrompt = getStyleSpecificPrompt(narrativeStyle, repoData, files, context);
 
   console.log('[Gemini] Generating script with style:', narrativeStyle);
+  console.log(`[Gemini] Prompt length: ${stylePrompt.length} characters`);
+
+  // Truncate prompt if too large (Gemini has token limits)
+  const MAX_PROMPT_LENGTH = 30000; // ~7500 tokens
+  const truncatedPrompt = stylePrompt.length > MAX_PROMPT_LENGTH 
+    ? stylePrompt.substring(0, MAX_PROMPT_LENGTH) + '\n\n[Content truncated for length. Generate script based on available information.]'
+    : stylePrompt;
+  
+  if (truncatedPrompt.length < stylePrompt.length) {
+    console.log(`[Gemini] Prompt truncated from ${stylePrompt.length} to ${truncatedPrompt.length} characters`);
+  }
   
   if (!process.env.GEMINI_API_KEY) {
     console.error('[Gemini] ❌ GEMINI_API_KEY is missing!');
@@ -42,7 +53,7 @@ export async function generatePodcastScript(
   try {
     // Add timeout for Gemini API call (90 seconds)
     result = await Promise.race([
-      model.generateContent(stylePrompt),
+      model.generateContent(truncatedPrompt),
       new Promise<never>((_, reject) => 
         setTimeout(() => reject(new Error('Gemini API timeout after 90 seconds')), 90000)
       )
@@ -63,8 +74,16 @@ export async function generatePodcastScript(
   const jsonMatch = text.match(/\{[\s\S]*\}/);
   if (!jsonMatch) {
     const previewText = text.length > 200 ? text.substring(0, 200) : text;
-    console.error('[Gemini] Failed to parse JSON from response:', previewText);
-    throw new Error('Failed to parse script from Gemini response');
+    console.error('[Gemini] Failed to find JSON in response:', previewText);
+    console.log('[Gemini] Using fallback script for repository');
+    // Use fallback script when JSON parsing completely fails
+    return {
+      title: `The Case of ${repoData.name}`,
+      narrator_voice: 'detective',
+      dramatic_arc: `Investigating ${repoData.fullName}`,
+      segments: generateFallbackSegments(repoData, files, narrativeStyle),
+      total_duration: 0,
+    };
   }
 
   let scriptData;
@@ -72,13 +91,22 @@ export async function generatePodcastScript(
     scriptData = JSON.parse(jsonMatch[0]);
   } catch (parseError) {
     console.error('[Gemini] JSON parse error:', parseError);
-    throw new Error('Failed to parse JSON from Gemini response');
+    console.error('[Gemini] Attempted to parse:', jsonMatch[0].substring(0, 500));
+    console.log('[Gemini] Using fallback script due to parse error');
+    // Use fallback script when JSON parsing fails
+    return {
+      title: `The Case of ${repoData.name}`,
+      narrator_voice: 'detective',
+      dramatic_arc: `Investigating ${repoData.fullName}`,
+      segments: generateFallbackSegments(repoData, files, narrativeStyle),
+      total_duration: 0,
+    };
   }
 
   console.log(`[Gemini] ✅ Script generated: "${scriptData.title}" with ${scriptData.segments?.length || 0} segments`);
 
   // Validate and sanitize segments to prevent undefined text errors
-  const validatedSegments = (scriptData.segments || [])
+  let validatedSegments = (scriptData.segments || [])
     .filter((seg: any) => seg && typeof seg === 'object')
     .map((seg: any) => ({
       speaker: seg.speaker || 'narrator',
@@ -90,8 +118,10 @@ export async function generatePodcastScript(
     .filter((seg: any) => seg.text.length > 0); // Remove empty text segments
 
   if (validatedSegments.length === 0) {
-    console.error('[Gemini] No valid segments found in script');
-    throw new Error('Generated script has no valid segments');
+    console.warn('[Gemini] No valid segments found, generating fallback script');
+    // Generate a fallback script for large/complex repositories
+    validatedSegments = generateFallbackSegments(repoData, files, narrativeStyle);
+    scriptData.title = scriptData.title || `The Case of ${repoData.name}`;
   }
 
   console.log(`[Gemini] ✅ Validated ${validatedSegments.length} segments`);
@@ -103,6 +133,52 @@ export async function generatePodcastScript(
     segments: validatedSegments,
     total_duration: 0,
   };
+}
+
+function generateFallbackSegments(
+  repoData: GitHubRepo,
+  files: FileWithContent[],
+  style: NarrativeStyle
+): ScriptSegment[] {
+  const topLanguages = Object.entries(
+    files.reduce((acc, f) => {
+      const ext = f.path.split('.').pop() || 'unknown';
+      acc[ext] = (acc[ext] || 0) + 1;
+      return acc;
+    }, {} as Record<string, number>)
+  ).sort(([, a], [, b]) => b - a).slice(0, 3).map(([lang]) => lang);
+
+  const keyFiles = files.slice(0, 5).map(f => f.path.split('/').pop()).join(', ');
+  
+  if (style === NarrativeStyle.SPORTS) {
+    return [
+      { speaker: 'commentator_1', text: `Ladies and gentlemen, welcome to the biggest match of the season! We're analyzing ${repoData.fullName}!` },
+      { speaker: 'commentator_2', text: `What a lineup we have today! ${repoData.stars} stars watching this repository with over ${files.length} files on the field!` },
+      { speaker: 'commentator_1', text: `The primary language is ${repoData.language}, and we're seeing impressive plays in ${topLanguages.join(', ')}.` },
+      { speaker: 'commentator_2', text: `Key players include ${keyFiles}. This is championship-level code!` },
+      { speaker: 'commentator_1', text: `${repoData.description || 'A formidable contender in the open source arena.'}` },
+      { speaker: 'commentator_2', text: `And that's the final whistle! What a spectacular showing from ${repoData.name}!` },
+    ];
+  } else if (style === NarrativeStyle.DOCUMENTARY) {
+    return [
+      { speaker: 'narrator', text: `In the vast digital wilderness, we discover ${repoData.fullName}. A remarkable ecosystem of code.` },
+      { speaker: 'narrator', text: `This organism has attracted ${repoData.stars} observers, drawn to its ${files.length} interconnected components.` },
+      { speaker: 'narrator', text: `The primary species here is ${repoData.language}, coexisting with ${topLanguages.join(' and ')}.` },
+      { speaker: 'narrator', text: `${repoData.description || 'A fascinating specimen of collaborative evolution.'}` },
+      { speaker: 'narrator', text: `Key specimens include ${keyFiles}. Each plays a vital role in this digital ecosystem.` },
+      { speaker: 'narrator', text: `And so, ${repoData.name} continues its remarkable journey through the open source landscape.` },
+    ];
+  } else {
+    // TRUE_CRIME default
+    return [
+      { speaker: 'narrator', text: `The rain hammered the windows. On my desk: the case file for ${repoData.fullName}.`, sound_effect: 'rain' },
+      { speaker: 'narrator', text: `${repoData.stars} witnesses had starred this suspect. ${files.length} pieces of evidence to sift through.`, emotion: 'suspicious' },
+      { speaker: 'narrator', text: `The primary weapon of choice? ${repoData.language}. With accomplices in ${topLanguages.join(', ')}.` },
+      { speaker: 'narrator', text: `${repoData.description || 'The motive was still unclear. But the code would talk.'}`, emotion: 'thoughtful' },
+      { speaker: 'narrator', text: `My eyes scanned the key files: ${keyFiles}. Each one held secrets.`, sound_effect: 'keyboard_typing' },
+      { speaker: 'narrator', text: `The verdict? ${repoData.name} would need more investigation. But one thing was clear: this codebase had a story to tell.`, emotion: 'conclusive' },
+    ];
+  }
 }
 
 function getStyleSpecificPrompt(
