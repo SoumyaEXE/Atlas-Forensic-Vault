@@ -1,5 +1,26 @@
 @import "tailwindcss";
 
+/* Custom Cursors */
+* {
+  cursor: url('/pointer-arrow-mini.png'), auto;
+}
+
+a, button, [role="button"], input[type="submit"], input[type="button"], 
+.cursor-pointer, [onclick], summary, label[for], select, 
+input[type="checkbox"], input[type="radio"], [tabindex]:not([tabindex="-1"]),
+.clickable, [data-clickable], [role="link"], [role="menuitem"], [role="tab"],
+[role="option"], [role="switch"], [role="checkbox"], [role="radio"],
+.btn, .button, .link, [class*="btn"], [class*="button"],
+/* Player and media controls */
+[class*="player"], [class*="control"], [class*="tape"], [class*="audio"],
+[class*="play"], [class*="pause"], [class*="stop"], [class*="skip"],
+[class*="rewind"], [class*="forward"], [class*="volume"], [class*="mute"],
+[class*="seek"], [class*="progress"], [class*="slider"], [class*="toggle"],
+video, audio, input[type="range"], [role="slider"],
+svg:not(.no-pointer), [class*="icon"]:not(.no-pointer) {
+  cursor: url('/pointer-hand-mini.png'), pointer !important;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
