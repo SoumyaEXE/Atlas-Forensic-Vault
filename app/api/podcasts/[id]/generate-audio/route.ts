@@ -30,6 +30,13 @@ export async function POST(
       );
     }
 
+    // Log script details for debugging
+    const scriptSegments = podcast.script.segments || [];
+    console.log(`[Audio] Podcast ${id} has ${scriptSegments.length} segments in script`);
+    if (scriptSegments.length > 0) {
+      console.log(`[Audio] First segment: speaker="${scriptSegments[0]?.speaker}", text length=${scriptSegments[0]?.text?.length || 0}`);
+    }
+
     // Update status to generating audio
     await collection.updateOne(
       { id },
@@ -81,6 +88,12 @@ interface PodcastScript {
 // Real audio generation using ElevenLabs API
 async function generateAudioInBackground(podcastId: string, script: PodcastScript) {
   console.log(`[Audio] Background process started for ${podcastId}`);
+  console.log(`[Audio] Script received with ${script.segments?.length || 0} total segments`);
+  
+  // Debug: Log first few segments to diagnose issues
+  if (script.segments && script.segments.length > 0) {
+    console.log(`[Audio] First segment preview:`, JSON.stringify(script.segments[0]).substring(0, 200));
+  }
   
   try {
     const collection = await getCollection('podcasts');

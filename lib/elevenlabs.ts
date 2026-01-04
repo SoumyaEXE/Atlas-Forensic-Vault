@@ -67,8 +67,16 @@ export async function textToSpeech(options: TextToSpeechOptions): Promise<Buffer
   // Determine voice ID: explicit voiceId > speaker-based > default
   const finalVoiceId = voiceId || (speaker ? getVoiceIdForSpeaker(speaker) : VOICE_IDS.default);
 
+  // Log the text length and voice being used for debugging
+  console.log(`[ElevenLabs] TTS request - Voice: ${finalVoiceId}, Speaker: ${speaker || 'default'}, Text length: ${text?.length || 0} chars`);
+
   if (!ELEVENLABS_API_KEY) {
     throw new Error('ELEVENLABS_API_KEY is not configured');
+  }
+
+  // Validate text is not empty
+  if (!text || text.trim().length === 0) {
+    throw new Error('Cannot generate speech from empty text');
   }
 
   const voiceSettings: VoiceSettings = {
@@ -108,7 +116,12 @@ export async function textToSpeech(options: TextToSpeechOptions): Promise<Buffer
     }
 
     const arrayBuffer = await response.arrayBuffer();
-    return Buffer.from(arrayBuffer);
+    const buffer = Buffer.from(arrayBuffer);
+    
+    // Log audio buffer size for debugging
+    console.log(`[ElevenLabs] Audio generated: ${buffer.length} bytes (~${Math.round(buffer.length / 16000)}s at 128kbps)`);
+    
+    return buffer;
   } catch (error: unknown) {
     clearTimeout(timeoutId);
     if (error instanceof Error && error.name === 'AbortError') {
