@@ -497,6 +497,31 @@ export class GitHubClient {
   }
 
   /**
+   * Get repository contributors
+   */
+  async getContributors(owner: string, repo: string): Promise<string[]> {
+    const cacheKey = `contributors:${owner}/${repo}`;
+    const cached = cache.get<string[]>(cacheKey);
+    if (cached) return cached;
+
+    try {
+      const octokit = getOctokit();
+      const { data } = await octokit.rest.repos.listContributors({
+        owner,
+        repo,
+        per_page: 10,
+      });
+
+      const contributors = data.map(c => c.login || 'Anonymous');
+      cache.set(cacheKey, contributors);
+      return contributors;
+    } catch (error) {
+      console.error('Error fetching contributors:', error);
+      return [];
+    }
+  }
+
+  /**
    * Helper: Check if file should be included
    */
   private shouldIncludeFile(path: string): boolean {

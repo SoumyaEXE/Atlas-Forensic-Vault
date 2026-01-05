@@ -2,7 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { waitUntil } from '@vercel/functions';
 import { getCollection } from '@/lib/mongodb';
 import { getGitHubFetcher } from '@/lib/github/fetcher';
-import { generatePodcastScript, analyzeCodePatterns } from '@/lib/gemini';
+import { getGitHubClient } from '@/lib/github/client';
+import { generatePodcastScript, analyzeCodePatterns, generateAutopsyReport } from '@/lib/gemini';
 import { NarrativeStyle, AnalysisStatus, Podcast } from '@/lib/types';
 
 export const runtime = 'nodejs';
@@ -97,166 +98,191 @@ async function processRepository(
   const collection = await getCollection('podcasts');
   const fetcher = getGitHubFetcher();
 
+  // Create a timeout promise that rejects after 4 minutes (leaving buffer for Vercel's 5m limit)
+  const timeoutPromise = new Promise<never>((_, reject) => 
+    setTimeout(() => reject(new Error('Global analysis timeout - process took too long')), 240000)
+  );
+
   try {
-    // Step 1: Fetch repository metadata
-    console.log('[Process] Step 1: Fetching metadata...');
-    await collection.updateOne(
-      { id: podcastId },
-      {
-        $set: {
-          status: AnalysisStatus.ANALYZING,
-          progress: 5,
-          progress_message: '🔍 Opening the case file...',
-        },
-      }
-    );
+    await Promise.race([
+      (async () => {
+        // Step 1: Fetch repository metadata
+        console.log('[Process] Step 1: Fetching metadata...');
+        await collection.updateOne(
+          { id: podcastId },
+          {
+            $set: {
+              status: AnalysisStatus.ANALYZING,
+              progress: 5,
+              progress_message: '🔍 Opening the case file...',
+            },
+          }
+        );
 
-    const repository = await Promise.race([
-      fetcher.getRepoMetadata(owner, repo),
-      new Promise<never>((_, reject) => 
-        setTimeout(() => reject(new Error('Timeout fetching repository metadata. Please check if the repository exists and is public.')), 30000)
-      )
-    ]);
+        const repository = await Promise.race([
+          fetcher.getRepoMetadata(owner, repo),
+          new Promise<never>((_, reject) => 
+            setTimeout(() => reject(new Error('Timeout fetching repository metadata. Please check if the repository exists and is public.')), 30000)
+          )
+        ]);
 
-    console.log('[Process] Metadata fetched successfully');
+        // Fetch contributors
+        const client = getGitHubClient();
+        const contributors = await client.getContributors(owner, repo);
 
-    await collection.updateOne(
-      { id: podcastId },
-      {
-        $set: {
-          progress: 15,
-          progress_message: '📂 Searching crime scene for evidence...',
-          repo_metadata: {
-            name: repository.name,
-            description: repository.description,
-            language: repository.language,
-            stars: repository.stars,
-            size: repository.size,
-            topics: repository.topics,
-          },
-        },
-      }
-    );
+        console.log('[Process] Metadata fetched successfully');
 
-    // Step 2: Read ENTIRE repository structure
-    console.log('[Process] Step 2: Fetching full repository...');
-    await collection.updateOne(
-      { id: podcastId },
-      {
-        $set: {
-          progress: 25,
-          progress_message: '🗂️ Cataloging all evidence files...',
-        },
-      }
-    );
+        await collection.updateOne(
+          { id: podcastId },
+          {
+            $set: {
+              progress: 15,
+              progress_message: '📂 Searching crime scene for evidence...',
+              repo_metadata: {
+                name: repository.name,
+                description: repository.description,
+                language: repository.language,
+                stars: repository.stars,
+                size: repository.size,
+                topics: repository.topics,
+              },
+              contributors: contributors,
+            },
+          }
+        );
 
-    const fullRepo = await Promise.race([
-      fetcher.fetchFullRepository(owner, repo),
-      new Promise<never>((_, reject) => 
-        setTimeout(() => reject(new Error('Timeout fetching repository files. The repository might be too large.')), 120000)
-      )
-    ]);
+        // Step 2: Read ENTIRE repository structure
+        console.log('[Process] Step 2: Fetching full repository...');
+        await collection.updateOne(
+          { id: podcastId },
+          {
+            $set: {
+              progress: 25,
+              progress_message: '🗂️ Cataloging all evidence files...',
+            },
+          }
+        );
 
-    console.log(`[Process] Full repository fetched. ${fullRepo.allFiles.length} files found.`);
+        const fullRepo = await Promise.race([
+          fetcher.fetchFullRepository(owner, repo),
+          new Promise<never>((_, reject) => 
+            setTimeout(() => reject(new Error('Timeout fetching repository files. The repository might be too large.')), 60000)
+          )
+        ]);
 
-    await collection.updateOne(
-      { id: podcastId },
-      {
-        $set: {
-          progress: 40,
-          progress_message: `📄 Reading ${fullRepo.allFiles.length} files from the scene...`,
-        },
-      }
-    );
+        console.log(`[Process] Full repository fetched. ${fullRepo.allFiles.length} files found.`);
 
-    // Step 3: Analyze code patterns
-    console.log('[Process] Step 3: Analyzing patterns...');
-    await collection.updateOne(
-      { id: podcastId },
-      {
-        $set: {
-          progress: 55,
-          progress_message: '🔬 Analyzing code patterns and forensic evidence...',
-        },
-      }
-    );
+        await collection.updateOne(
+          { id: podcastId },
+          {
+            $set: {
+              progress: 40,
+              progress_message: `📄 Reading ${fullRepo.allFiles.length} files from the scene...`,
+            },
+          }
+        );
 
-    const patterns = await analyzeCodePatterns(fullRepo.filesWithContent);
-    console.log(`[Process] Patterns found: ${patterns.join(', ')}`);
+        // Step 3: Analyze code patterns
+        console.log('[Process] Step 3: Analyzing patterns...');
+        await collection.updateOne(
+          { id: podcastId },
+          {
+            $set: {
+              progress: 55,
+              progress_message: '🔬 Analyzing code patterns and forensic evidence...',
+            },
+          }
+        );
 
-    await collection.updateOne(
-      { id: podcastId },
-      {
-        $set: {
-          patterns_found: patterns,
-          progress: 65,
-          progress_message: `🎯 Found ${patterns.length} suspicious patterns at the crime scene...`,
-        },
-      }
-    );
+        const patterns = await analyzeCodePatterns(fullRepo.filesWithContent);
+        console.log(`[Process] Patterns found: ${patterns.join(', ')}`);
 
-    // Step 4: Generate crime investigation story
-    console.log('[Process] Step 4: Generating script...');
-    await collection.updateOne(
-      { id: podcastId },
-      {
-        $set: {
-          status: AnalysisStatus.GENERATING_SCRIPT,
-          progress: 75,
-          progress_message: '🎙️ Detective crafting the investigation narrative...',
-        },
-      }
-    );
+        // Generate Autopsy Report
+        const autopsyReport = await generateAutopsyReport(repository, fullRepo.filesWithContent, patterns);
 
-    let script;
-    try {
-      script = await generatePodcastScript(
-        repository,
-        fullRepo.filesWithContent,
-        narrativeStyle,
-        {
-          statistics: fullRepo.statistics,
-          patterns,
-          fullRepoContext: true,
+        await collection.updateOne(
+          { id: podcastId },
+          {
+            $set: {
+              patterns_found: patterns,
+              progress: 65,
+              progress_message: `🎯 Found ${patterns.length} suspicious patterns at the crime scene...`,
+            },
+          }
+        );
+
+        // Step 4: Generate crime investigation story
+        console.log('[Process] Step 4: Generating script...');
+        await collection.updateOne(
+          { id: podcastId },
+          {
+            $set: {
+              status: AnalysisStatus.GENERATING_SCRIPT,
+              progress: 75,
+              progress_message: '🎙️ Detective crafting the investigation narrative...',
+            },
+          }
+        );
+
+        let script;
+        try {
+          // Add timeout for Gemini generation
+          script = await Promise.race([
+            generatePodcastScript(
+              repository,
+              fullRepo.filesWithContent,
+              narrativeStyle,
+              {
+                statistics: fullRepo.statistics,
+                patterns,
+                fullRepoContext: true,
+              }
+            ),
+            new Promise<never>((_, reject) => 
+              setTimeout(() => reject(new Error('Timeout generating script with Gemini')), 60000)
+            )
+          ]);
+          console.log('[Process] Script generated successfully');
+        } catch (geminiError: any) {
+          console.error('[Process] ❌ Gemini script generation failed:', geminiError?.message);
+          throw new Error(`Script generation failed: ${geminiError?.message || 'Unknown Gemini error'}`);
         }
-      );
-      console.log('[Process] Script generated successfully');
-    } catch (geminiError: any) {
-      console.error('[Process] ❌ Gemini script generation failed:', geminiError?.message);
-      throw new Error(`Script generation failed: ${geminiError?.message || 'Unknown Gemini error'}`);
-    }
 
-    await collection.updateOne(
-      { id: podcastId },
-      {
-        $set: {
-          script,
-          progress: 90,
-          progress_message: '📝 Crime story written, case file ready...',
-        },
-      }
-    );
+        await collection.updateOne(
+          { id: podcastId },
+          {
+            $set: {
+              script,
+              progress: 90,
+              progress_message: '📝 Crime story written, case file ready...',
+            },
+          }
+        );
 
-    // Mark as completed
-    await collection.updateOne(
-      { id: podcastId },
-      {
-        $set: {
-          status: AnalysisStatus.COMPLETED,
-          progress: 100,
-          progress_message: '✅ Case closed! Investigation complete.',
-          completed_at: new Date(),
-          analysis_summary: {
-            total_files: fullRepo.statistics.totalFiles,
-            analyzed_files: fullRepo.statistics.analyzedFiles,
-            total_size: fullRepo.statistics.totalSize,
-            languages: fullRepo.statistics.languages,
-            processing_time_ms: fullRepo.statistics.processingTime,
-          },
-        },
-      }
-    );
-    console.log('[Process] Analysis completed successfully');
+        // Mark as completed
+        await collection.updateOne(
+          { id: podcastId },
+          {
+            $set: {
+              status: AnalysisStatus.COMPLETED,
+              progress: 100,
+              progress_message: '✅ Case closed! Investigation complete.',
+              completed_at: new Date(),
+              analysis_summary: {
+                total_files: fullRepo.statistics.totalFiles,
+                analyzed_files: fullRepo.statistics.analyzedFiles,
+                total_size: fullRepo.statistics.totalSize,
+                languages: fullRepo.statistics.languages,
+                processing_time_ms: fullRepo.statistics.processingTime,
+                autopsy_report: autopsyReport,
+              },
+            },
+          }
+        );
+        console.log('[Process] Analysis completed successfully');
+      })(),
+      timeoutPromise
+    ]);
   } catch (error: any) {
     const errorMessage = error?.message || 'Unknown error occurred';
     console.error('[Process] ❌ Error processing repository:', errorMessage);

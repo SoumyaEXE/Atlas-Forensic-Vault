@@ -416,6 +416,38 @@ WRITING STYLE EXAMPLES (match this rhythm):
 
 AVAILABLE SOUND EFFECTS: nature_ambience, birds_chirping, wind, water_flowing, dramatic_strings, gentle_music, rustling_leaves, distant_thunder`;
 }
+export async function generateAutopsyReport(
+  repoData: GitHubRepo,
+  files: FileWithContent[],
+  patterns: string[]
+): Promise<string> {
+  const model = genAI.getGenerativeModel({ model: 'gemini-2.5-flash' });
+
+  const prompt = `
+    Analyze the following GitHub repository to understand its purpose, main features, and overall architecture.
+    Generate a concise, professional, and insightful introduction for an "Autopsy Report".
+    This text should summarize what the repository is, its target audience, and its key value proposition.
+    Format: A single, well-written paragraph.
+
+    Repository: ${repoData.fullName}
+    Description: ${repoData.description}
+    Languages: ${repoData.language}
+    Topics: ${repoData.topics.join(', ')}
+    Patterns Found: ${patterns.join(', ')}
+    
+    Files Sample:
+    ${files.slice(0, 10).map(f => `- ${f.path}`).join('\n')}
+  `;
+
+  try {
+    const result = await model.generateContent(prompt);
+    return result.response.text();
+  } catch (error) {
+    console.error('Error generating autopsy report:', error);
+    return repoData.description || "Analysis failed to generate report.";
+  }
+}
+
 export async function analyzeCodePatterns(files: FileWithContent[]): Promise<string[]> {
   const patterns: string[] = [];
 

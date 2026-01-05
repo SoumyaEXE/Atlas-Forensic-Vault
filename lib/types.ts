@@ -49,6 +49,15 @@ export interface Podcast {
   created_at: Date;
   completed_at?: Date;
   repo_metadata?: Record<string, any>;
+  analysis_summary?: {
+    total_files: number;
+    analyzed_files: number;
+    total_size: number;
+    languages: Record<string, number>;
+    processing_time_ms: number;
+    autopsy_report?: string;
+  };
+  contributors?: string[];
   patterns_found: string[];
   error_message?: string;
 }

@@ -135,8 +135,8 @@ export default function LandingPage({ initialPodcasts, initialStats }: LandingPa
         if (data.status === AnalysisStatus.COMPLETED) {
           clearInterval(interval);
           setIsAnalyzing(false);
-          // Redirect to story editor page
-          router.push(`/story/${podcastId}`);
+          // Redirect to case file page
+          router.push('/case');
         } else if (data.status === AnalysisStatus.FAILED) {
           clearInterval(interval);
           setIsAnalyzing(false);
@@ -755,11 +755,7 @@ export default function LandingPage({ initialPodcasts, initialStats }: LandingPa
                 <div
                   key={podcast.id}
                   onClick={() => {
-                    if (podcast.status === 'audio_ready' || podcast.audio_url) {
-                      router.push(`/podcast/${podcast.id}`);
-                    } else {
-                      router.push(`/story/${podcast.id}`);
-                    }
+                    router.push('/case');
                   }}
                   className="manila-folder p-6 h-64 flex flex-col justify-between cursor-pointer group relative"
                 >
