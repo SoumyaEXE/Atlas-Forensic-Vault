@@ -755,7 +755,7 @@ export default function LandingPage({ initialPodcasts, initialStats }: LandingPa
                 <div
                   key={podcast.id}
                   onClick={() => {
-                    router.push('/case');
+                    router.push(`/case/${podcast.id}`);
                   }}
                   className="manila-folder p-6 h-64 flex flex-col justify-between cursor-pointer group relative"
                 >

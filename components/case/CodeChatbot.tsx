@@ -67,7 +67,7 @@ export default function CodeChatbot({ podcastId, repoName }: CodeChatbotProps) {
         )}
         {messages.map((msg, i) => (
           <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-            <div className={`max-w-[85%] p-3 rounded-sm text-xs font-mono ${
+            <div className={`max-w-[85%] p-3 rounded-sm text-xs font-mono overflow-hidden break-words whitespace-pre-wrap ${
               msg.role === 'user' 
                 ? 'bg-zinc-800 text-zinc-200 border border-zinc-700' 
                 : 'bg-[#1a1a1a] text-zinc-400 border border-zinc-800'
