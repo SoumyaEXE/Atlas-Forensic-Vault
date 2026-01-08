@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Github, Mic, Skull, Zap, Eye, Sparkles, Loader2, FileText, Clock, AlertTriangle, CheckCircle2, XCircle, Play, Menu, X } from 'lucide-react';
+import { Github, Mic, Skull, Zap, Eye, Sparkles, Loader2, FileText, Clock, AlertTriangle, CheckCircle2, XCircle, Play, Menu, X, Monitor } from 'lucide-react';
 import { NarrativeStyle, AnalysisStatus } from '@/lib/types';
 import DevelopingEvidence from '@/components/ui/DevelopingEvidence';
 import { useAudio } from '@/components/layout/AudioProvider';
@@ -58,7 +58,26 @@ export default function LandingPage({ initialPodcasts, initialStats }: LandingPa
   const [isTorchEnabled, setIsTorchEnabled] = useState(true);
   const [isHoveringNav, setIsHoveringNav] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [showMobileWarning, setShowMobileWarning] = useState(false);
+  const [isNavigatingToCase, setIsNavigatingToCase] = useState(false);
   const { isPlaying, toggleAudio } = useAudio();
+
+  // Check if user is on mobile and hasn't dismissed the warning
+  useEffect(() => {
+    const isMobile = window.innerWidth < 1024;
+    const hasSeenWarning = localStorage.getItem('noir-mobile-warning-dismissed');
+    
+    if (isMobile && !hasSeenWarning) {
+      // Small delay to let page load first
+      const timer = setTimeout(() => setShowMobileWarning(true), 500);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
+  const dismissMobileWarning = () => {
+    setShowMobileWarning(false);
+    localStorage.setItem('noir-mobile-warning-dismissed', 'true');
+  };
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -154,8 +173,100 @@ export default function LandingPage({ initialPodcasts, initialStats }: LandingPa
 
   return (
     <main className="min-h-screen bg-[#050505] text-[#e7e5e4] font-mono relative">
+      {/* Mobile Warning Popup - Noir Style */}
+      <AnimatePresence>
+        {showMobileWarning && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-[9999] flex items-center justify-center p-4 bg-black/90 backdrop-blur-sm"
+          >
+            {/* Crime Scene Tape - Top */}
+            <div className="absolute top-8 left-0 w-full h-8 bg-yellow-500 transform -rotate-2 flex items-center justify-center overflow-hidden">
+              <div className="w-full h-full bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,#000_10px,#000_20px)] opacity-20 absolute"></div>
+              <span className="text-black font-bold text-xs tracking-[0.3em] uppercase z-10">CRIME SCENE • DO NOT CROSS • CRIME SCENE • DO NOT CROSS</span>
+            </div>
+
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0, rotate: -2 }}
+              animate={{ scale: 1, opacity: 1, rotate: 0 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              className="relative bg-[#f0e6d2] text-black max-w-md w-full p-8 shadow-2xl transform rotate-1"
+            >
+              {/* Paper Texture */}
+              <div className="absolute inset-0 opacity-40 pointer-events-none mix-blend-multiply" style={{backgroundImage: 'url("https://www.transparenttextures.com/patterns/paper-fibers.png")'}}></div>
+              
+              {/* Push Pin */}
+              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-20">
+                <div className="w-5 h-5 rounded-full bg-red-600 shadow-md border-2 border-red-800"></div>
+                <div className="w-1.5 h-3 bg-gray-400 mx-auto"></div>
+              </div>
+
+              {/* Confidential Stamp */}
+              <div className="absolute top-4 right-4 border-4 border-red-800 text-red-800 px-3 py-1 text-sm font-bold transform rotate-12 opacity-60 mask-stamp font-typewriter">
+                NOTICE
+              </div>
+
+              {/* Content */}
+              <div className="relative z-10">
+                <div className="flex items-center gap-3 mb-6 border-b-2 border-black/20 pb-4">
+                  <Monitor className="w-8 h-8 text-zinc-700" />
+                  <div>
+                    <h2 className="text-xl font-bold uppercase tracking-wider font-typewriter">Field Advisory</h2>
+                    <p className="text-xs text-zinc-600 font-mono uppercase tracking-widest">Case File #892-M</p>
+                  </div>
+                </div>
+
+                <div className="space-y-4 font-courier text-sm leading-relaxed">
+                  <p className="flex gap-2">
+                    <span className="text-zinc-500 select-none">&gt;</span>
+                    <span>Detective, this crime scene contains complex evidence that requires a <strong className="text-red-800">larger viewport</strong> for proper investigation.</span>
+                  </p>
+                  
+                  <p className="flex gap-2">
+                    <span className="text-zinc-500 select-none">&gt;</span>
+                    <span>For optimal surveillance and analysis capabilities, we recommend accessing via <strong className="text-red-800">desktop terminal</strong>.</span>
+                  </p>
+
+                  <div className="bg-zinc-900/10 border-l-4 border-red-800/50 p-3 mt-4">
+                    <p className="text-xs text-zinc-600 italic font-typewriter">
+                      &ldquo;A detective&apos;s best tools are a sharp eye and a wide desk.&rdquo;
+                    </p>
+                    <p className="text-right text-[10px] text-zinc-500 mt-1 font-typewriter">- Det. Mongo D. Bane</p>
+                  </div>
+                </div>
+
+                <div className="mt-8 flex flex-col gap-3">
+                  <button
+                    onClick={dismissMobileWarning}
+                    className="w-full bg-zinc-900 text-white py-3 px-4 font-bold uppercase tracking-widest text-sm hover:bg-zinc-800 transition-colors font-typewriter flex items-center justify-center gap-2"
+                  >
+                    <Eye className="w-4 h-4" />
+                    Continue Investigation
+                  </button>
+                  <p className="text-center text-[10px] text-zinc-500 uppercase tracking-widest font-mono">
+                    Proceed at your own risk
+                  </p>
+                </div>
+              </div>
+
+              {/* Coffee Stain */}
+              <div className="absolute bottom-4 left-4 w-12 h-12 rounded-full border-4 border-amber-900/20 opacity-40"></div>
+            </motion.div>
+
+            {/* Crime Scene Tape - Bottom */}
+            <div className="absolute bottom-8 left-0 w-full h-8 bg-yellow-500 transform rotate-1 flex items-center justify-center overflow-hidden">
+              <div className="w-full h-full bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,#000_10px,#000_20px)] opacity-20 absolute"></div>
+              <span className="text-black font-bold text-xs tracking-[0.3em] uppercase z-10">CRIME SCENE • DO NOT CROSS • CRIME SCENE • DO NOT CROSS</span>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       {/* Loading Overlay */}
-      {isAnalyzing && <DevelopingEvidence />}
+      {(isAnalyzing || isNavigatingToCase) && <DevelopingEvidence />}
 
       {/* Global Effects */}
       <div className="noise-overlay"></div>
@@ -817,7 +928,10 @@ export default function LandingPage({ initialPodcasts, initialStats }: LandingPa
               return (
                 <div
                   key={podcast.id}
-                  onClick={() => {
+                  onClick={async () => {
+                    setIsNavigatingToCase(true);
+                    // Small delay to ensure loading screen is visible
+                    await new Promise(resolve => setTimeout(resolve, 800));
                     router.push(`/case/${podcast.id}`);
                   }}
                   className="manila-folder p-4 md:p-6 h-56 md:h-64 flex flex-col justify-between cursor-pointer group relative"

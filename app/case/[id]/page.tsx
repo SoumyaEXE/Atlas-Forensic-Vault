@@ -226,8 +226,8 @@ export default async function CaseDetailPage({ params }: PageProps) {
           </Link>
 
           {/* Autopsy Report */}
-          <section className="bg-[#0a0a0a] border border-zinc-800 p-5 shadow-lg relative max-h-[50vh] lg:max-h-none overflow-y-auto lg:overflow-visible custom-scrollbar">
-            <div className="absolute top-0 right-0 p-2 sticky lg:absolute">
+          <section className="bg-[#0a0a0a] border border-zinc-800 p-5 shadow-lg relative max-h-[50vh] lg:max-h-[40vh] overflow-y-auto custom-scrollbar">
+            <div className="sticky top-0 right-0 float-right z-10">
                <div className="border border-zinc-700 px-1 text-[8px] text-zinc-600 uppercase font-typewriter bg-[#0a0a0a]">CONFIDENTIAL</div>
             </div>
             <h2 className="text-sm font-bold text-zinc-400 mb-4 flex items-center gap-2 border-b border-zinc-800 pb-2 uppercase tracking-widest font-typewriter">
