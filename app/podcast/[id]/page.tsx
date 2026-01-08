@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
   Play,
   Pause,
@@ -22,6 +22,8 @@ import {
   Sparkles,
   Github,
   Paperclip,
+  Menu,
+  X,
 } from 'lucide-react';
 import DevelopingEvidence from '@/components/ui/DevelopingEvidence';
 import { useAudio } from '@/components/layout/AudioProvider';
@@ -111,6 +113,7 @@ export default function PodcastPlayerPage() {
   // Visual Effects State
   const [isTorchEnabled, setIsTorchEnabled] = useState(true);
   const [isHoveringNav, setIsHoveringNav] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { isPlaying: isBgmPlaying, toggleAudio: toggleBgm } = useAudio();
 
   const fetchPodcast = useCallback(async () => {
@@ -270,24 +273,24 @@ export default function PodcastPlayerPage() {
            <div className="w-full h-full bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,#000_10px,#000_20px)] opacity-20"></div>
         </div>
 
-        <div className="px-6 h-24 flex items-center justify-between relative">
+        <div className="px-3 md:px-6 h-16 md:h-24 flex items-center justify-between relative">
           {/* Bolts */}
           <div className="absolute top-2 left-2 text-zinc-700"><div className="w-3 h-3 rounded-full border border-zinc-600 flex items-center justify-center bg-zinc-800 shadow-inner"><div className="w-1.5 h-1.5 bg-zinc-900 rotate-45"></div></div></div>
           <div className="absolute top-2 right-2 text-zinc-700"><div className="w-3 h-3 rounded-full border border-zinc-600 flex items-center justify-center bg-zinc-800 shadow-inner"><div className="w-1.5 h-1.5 bg-zinc-900 rotate-45"></div></div></div>
           <div className="absolute bottom-4 left-2 text-zinc-700"><div className="w-3 h-3 rounded-full border border-zinc-600 flex items-center justify-center bg-zinc-800 shadow-inner"><div className="w-1.5 h-1.5 bg-zinc-900 rotate-45"></div></div></div>
           <div className="absolute bottom-4 right-2 text-zinc-700"><div className="w-3 h-3 rounded-full border border-zinc-600 flex items-center justify-center bg-zinc-800 shadow-inner"><div className="w-1.5 h-1.5 bg-zinc-900 rotate-45"></div></div></div>
 
-          <div className="flex items-center gap-12">
+          <div className="flex items-center gap-4 md:gap-12">
             {/* ID Badge */}
             <div className="relative group flex items-center mt-2">
-              {/* Lanyard Clip */}
-              <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-8 h-8 z-20 flex flex-col items-center">
+              {/* Lanyard Clip - Hidden on mobile */}
+              <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-8 h-8 z-20 flex-col items-center hidden md:flex">
                   <div className="w-1 h-4 bg-zinc-400 rounded-full"></div>
                   <div className="w-6 h-3 bg-zinc-300 rounded-sm border border-zinc-400 shadow-sm"></div>
               </div>
               
-              <div className="relative z-10 bg-white text-black px-3 py-2 transform rotate-1 shadow-lg drop-shadow-xl border border-gray-300 flex items-center gap-3 max-w-[220px]">
-                <div className="w-10 h-10 bg-gray-200 border border-gray-400 overflow-hidden grayscale contrast-125 shrink-0 relative">
+              <div className="relative z-10 bg-white text-black px-2 md:px-3 py-1 md:py-2 transform rotate-1 shadow-lg drop-shadow-xl border border-gray-300 flex items-center gap-2 md:gap-3 max-w-[160px] md:max-w-[220px]">
+                <div className="w-8 h-8 md:w-10 md:h-10 bg-gray-200 border border-gray-400 overflow-hidden grayscale contrast-125 shrink-0 relative">
                   <Image 
                     src="/mongodben.jpg" 
                     alt="Detective Mongo D. Bane" 
@@ -295,7 +298,7 @@ export default function PodcastPlayerPage() {
                     className="object-cover"
                   />
                 </div>
-                <div className="leading-tight">
+                <div className="leading-tight hidden sm:block">
                   <h1 className="text-xs font-bold font-typewriter uppercase tracking-tighter">Det. Mongo D. Bane</h1>
                   <p className="text-[8px] font-mono text-red-700 font-bold">CODE CRIME UNIT</p>
                   <p className="text-[8px] font-mono text-gray-500">ID: 8492-A</p>
@@ -305,8 +308,8 @@ export default function PodcastPlayerPage() {
               </div>
             </div>
 
-            {/* System Status Bezel */}
-            <div className="flex flex-col bg-zinc-900 border border-zinc-700 rounded-sm p-1 shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)]">
+            {/* System Status Bezel - Hidden on mobile */}
+            <div className="hidden lg:flex flex-col bg-zinc-900 border border-zinc-700 rounded-sm p-1 shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)]">
                 <div className="text-[8px] text-zinc-500 font-mono text-center uppercase tracking-widest mb-0.5 border-b border-zinc-800 pb-0.5">System Status</div>
                 <div className="flex items-center gap-2">
                     {/* LED */}
@@ -344,7 +347,8 @@ export default function PodcastPlayerPage() {
             </div>
           </div>
 
-          <div className="flex items-center gap-8" onMouseEnter={() => setIsHoveringNav(true)} onMouseLeave={() => setIsHoveringNav(false)}>
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-8" onMouseEnter={() => setIsHoveringNav(true)} onMouseLeave={() => setIsHoveringNav(false)}>
             <button onClick={() => router.push('/')} className="font-typewriter font-bold text-lg text-gray-400 hover:text-green-400 transition-all hover:shadow-[0_0_8px_rgba(74,222,128,0.5)] hover:animate-flicker uppercase tracking-widest leading-none flex items-center">
               Open Case
             </button>
@@ -355,15 +359,73 @@ export default function PodcastPlayerPage() {
               Locker
             </button>
           </div>
+
+          {/* Mobile Hamburger Menu */}
+          <button 
+            className="md:hidden p-2 text-zinc-400 hover:text-white transition-colors"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
+
+        {/* Mobile Menu Dropdown */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="md:hidden border-t border-zinc-800 overflow-hidden"
+            >
+              <div className="px-4 py-4 flex flex-col gap-4">
+                <button 
+                  onClick={() => { router.push('/'); setIsMobileMenuOpen(false); }}
+                  className="font-typewriter font-bold text-base text-gray-400 hover:text-green-400 transition-all uppercase tracking-widest py-2 text-left"
+                >
+                  Open Case
+                </button>
+                <button 
+                  onClick={() => { router.push('/'); setIsMobileMenuOpen(false); }}
+                  className="font-typewriter font-bold text-base text-gray-400 hover:text-green-400 transition-all uppercase tracking-widest py-2 text-left"
+                >
+                  Cases
+                </button>
+                <button 
+                  onClick={() => { router.push('/'); setIsMobileMenuOpen(false); }}
+                  className="font-typewriter font-bold text-base text-gray-400 hover:text-green-400 transition-all uppercase tracking-widest py-2 text-left"
+                >
+                  Locker
+                </button>
+                {/* Mobile System Controls */}
+                <div className="flex items-center gap-4 pt-2 border-t border-zinc-800">
+                  <button 
+                    onClick={toggleBgm}
+                    className={`flex items-center gap-2 px-3 py-2 bg-black/40 rounded-sm ${isBgmPlaying ? 'text-amber-500' : 'text-zinc-500'}`}
+                  >
+                    <div className={`w-2 h-2 rounded-full ${isBgmPlaying ? 'bg-amber-500' : 'bg-zinc-700'}`}></div>
+                    <span className="text-xs font-mono uppercase">Wire</span>
+                  </button>
+                  <button 
+                    onClick={() => setIsTorchEnabled(!isTorchEnabled)}
+                    className={`flex items-center gap-2 px-3 py-2 bg-black/40 rounded-sm ${isTorchEnabled ? 'text-yellow-500' : 'text-zinc-500'}`}
+                  >
+                    <div className={`w-2 h-2 rounded-full ${isTorchEnabled ? 'bg-yellow-500' : 'bg-zinc-700'}`}></div>
+                    <span className="text-xs font-mono uppercase">Light</span>
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </nav>
 
       {/* Main Content */}
-      <main className="max-w-5xl mx-auto px-4 py-12 relative z-10">
-        <div className="mb-8">
+      <main className="max-w-5xl mx-auto px-3 md:px-4 py-6 md:py-12 relative z-10">
+        <div className="mb-6 md:mb-8">
             <button
                 onClick={() => router.push('/')}
-                className="flex items-center gap-2 text-gray-500 hover:text-red-500 transition font-bold uppercase tracking-widest text-sm group"
+                className="flex items-center gap-2 text-gray-500 hover:text-red-500 transition font-bold uppercase tracking-widest text-xs md:text-sm group"
             >
                 <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
                 Return to Case Board
@@ -376,21 +438,21 @@ export default function PodcastPlayerPage() {
           transition={{ duration: 1.5 }}
         >
           {/* Case File Header */}
-          <div className="flex flex-col lg:flex-row gap-12 mb-16 items-start">
+          <div className="flex flex-col lg:flex-row gap-6 md:gap-12 mb-10 md:mb-16 items-start">
             {/* Evidence Photo - Polaroid Style */}
             <div className="relative group perspective-1000 mx-auto lg:mx-0">
                 {/* Paperclip Icon */}
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 z-30 drop-shadow-md text-zinc-400">
-                    <Paperclip className="w-12 h-12 rotate-45" strokeWidth={1.5} />
+                <div className="absolute -top-3 md:-top-4 left-1/2 -translate-x-1/2 z-30 drop-shadow-md text-zinc-400">
+                    <Paperclip className="w-8 h-8 md:w-12 md:h-12 rotate-45" strokeWidth={1.5} />
                 </div>
                 
-                <div className="w-72 h-auto bg-white p-3 pb-12 shadow-2xl transform rotate-[-2deg] transition-transform group-hover:rotate-0 duration-500 ease-out">
+                <div className="w-48 md:w-72 h-auto bg-white p-2 md:p-3 pb-8 md:pb-12 shadow-2xl transform rotate-[-2deg] transition-transform group-hover:rotate-0 duration-500 ease-out">
                     <div className="w-full aspect-square bg-[#050505] relative overflow-hidden grayscale contrast-125 group-hover:grayscale-0 transition-all duration-700 border border-zinc-800">
                             {/* Image Placeholder or Icon */}
                             <div className="absolute inset-0 flex items-center justify-center bg-zinc-900">
-                                <Radio className="w-24 h-24 text-zinc-700" />
+                                <Radio className="w-16 h-16 md:w-24 md:h-24 text-zinc-700" />
                                 {/* Evidence Watermark */}
-                                <span className="absolute text-red-600 font-bold font-typewriter text-5xl -rotate-[20deg] opacity-0 scale-150 group-hover:opacity-40 group-hover:scale-100 transition-all duration-200 ease-out pointer-events-none border-4 border-red-600 px-4 py-2 z-20">
+                                <span className="absolute text-red-600 font-bold font-typewriter text-3xl md:text-5xl -rotate-[20deg] opacity-0 scale-150 group-hover:opacity-40 group-hover:scale-100 transition-all duration-200 ease-out pointer-events-none border-4 border-red-600 px-4 py-2 z-20">
                                     EVIDENCE
                                 </span>
                             </div>
@@ -398,28 +460,28 @@ export default function PodcastPlayerPage() {
                             <div className="absolute inset-0 opacity-30 mix-blend-overlay bg-[url('https://www.transparenttextures.com/patterns/noise.png')]"></div>
                     </div>
                     {/* Bottom Label */}
-                    <div className="mt-4 text-center font-typewriter text-sm text-black/80 tracking-widest font-bold">
+                    <div className="mt-2 md:mt-4 text-center font-typewriter text-xs md:text-sm text-black/80 tracking-widest font-bold">
                         EVIDENCE #8492
                     </div>
                 </div>
             </div>
 
             {/* Case Info */}
-            <div className="flex-1 space-y-6 w-full">
+            <div className="flex-1 space-y-4 md:space-y-6 w-full">
               <div>
-                <div className="inline-block border border-zinc-700 text-zinc-500 px-2 py-0.5 text-xs font-bold tracking-[0.2em] mb-2 bg-zinc-900/50">
+                <div className="inline-block border border-zinc-700 text-zinc-500 px-2 py-0.5 text-[10px] md:text-xs font-bold tracking-[0.15em] md:tracking-[0.2em] mb-2 bg-zinc-900/50">
                   CASE FILE #{podcastId.slice(0, 6).toUpperCase()}
                 </div>
-                <h1 className="text-2xl md:text-5xl font-bold text-[#e7e5e4] leading-none tracking-tighter mb-2 font-typewriter">
+                <h1 className="text-xl sm:text-2xl md:text-5xl font-bold text-[#e7e5e4] leading-none tracking-tighter mb-2 font-typewriter">
                   {podcast.script?.title || podcast.title}
                 </h1>
                 
-                <p className="text-zinc-600 font-mono text-sm tracking-wider uppercase">
-                  SUBJECT: <span className="text-red-600 font-bold">{podcast.repo_name}</span>
+                <p className="text-zinc-600 font-mono text-xs md:text-sm tracking-wider uppercase">
+                  SUBJECT: <span className="text-red-600 font-bold break-all">{podcast.repo_name}</span>
                 </p>
               </div>
 
-              <div className="grid grid-cols-2 gap-x-8 gap-y-4 border-t border-b border-zinc-800 py-6 font-mono text-xs">
+              <div className="grid grid-cols-2 gap-x-4 md:gap-x-8 gap-y-3 md:gap-y-4 border-t border-b border-zinc-800 py-4 md:py-6 font-mono text-[10px] md:text-xs">
                 <div className="flex flex-col">
                   <span className="text-zinc-600 uppercase tracking-widest mb-1">Clearance Level</span>
                   <span className="text-red-600 font-bold tracking-widest stamp-text">TOP SECRET // EYES ONLY</span>

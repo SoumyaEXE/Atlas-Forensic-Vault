@@ -98,7 +98,7 @@ export default async function CaseDetailPage({ params }: PageProps) {
   const [owner, repo] = podcast.repo_name.split('/');
   
   return (
-    <div className="h-screen bg-[#050505] text-[#d4d4d4] font-courier p-6 pb-0 flex flex-col relative overflow-hidden">
+    <div className="min-h-screen md:h-screen bg-[#050505] text-[#d4d4d4] font-courier p-3 md:p-6 pb-0 flex flex-col relative overflow-x-hidden md:overflow-hidden">
       {/* Global Atmosphere */}
       <div className="fixed inset-0 pointer-events-none z-50">
         {/* Film Grain - Top Layer */}
@@ -112,30 +112,30 @@ export default async function CaseDetailPage({ params }: PageProps) {
       </div>
 
       {/* Header - Case File Label */}
-      <header className="relative z-10 mb-8 border-b-2 border-zinc-800 pb-4 flex justify-between items-end">
+      <header className="relative z-10 mb-4 md:mb-8 border-b-2 border-zinc-800 pb-3 md:pb-4 flex flex-col md:flex-row justify-between items-start md:items-end gap-3 md:gap-0">
         <div>
-          <div className="flex items-center gap-4 mb-2">
+          <div className="flex flex-wrap items-center gap-2 md:gap-4 mb-2">
             <Link href="/" className="text-zinc-600 hover:text-zinc-400 transition-colors flex items-center gap-1 text-xs uppercase tracking-widest font-bold">
               <ArrowLeft className="w-3 h-3" /> HQ
             </Link>
-            <div className="inline-block bg-zinc-900 text-zinc-500 px-3 py-1 text-xs font-bold tracking-[0.2em] transform -rotate-1 border border-zinc-800 shadow-sm font-typewriter">
+            <div className="inline-block bg-zinc-900 text-zinc-500 px-2 md:px-3 py-1 text-[10px] md:text-xs font-bold tracking-[0.1em] md:tracking-[0.2em] transform -rotate-1 border border-zinc-800 shadow-sm font-typewriter">
               CONFIDENTIAL // DO NOT DISTRIBUTE
             </div>
           </div>
-          <h1 className="text-4xl font-bold text-[#e5e5e5] tracking-tighter uppercase drop-shadow-md font-typewriter">
-            CASE FILE: <span className="text-red-700 underline decoration-2 underline-offset-4">{podcast.repo_name}</span>
+          <h1 className="text-xl sm:text-2xl md:text-4xl font-bold text-[#e5e5e5] tracking-tighter uppercase drop-shadow-md font-typewriter">
+            CASE FILE: <span className="text-red-700 underline decoration-2 underline-offset-4 break-all">{podcast.repo_name}</span>
           </h1>
         </div>
-        <div className="text-right text-xs text-zinc-500 font-mono">
+        <div className="text-left md:text-right text-[10px] md:text-xs text-zinc-500 font-mono">
           <div className="uppercase tracking-widest">Case ID: {podcast.id.substring(0, 8)}</div>
           <div className="uppercase tracking-widest">Opened: {new Date(podcast.created_at).toLocaleDateString()}</div>
         </div>
       </header>
 
-      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 flex-grow mb-6 min-h-0">
+      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-8 flex-grow mb-6 min-h-0 overflow-y-auto lg:overflow-visible">
         
         {/* Left Column: The Suspect's Rap Sheet */}
-        <div className="lg:col-span-3 flex flex-col gap-6 overflow-y-auto pr-2 custom-scrollbar h-full">
+        <div className="lg:col-span-3 flex flex-col gap-4 md:gap-6 lg:overflow-y-auto lg:pr-2 custom-scrollbar lg:h-full">
           {/* Manila Folder - Tech Stack */}
           <section className="bg-[#1a1a1a] border-t-8 border-[#d4c5a9] p-4 shadow-lg relative group">
             <div className="absolute -top-8 left-0 bg-[#d4c5a9] text-black px-4 py-1 text-xs font-bold uppercase tracking-widest rounded-t-sm transform skew-x-12 origin-bottom-left font-typewriter">
@@ -199,7 +199,7 @@ export default async function CaseDetailPage({ params }: PageProps) {
         </div>
 
         {/* Center Column: The Evidence Locker */}
-        <div className="lg:col-span-6 h-full">
+        <div className="lg:col-span-6 h-[50vh] lg:h-full">
           <EvidenceLocker 
             files={structure?.files || []} 
             owner={owner} 
@@ -209,26 +209,26 @@ export default async function CaseDetailPage({ params }: PageProps) {
         </div>
 
         {/* Right Column: The Interrogation Bureau */}
-        <div className="lg:col-span-3 flex flex-col gap-6 overflow-y-auto pr-2 custom-scrollbar h-full">
+        <div className="lg:col-span-3 flex flex-col gap-4 md:gap-6 lg:overflow-y-auto lg:pr-2 custom-scrollbar lg:h-full">
           
           {/* Surveillance Tape Button */}
           <Link href={`/story/${podcast.id}`} className="block group relative">
             <div className="absolute inset-0 bg-red-900/20 blur-md group-hover:bg-red-900/30 transition-colors"></div>
-            <button className="w-full relative bg-[#1a0505] border-2 border-red-900/40 text-red-500 hover:text-red-400 py-6 px-6 shadow-[inset_0_0_20px_rgba(0,0,0,1)] transition-all flex flex-col items-center justify-center gap-2 group-hover:border-red-600/60">
-              <div className="flex items-center gap-3">
-                <PlayCircle className="w-6 h-6 animate-pulse" />
-                <span className="font-bold tracking-[0.2em] text-sm font-typewriter">[ ACCESS SURVEILLANCE TAPE ]</span>
+            <button className="w-full relative bg-[#1a0505] border-2 border-red-900/40 text-red-500 hover:text-red-400 py-4 md:py-6 px-4 md:px-6 shadow-[inset_0_0_20px_rgba(0,0,0,1)] transition-all flex flex-col items-center justify-center gap-2 group-hover:border-red-600/60">
+              <div className="flex items-center gap-2 md:gap-3">
+                <PlayCircle className="w-5 h-5 md:w-6 md:h-6 animate-pulse" />
+                <span className="font-bold tracking-[0.1em] md:tracking-[0.2em] text-xs md:text-sm font-typewriter">[ ACCESS SURVEILLANCE TAPE ]</span>
               </div>
-              <span className="text-[10px] text-red-800 uppercase tracking-widest opacity-60 group-hover:opacity-100 transition-opacity font-typewriter">
+              <span className="text-[8px] md:text-[10px] text-red-800 uppercase tracking-widest opacity-60 group-hover:opacity-100 transition-opacity font-typewriter">
                 Authorized Personnel Only
               </span>
             </button>
           </Link>
 
           {/* Autopsy Report */}
-          <section className="bg-[#0a0a0a] border border-zinc-800 p-5 shadow-lg relative overflow-hidden">
-            <div className="absolute top-0 right-0 p-2">
-               <div className="border border-zinc-700 px-1 text-[8px] text-zinc-600 uppercase font-typewriter">CONFIDENTIAL</div>
+          <section className="bg-[#0a0a0a] border border-zinc-800 p-5 shadow-lg relative max-h-[50vh] lg:max-h-none overflow-y-auto lg:overflow-visible custom-scrollbar">
+            <div className="absolute top-0 right-0 p-2 sticky lg:absolute">
+               <div className="border border-zinc-700 px-1 text-[8px] text-zinc-600 uppercase font-typewriter bg-[#0a0a0a]">CONFIDENTIAL</div>
             </div>
             <h2 className="text-sm font-bold text-zinc-400 mb-4 flex items-center gap-2 border-b border-zinc-800 pb-2 uppercase tracking-widest font-typewriter">
               <AlertTriangle className="w-4 h-4" /> Autopsy Report

@@ -3,8 +3,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
-import { motion } from 'framer-motion';
-import { Github, Mic, Skull, Zap, Eye, Sparkles, Loader2, FileText, Clock, AlertTriangle, CheckCircle2, XCircle, Play } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Github, Mic, Skull, Zap, Eye, Sparkles, Loader2, FileText, Clock, AlertTriangle, CheckCircle2, XCircle, Play, Menu, X } from 'lucide-react';
 import { NarrativeStyle, AnalysisStatus } from '@/lib/types';
 import DevelopingEvidence from '@/components/ui/DevelopingEvidence';
 import { useAudio } from '@/components/layout/AudioProvider';
@@ -57,6 +57,7 @@ export default function LandingPage({ initialPodcasts, initialStats }: LandingPa
   const [stats, setStats] = useState<any>(initialStats || null);
   const [isTorchEnabled, setIsTorchEnabled] = useState(true);
   const [isHoveringNav, setIsHoveringNav] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { isPlaying, toggleAudio } = useAudio();
 
   useEffect(() => {
@@ -162,15 +163,15 @@ export default function LandingPage({ initialPodcasts, initialStats }: LandingPa
       {isTorchEnabled && <div className="flashlight-container flashlight-overlay"></div>}
 
       {/* Investigation Photo Corner Brackets */}
-      <div className="fixed inset-0 pointer-events-none z-[100]">
+      <div className="fixed inset-0 pointer-events-none z-[100] hidden sm:block">
         {/* Top Left */}
-        <div className="absolute top-5 left-5 w-16 h-16 border-t-4 border-l-4 border-red-600"></div>
+        <div className="absolute top-3 left-3 md:top-5 md:left-5 w-10 h-10 md:w-16 md:h-16 border-t-2 md:border-t-4 border-l-2 md:border-l-4 border-red-600"></div>
         {/* Top Right */}
-        <div className="absolute top-5 right-5 w-16 h-16 border-t-4 border-r-4 border-red-600"></div>
+        <div className="absolute top-3 right-3 md:top-5 md:right-5 w-10 h-10 md:w-16 md:h-16 border-t-2 md:border-t-4 border-r-2 md:border-r-4 border-red-600"></div>
         {/* Bottom Left */}
-        <div className="absolute bottom-5 left-5 w-16 h-16 border-b-4 border-l-4 border-red-600"></div>
+        <div className="absolute bottom-3 left-3 md:bottom-5 md:left-5 w-10 h-10 md:w-16 md:h-16 border-b-2 md:border-b-4 border-l-2 md:border-l-4 border-red-600"></div>
         {/* Bottom Right */}
-        <div className="absolute bottom-5 right-5 w-16 h-16 border-b-4 border-r-4 border-red-600"></div>
+        <div className="absolute bottom-3 right-3 md:bottom-5 md:right-5 w-10 h-10 md:w-16 md:h-16 border-b-2 md:border-b-4 border-r-2 md:border-r-4 border-red-600"></div>
       </div>
 
       {/* Rack-Mounted Detective Console Navbar */}
@@ -178,7 +179,7 @@ export default function LandingPage({ initialPodcasts, initialStats }: LandingPa
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="relative mx-auto mt-6 z-[60] w-full max-w-5xl bg-zinc-950/90 backdrop-blur-sm border border-zinc-800 shadow-2xl rounded-sm"
+        className="relative mx-auto mt-2 md:mt-6 z-[60] w-[95%] md:w-full max-w-5xl bg-zinc-950/90 backdrop-blur-sm border border-zinc-800 shadow-2xl rounded-sm"
       >
         {/* Texture Overlay */}
         <div className="absolute inset-0 opacity-10 pointer-events-none mix-blend-overlay" style={{backgroundImage: 'url("https://www.transparenttextures.com/patterns/brushed-alum.png")'}}></div>
@@ -188,24 +189,24 @@ export default function LandingPage({ initialPodcasts, initialStats }: LandingPa
            <div className="w-full h-full bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,#000_10px,#000_20px)] opacity-20"></div>
         </div>
 
-        <div className="px-6 h-24 flex items-center justify-between relative">
+        <div className="px-3 md:px-6 h-16 md:h-24 flex items-center justify-between relative">
           {/* Bolts */}
           <div className="absolute top-2 left-2 text-zinc-700"><div className="w-3 h-3 rounded-full border border-zinc-600 flex items-center justify-center bg-zinc-800 shadow-inner"><div className="w-1.5 h-1.5 bg-zinc-900 rotate-45"></div></div></div>
           <div className="absolute top-2 right-2 text-zinc-700"><div className="w-3 h-3 rounded-full border border-zinc-600 flex items-center justify-center bg-zinc-800 shadow-inner"><div className="w-1.5 h-1.5 bg-zinc-900 rotate-45"></div></div></div>
           <div className="absolute bottom-4 left-2 text-zinc-700"><div className="w-3 h-3 rounded-full border border-zinc-600 flex items-center justify-center bg-zinc-800 shadow-inner"><div className="w-1.5 h-1.5 bg-zinc-900 rotate-45"></div></div></div>
           <div className="absolute bottom-4 right-2 text-zinc-700"><div className="w-3 h-3 rounded-full border border-zinc-600 flex items-center justify-center bg-zinc-800 shadow-inner"><div className="w-1.5 h-1.5 bg-zinc-900 rotate-45"></div></div></div>
 
-          <div className="flex items-center gap-12">
+          <div className="flex items-center gap-4 md:gap-12">
             {/* ID Badge */}
             <div className="relative group flex items-center mt-2">
-              {/* Lanyard Clip */}
-              <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-8 h-8 z-20 flex flex-col items-center">
+              {/* Lanyard Clip - Hidden on mobile */}
+              <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-8 h-8 z-20 flex-col items-center hidden md:flex">
                   <div className="w-1 h-4 bg-zinc-400 rounded-full"></div>
                   <div className="w-6 h-3 bg-zinc-300 rounded-sm border border-zinc-400 shadow-sm"></div>
               </div>
               
-              <div className="relative z-10 bg-white text-black px-3 py-2 transform rotate-1 shadow-lg drop-shadow-xl border border-gray-300 flex items-center gap-3 max-w-[220px]">
-                <div className="w-10 h-10 bg-gray-200 border border-gray-400 overflow-hidden grayscale contrast-125 shrink-0 relative">
+              <div className="relative z-10 bg-white text-black px-2 md:px-3 py-1 md:py-2 transform rotate-1 shadow-lg drop-shadow-xl border border-gray-300 flex items-center gap-2 md:gap-3 max-w-[160px] md:max-w-[220px]">
+                <div className="w-8 h-8 md:w-10 md:h-10 bg-gray-200 border border-gray-400 overflow-hidden grayscale contrast-125 shrink-0 relative">
                   <Image 
                     src="/mongodben.jpg" 
                     alt="Det. Mongo D. Bane" 
@@ -213,7 +214,7 @@ export default function LandingPage({ initialPodcasts, initialStats }: LandingPa
                     className="object-cover"
                   />
                 </div>
-                <div className="leading-tight">
+                <div className="leading-tight hidden sm:block">
                   <h1 className="text-xs font-bold font-typewriter uppercase tracking-tighter">Det. Mongo D. Bane</h1>
                   <p className="text-[8px] font-mono text-red-700 font-bold">CODE CRIME UNIT</p>
                   <p className="text-[8px] font-mono text-gray-500">ID: 8492-A</p>
@@ -223,8 +224,8 @@ export default function LandingPage({ initialPodcasts, initialStats }: LandingPa
               </div>
             </div>
 
-            {/* System Status Bezel */}
-            <div className="flex flex-col bg-zinc-900 border border-zinc-700 rounded-sm p-1 shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)]">
+            {/* System Status Bezel - Hidden on mobile */}
+            <div className="hidden lg:flex flex-col bg-zinc-900 border border-zinc-700 rounded-sm p-1 shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)]">
                 <div className="text-[8px] text-zinc-500 font-mono text-center uppercase tracking-widest mb-0.5 border-b border-zinc-800 pb-0.5">System Status</div>
                 <div className="flex items-center gap-2">
                     {/* LED */}
@@ -262,7 +263,8 @@ export default function LandingPage({ initialPodcasts, initialStats }: LandingPa
             </div>
           </div>
 
-          <div className="flex items-center gap-8" onMouseEnter={() => setIsHoveringNav(true)} onMouseLeave={() => setIsHoveringNav(false)}>
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-8" onMouseEnter={() => setIsHoveringNav(true)} onMouseLeave={() => setIsHoveringNav(false)}>
             <a href="#analyze" className="font-typewriter font-bold text-lg text-gray-400 hover:text-green-400 transition-all hover:shadow-[0_0_8px_rgba(74,222,128,0.5)] hover:animate-flicker uppercase tracking-widest leading-none flex items-center">
               Open Case
             </a>
@@ -273,7 +275,68 @@ export default function LandingPage({ initialPodcasts, initialStats }: LandingPa
               Locker
             </a>
           </div>
+
+          {/* Mobile Hamburger Menu */}
+          <button 
+            className="md:hidden p-2 text-zinc-400 hover:text-white transition-colors"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
+
+        {/* Mobile Menu Dropdown */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="md:hidden border-t border-zinc-800 overflow-hidden"
+            >
+              <div className="px-4 py-4 flex flex-col gap-4">
+                <a 
+                  href="#analyze" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="font-typewriter font-bold text-base text-gray-400 hover:text-green-400 transition-all uppercase tracking-widest py-2"
+                >
+                  Open Case
+                </a>
+                <a 
+                  href="#investigations" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="font-typewriter font-bold text-base text-gray-400 hover:text-green-400 transition-all uppercase tracking-widest py-2"
+                >
+                  Cases
+                </a>
+                <a 
+                  href="#stats" 
+                  onClick={() => setIsMobileMenuOpen(false)}
+                  className="font-typewriter font-bold text-base text-gray-400 hover:text-green-400 transition-all uppercase tracking-widest py-2"
+                >
+                  Locker
+                </a>
+                {/* Mobile System Controls */}
+                <div className="flex items-center gap-4 pt-2 border-t border-zinc-800">
+                  <button 
+                    onClick={toggleAudio}
+                    className={`flex items-center gap-2 px-3 py-2 bg-black/40 rounded-sm ${isPlaying ? 'text-amber-500' : 'text-zinc-500'}`}
+                  >
+                    <div className={`w-2 h-2 rounded-full ${isPlaying ? 'bg-amber-500' : 'bg-zinc-700'}`}></div>
+                    <span className="text-xs font-mono uppercase">Wire</span>
+                  </button>
+                  <button 
+                    onClick={() => setIsTorchEnabled(!isTorchEnabled)}
+                    className={`flex items-center gap-2 px-3 py-2 bg-black/40 rounded-sm ${isTorchEnabled ? 'text-yellow-500' : 'text-zinc-500'}`}
+                  >
+                    <div className={`w-2 h-2 rounded-full ${isTorchEnabled ? 'bg-yellow-500' : 'bg-zinc-700'}`}></div>
+                    <span className="text-xs font-mono uppercase">Light</span>
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.nav>
 
       <motion.div
@@ -342,7 +405,7 @@ export default function LandingPage({ initialPodcasts, initialStats }: LandingPa
         <div className="relative z-10 max-w-4xl mx-auto text-center">
           
           {/* Main Headline */}
-          <h1 className="text-5xl md:text-7xl font-bold mb-4 tracking-tighter leading-none animate-flicker mix-blend-hard-light">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-7xl font-bold mb-4 tracking-tighter leading-none animate-flicker mix-blend-hard-light">
             <span className="text-white">Your Code.</span>{' '}
             <span className="bg-gradient-to-r from-red-500 to-red-700 bg-clip-text text-transparent">
               Your Crime Scene.
@@ -361,7 +424,7 @@ export default function LandingPage({ initialPodcasts, initialStats }: LandingPa
           </div>
 
           {/* Tagline */}
-          <p className="text-xl md:text-2xl text-gray-400 mb-10 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-gray-400 mb-6 md:mb-10 max-w-2xl mx-auto px-2">
             Transform any GitHub repository into a True Crime-style audio
             investigation.
             <br/>
@@ -369,9 +432,9 @@ export default function LandingPage({ initialPodcasts, initialStats }: LandingPa
           </p>
 
           {/* Feature Badges - Evidence Tags */}
-          <div className="flex flex-wrap items-center justify-center gap-6 mb-12 relative">
+          <div className="flex flex-wrap items-center justify-center gap-3 md:gap-6 mb-8 md:mb-12 relative px-2">
             {/* String connecting to form */}
-            <svg className="absolute top-full left-1/2 -translate-x-1/2 w-1 h-8 z-0 pointer-events-none overflow-visible">
+            <svg className="absolute top-full left-1/2 -translate-x-1/2 w-1 h-8 z-0 pointer-events-none overflow-visible hidden md:block">
               <line x1="0" y1="0" x2="0" y2="32" stroke="white" strokeWidth="1" strokeDasharray="4 2" />
             </svg>
 
@@ -380,23 +443,23 @@ export default function LandingPage({ initialPodcasts, initialStats }: LandingPa
               { text: 'Multi-Narrative Styles', color: 'bg-[#6a5acd]' },
               { text: 'Real-Time Investigation', color: 'bg-[#b8860b]' }
             ].map((tag, i) => (
-              <div key={i} className={`${tag.color} text-white/90 px-4 py-2 text-xs font-bold uppercase tracking-wider shadow-md relative group transform hover:scale-105 transition-transform`}>
+              <div key={i} className={`${tag.color} text-white/90 px-3 md:px-4 py-1.5 md:py-2 text-[10px] md:text-xs font-bold uppercase tracking-wider shadow-md relative group transform hover:scale-105 transition-transform`}>
                 {/* Hole Punch */}
-                <div className="absolute top-1/2 -left-1.5 -translate-y-1/2 w-3 h-3 bg-[#050505] rounded-full border border-white/20"></div>
+                <div className="absolute top-1/2 -left-1.5 -translate-y-1/2 w-2 md:w-3 h-2 md:h-3 bg-[#050505] rounded-full border border-white/20"></div>
                 {/* String */}
-                <div className="absolute top-1/2 -left-1.5 -translate-y-1/2 w-4 h-[1px] bg-white/50 origin-right transform -rotate-45"></div>
+                <div className="absolute top-1/2 -left-1.5 -translate-y-1/2 w-3 md:w-4 h-[1px] bg-white/50 origin-right transform -rotate-45"></div>
                 {tag.text}
               </div>
             ))}
           </div>
 
           {/* Input Form - Warrant Style */}
-          <form onSubmit={handleAnalyze} className="max-w-2xl mx-auto mb-24 relative group z-10">
-            <div className="absolute -top-6 left-4 bg-[#f0e6d2] text-black px-4 py-1 text-sm font-bold transform -rotate-1 shadow-md z-20 border border-gray-400 font-typewriter">
+          <form onSubmit={handleAnalyze} className="max-w-2xl mx-auto mb-16 md:mb-24 relative group z-10 px-2">
+            <div className="absolute -top-6 left-4 bg-[#f0e6d2] text-black px-3 md:px-4 py-1 text-xs md:text-sm font-bold transform -rotate-1 shadow-md z-20 border border-gray-400 font-typewriter">
               CASE ENTRY FORM #29-A
             </div>
             
-            <div className="bg-[#f0e6d2] p-1 rounded-sm shadow-xl transform rotate-1 transition-transform group-hover:rotate-0 overflow-hidden">
+            <div className="bg-[#f0e6d2] p-1 rounded-sm shadow-xl transform rotate-0 md:rotate-1 transition-transform group-hover:rotate-0 overflow-hidden">
               <div className="bg-gradient-to-br from-[#fefce8] to-[#f5f5f4] border-2 border-[#d4c5a9] p-6 relative">
                 {/* Paper texture overlay */}
                 <div className="absolute inset-0 opacity-50 pointer-events-none mix-blend-multiply" style={{
@@ -414,15 +477,15 @@ export default function LandingPage({ initialPodcasts, initialStats }: LandingPa
                 </div>
                 
                 <div className="flex flex-col gap-4 relative z-10">
-                  <div className="flex items-center gap-4">
-                    <label className="text-black font-bold font-typewriter text-lg uppercase tracking-widest">Target:</label>
-                    <div className="flex-1 relative">
+                  <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 sm:gap-4">
+                    <label className="text-black font-bold font-typewriter text-sm md:text-lg uppercase tracking-widest shrink-0">Target:</label>
+                    <div className="flex-1 relative w-full">
                       <input
                         type="text"
                         placeholder="https://github.com/username/repo"
                         value={repoUrl}
                         onChange={(e) => setRepoUrl(e.target.value)}
-                        className="w-full bg-transparent border-b-2 border-black/20 focus:border-red-800 outline-none py-2 text-black font-typewriter text-xl placeholder:italic placeholder:text-gray-500 transition-colors"
+                        className="w-full bg-transparent border-b-2 border-black/20 focus:border-red-800 outline-none py-2 text-black font-typewriter text-base md:text-xl placeholder:italic placeholder:text-gray-500 transition-colors"
                         disabled={isAnalyzing}
                       />
                       {/* Typewriter cursor effect */}
@@ -430,11 +493,11 @@ export default function LandingPage({ initialPodcasts, initialStats }: LandingPa
                     </div>
                   </div>
                   
-                  <div className="flex justify-end mt-2">
+                  <div className="flex justify-center sm:justify-end mt-2">
                     <button
                       type="submit"
                       disabled={isAnalyzing || !repoUrl.trim()}
-                      className="bg-[#1a1a1a] text-white px-8 py-3 font-bold font-typewriter uppercase tracking-widest hover:bg-red-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg flex items-center gap-2 border-2 border-transparent hover:border-red-500"
+                      className="bg-[#1a1a1a] text-white px-6 md:px-8 py-2.5 md:py-3 font-bold font-typewriter uppercase tracking-widest hover:bg-red-900 transition-colors disabled:opacity-50 disabled:cursor-not-allowed shadow-lg flex items-center gap-2 border-2 border-transparent hover:border-red-500 text-sm md:text-base w-full sm:w-auto justify-center"
                     >
                       {isAnalyzing ? (
                         <>
@@ -467,16 +530,16 @@ export default function LandingPage({ initialPodcasts, initialStats }: LandingPa
           </form>
 
           {/* Narrative Style Selector */}
-          <div className="max-w-4xl mx-auto mb-16 relative z-20">
-            <div className="flex items-center justify-center gap-4 mb-6">
+          <div className="max-w-4xl mx-auto mb-12 md:mb-16 relative z-20 px-2">
+            <div className="flex items-center justify-center gap-2 md:gap-4 mb-4 md:mb-6">
               <div className="h-px bg-red-900/50 flex-1"></div>
-              <h3 className="text-center text-sm uppercase tracking-widest text-red-700 font-typewriter font-bold">
+              <h3 className="text-center text-xs md:text-sm uppercase tracking-widest text-red-700 font-typewriter font-bold">
                 Select Investigation Protocol
               </h3>
               <div className="h-px bg-red-900/50 flex-1"></div>
             </div>
             
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
               {NARRATIVE_STYLES.map((style) => {
                 const Icon = style.icon;
                 const isSelected = selectedStyle === style.id;
@@ -486,7 +549,7 @@ export default function LandingPage({ initialPodcasts, initialStats }: LandingPa
                     key={style.id}
                     onClick={() => !style.disabled && setSelectedStyle(style.id)}
                     disabled={style.disabled || isAnalyzing}
-                    className={`relative p-4 transition-all duration-300 group ${
+                    className={`relative p-3 md:p-4 transition-all duration-300 group ${
                       style.disabled ? 'opacity-50 cursor-not-allowed grayscale' : 'cursor-pointer'
                     }`}
                   >
@@ -499,19 +562,19 @@ export default function LandingPage({ initialPodcasts, initialStats }: LandingPa
                     
                     {/* Content */}
                     <div className="relative z-10 flex flex-col items-center text-center">
-                      <div className={`w-12 h-12 rounded-full border-2 flex items-center justify-center mb-3 ${
+                      <div className={`w-10 h-10 md:w-12 md:h-12 rounded-full border-2 flex items-center justify-center mb-2 md:mb-3 ${
                         isSelected ? 'border-red-500 bg-red-900/20 text-red-500' : 'border-gray-600 bg-black/50 text-gray-400'
                       }`}>
-                        <Icon className="w-6 h-6" />
+                        <Icon className="w-5 h-5 md:w-6 md:h-6" />
                       </div>
                       
-                      <div className={`font-typewriter font-bold text-sm uppercase mb-1 ${
+                      <div className={`font-typewriter font-bold text-xs md:text-sm uppercase mb-1 ${
                         isSelected ? 'text-red-500' : 'text-gray-300'
                       }`}>
                         {style.name}
                       </div>
                       
-                      <div className="text-[10px] font-mono text-gray-500 leading-tight">
+                      <div className="text-[8px] md:text-[10px] font-mono text-gray-500 leading-tight">
                         {style.description}
                       </div>
                     </div>
@@ -529,31 +592,31 @@ export default function LandingPage({ initialPodcasts, initialStats }: LandingPa
           </div>
 
           {/* How It Works */}
-          <div className="max-w-4xl mx-auto grid md:grid-cols-3 gap-6 mb-12">
-            <div className="bg-gray-800/30 border border-gray-700/50 rounded-xl p-6 text-center">
-              <div className="w-12 h-12 bg-red-900/30 border border-red-600/50 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-red-500">1</span>
+          <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 mb-12 px-2">
+            <div className="bg-gray-800/30 border border-gray-700/50 rounded-xl p-4 md:p-6 text-center">
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-red-900/30 border border-red-600/50 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
+                <span className="text-xl md:text-2xl font-bold text-red-500">1</span>
               </div>
-              <h4 className="font-semibold mb-2">Submit Repository</h4>
-              <p className="text-sm text-gray-400">
+              <h4 className="font-semibold mb-2 text-sm md:text-base">Submit Repository</h4>
+              <p className="text-xs md:text-sm text-gray-400">
                 Paste any GitHub URL and we'll analyze the codebase structure
               </p>
             </div>
-            <div className="bg-gray-800/30 border border-gray-700/50 rounded-xl p-6 text-center">
-              <div className="w-12 h-12 bg-red-900/30 border border-red-600/50 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-red-500">2</span>
+            <div className="bg-gray-800/30 border border-gray-700/50 rounded-xl p-4 md:p-6 text-center">
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-red-900/30 border border-red-600/50 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
+                <span className="text-xl md:text-2xl font-bold text-red-500">2</span>
               </div>
-              <h4 className="font-semibold mb-2">AI Investigation</h4>
-              <p className="text-sm text-gray-400">
+              <h4 className="font-semibold mb-2 text-sm md:text-base">AI Investigation</h4>
+              <p className="text-xs md:text-sm text-gray-400">
                 Our AI detects patterns, issues, and creates a dramatic narrative
               </p>
             </div>
-            <div className="bg-gray-800/30 border border-gray-700/50 rounded-xl p-6 text-center">
-              <div className="w-12 h-12 bg-red-900/30 border border-red-600/50 rounded-full flex items-center justify-center mx-auto mb-4">
-                <span className="text-2xl font-bold text-red-500">3</span>
+            <div className="bg-gray-800/30 border border-gray-700/50 rounded-xl p-4 md:p-6 text-center sm:col-span-2 md:col-span-1">
+              <div className="w-10 h-10 md:w-12 md:h-12 bg-red-900/30 border border-red-600/50 rounded-full flex items-center justify-center mx-auto mb-3 md:mb-4">
+                <span className="text-xl md:text-2xl font-bold text-red-500">3</span>
               </div>
-              <h4 className="font-semibold mb-2">Listen & Learn</h4>
-              <p className="text-sm text-gray-400">
+              <h4 className="font-semibold mb-2 text-sm md:text-base">Listen & Learn</h4>
+              <p className="text-xs md:text-sm text-gray-400">
                 Get a podcast explaining the code in an engaging story format
               </p>
             </div>
@@ -592,108 +655,108 @@ export default function LandingPage({ initialPodcasts, initialStats }: LandingPa
 
       {/* Stats Section */}
       {stats && (
-        <section id="stats" className="px-4 py-12 max-w-6xl mx-auto">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold mb-2 flex items-center justify-center gap-3 font-typewriter text-white tracking-tighter">
-              <FileText className="w-8 h-8 text-red-500" />
+        <section id="stats" className="px-2 md:px-4 py-8 md:py-12 max-w-6xl mx-auto">
+          <div className="text-center mb-8 md:mb-12">
+            <h2 className="text-2xl md:text-4xl font-bold mb-2 flex items-center justify-center gap-2 md:gap-3 font-typewriter text-white tracking-tighter">
+              <FileText className="w-6 h-6 md:w-8 md:h-8 text-red-500" />
               EVIDENCE LOCKER
             </h2>
-            <p className="text-gray-400 font-mono text-sm uppercase tracking-widest">Authorized Personnel Only</p>
+            <p className="text-gray-400 font-mono text-xs md:text-sm uppercase tracking-widest">Authorized Personnel Only</p>
           </div>
           
-          <div className="bg-[#2a2a2a] border-4 border-gray-600 rounded-lg shadow-2xl p-8 relative overflow-hidden">
+          <div className="bg-[#2a2a2a] border-2 md:border-4 border-gray-600 rounded-lg shadow-2xl p-4 md:p-8 relative overflow-hidden">
             {/* Corkboard Texture */}
             <div className="absolute inset-0 opacity-30 pointer-events-none" style={{backgroundImage: 'url("https://www.transparenttextures.com/patterns/dark-matter.png")'}}></div>
             
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative z-10">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8 relative z-10">
               
               {/* Total Cases - Manila Folder */}
-              <div className="bg-[#f0e6d2] text-black transform -rotate-1 shadow-[5px_5px_0px_0px_rgba(0,0,0,0.5)] border-l-8 border-l-[#d4c5a9] p-6 relative group hover:rotate-0 transition-transform duration-300 h-48 flex flex-col justify-between">
-                <div className="absolute -top-3 -right-3 w-24 h-8 bg-[#d4c5a9] transform rotate-3 rounded-t-md opacity-50"></div>
-                <div className="font-special-elite text-lg uppercase tracking-widest border-b-2 border-black/20 pb-2 mb-2">
+              <div className="bg-[#f0e6d2] text-black transform rotate-0 md:-rotate-1 shadow-[3px_3px_0px_0px_rgba(0,0,0,0.5)] md:shadow-[5px_5px_0px_0px_rgba(0,0,0,0.5)] border-l-4 md:border-l-8 border-l-[#d4c5a9] p-3 md:p-6 relative group hover:rotate-0 transition-transform duration-300 h-36 md:h-48 flex flex-col justify-between">
+                <div className="absolute -top-2 md:-top-3 -right-2 md:-right-3 w-16 md:w-24 h-6 md:h-8 bg-[#d4c5a9] transform rotate-3 rounded-t-md opacity-50"></div>
+                <div className="font-special-elite text-sm md:text-lg uppercase tracking-widest border-b-2 border-black/20 pb-1 md:pb-2 mb-1 md:mb-2">
                   Total Cases
                 </div>
-                <div className="font-vt323 text-7xl text-black/80 self-center">
+                <div className="font-vt323 text-4xl md:text-7xl text-black/80 self-center">
                   {String(stats.total || 0).padStart(3, '0')}
                 </div>
-                <div className="text-[10px] font-mono text-gray-600 uppercase text-right">
+                <div className="text-[8px] md:text-[10px] font-mono text-gray-600 uppercase text-right">
                   Ref: #882-B
                 </div>
               </div>
 
               {/* Solved - Closed Stamp */}
-              <div className="bg-[#fdfbf7] text-black transform rotate-2 shadow-[5px_5px_0px_0px_rgba(0,0,0,0.5)] p-6 relative group hover:rotate-0 transition-transform duration-300 h-48 flex flex-col justify-between border border-gray-300">
+              <div className="bg-[#fdfbf7] text-black transform rotate-0 md:rotate-2 shadow-[3px_3px_0px_0px_rgba(0,0,0,0.5)] md:shadow-[5px_5px_0px_0px_rgba(0,0,0,0.5)] p-3 md:p-6 relative group hover:rotate-0 transition-transform duration-300 h-36 md:h-48 flex flex-col justify-between border border-gray-300">
                 {/* Paper Texture */}
                 <div className="absolute inset-0 opacity-50 pointer-events-none" style={{backgroundImage: 'url("https://www.transparenttextures.com/patterns/paper-fibers.png")'}}></div>
                 
-                <div className="font-special-elite text-lg uppercase tracking-widest text-gray-600 relative z-10">
+                <div className="font-special-elite text-sm md:text-lg uppercase tracking-widest text-gray-600 relative z-10">
                   Solved
                 </div>
                 
                 <div className="relative flex items-center justify-center flex-1">
-                  <div className="font-vt323 text-6xl text-gray-400 blur-[1px]">
+                  <div className="font-vt323 text-4xl md:text-6xl text-gray-400 blur-[1px]">
                     {String(stats.completed || 0).padStart(3, '0')}
                   </div>
                   {/* Stamp Overlay */}
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="border-4 border-green-700 text-green-700 font-special-elite text-3xl font-bold p-2 transform -rotate-12 opacity-80 mask-stamp uppercase tracking-widest">
+                    <div className="border-2 md:border-4 border-green-700 text-green-700 font-special-elite text-xl md:text-3xl font-bold p-1 md:p-2 transform -rotate-12 opacity-80 mask-stamp uppercase tracking-widest">
                       CLOSED
                     </div>
                   </div>
                 </div>
                 
-                <div className="text-[10px] font-mono text-green-800 uppercase relative z-10">
+                <div className="text-[8px] md:text-[10px] font-mono text-green-800 uppercase relative z-10">
                   Case Closed
                 </div>
               </div>
 
               {/* Pending - Active Wiretap */}
-              <div className="bg-[#111] border-4 border-gray-700 transform -rotate-1 shadow-[5px_5px_0px_0px_rgba(0,0,0,0.8)] p-6 relative group hover:rotate-0 transition-transform duration-300 h-48 flex flex-col justify-between">
-                <div className="flex items-center justify-between mb-2">
-                  <div className="font-mono text-xs text-red-500 animate-pulse uppercase tracking-widest">
+              <div className="bg-[#111] border-2 md:border-4 border-gray-700 transform rotate-0 md:-rotate-1 shadow-[3px_3px_0px_0px_rgba(0,0,0,0.8)] md:shadow-[5px_5px_0px_0px_rgba(0,0,0,0.8)] p-3 md:p-6 relative group hover:rotate-0 transition-transform duration-300 h-36 md:h-48 flex flex-col justify-between">
+                <div className="flex items-center justify-between mb-1 md:mb-2">
+                  <div className="font-mono text-[10px] md:text-xs text-red-500 animate-pulse uppercase tracking-widest">
                     ● REC
                   </div>
-                  <div className="w-16 h-8 bg-black border border-gray-800 relative overflow-hidden">
+                  <div className="w-12 md:w-16 h-6 md:h-8 bg-black border border-gray-800 relative overflow-hidden">
                     <div className="absolute inset-0 bg-green-900/20"></div>
                     <div className="absolute bottom-0 left-0 w-full h-full bg-green-500/50 animate-pulse" style={{height: '40%'}}></div>
                   </div>
                 </div>
                 
-                <div className="bg-[#1a0505] border border-red-900/50 p-2 rounded flex items-center justify-center shadow-[inset_0_0_10px_rgba(0,0,0,1)]">
-                  <div className="font-vt323 text-6xl text-red-600 animate-pulse shadow-[0_0_15px_rgba(220,38,38,0.5)]">
+                <div className="bg-[#1a0505] border border-red-900/50 p-1 md:p-2 rounded flex items-center justify-center shadow-[inset_0_0_10px_rgba(0,0,0,1)]">
+                  <div className="font-vt323 text-4xl md:text-6xl text-red-600 animate-pulse shadow-[0_0_15px_rgba(220,38,38,0.5)]">
                     {String(stats.pending || 0).padStart(3, '0')}
                   </div>
                 </div>
                 
-                <div className="text-center mt-2">
-                  <div className="inline-block bg-red-900/20 text-red-500 text-[10px] font-mono px-2 py-1 border border-red-900/50 rounded uppercase tracking-wider">
+                <div className="text-center mt-1 md:mt-2">
+                  <div className="inline-block bg-red-900/20 text-red-500 text-[8px] md:text-[10px] font-mono px-1 md:px-2 py-0.5 md:py-1 border border-red-900/50 rounded uppercase tracking-wider">
                     Active Surveillance
                   </div>
                 </div>
               </div>
 
               {/* Failed - Cold Case */}
-              <div className="bg-[#e0f2fe] text-blue-900 transform rotate-1 shadow-[5px_5px_0px_0px_rgba(0,0,0,0.5)] p-6 relative group hover:rotate-0 transition-transform duration-300 h-48 flex flex-col justify-between overflow-hidden">
+              <div className="bg-[#e0f2fe] text-blue-900 transform rotate-0 md:rotate-1 shadow-[3px_3px_0px_0px_rgba(0,0,0,0.5)] md:shadow-[5px_5px_0px_0px_rgba(0,0,0,0.5)] p-3 md:p-6 relative group hover:rotate-0 transition-transform duration-300 h-36 md:h-48 flex flex-col justify-between overflow-hidden">
                 {/* Dust Overlay */}
                 <div className="absolute inset-0 opacity-40 pointer-events-none mix-blend-multiply" style={{backgroundImage: 'url("https://www.transparenttextures.com/patterns/dust.png")'}}></div>
                 
-                <div className="font-special-elite text-lg uppercase tracking-widest text-blue-900/70 relative z-10">
+                <div className="font-special-elite text-sm md:text-lg uppercase tracking-widest text-blue-900/70 relative z-10">
                   Failed
                 </div>
                 
                 <div className="relative flex items-center justify-center flex-1">
-                  <div className="font-vt323 text-6xl text-blue-900/30">
+                  <div className="font-vt323 text-4xl md:text-6xl text-blue-900/30">
                     {String(stats.failed || 0).padStart(3, '0')}
                   </div>
                   {/* Stamp Overlay */}
                   <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="border-4 border-blue-900/60 text-blue-900/60 font-special-elite text-2xl font-bold p-2 transform rotate-12 opacity-70 mask-stamp uppercase tracking-widest whitespace-nowrap">
+                    <div className="border-2 md:border-4 border-blue-900/60 text-blue-900/60 font-special-elite text-lg md:text-2xl font-bold p-1 md:p-2 transform rotate-12 opacity-70 mask-stamp uppercase tracking-widest whitespace-nowrap">
                       COLD CASE
                     </div>
                   </div>
                 </div>
                 
-                <div className="text-[10px] font-mono text-blue-900/50 uppercase relative z-10">
+                <div className="text-[8px] md:text-[10px] font-mono text-blue-900/50 uppercase relative z-10">
                   Archived
                 </div>
               </div>
@@ -704,28 +767,28 @@ export default function LandingPage({ initialPodcasts, initialStats }: LandingPa
       )}
 
       {/* Recent Podcasts - Evidence Board */}
-      <section id="investigations" className="px-4 py-16 max-w-7xl mx-auto relative">
+      <section id="investigations" className="px-2 md:px-4 py-8 md:py-16 max-w-7xl mx-auto relative">
         {/* Corkboard Background */}
-        <div className="absolute inset-0 corkboard-bg -z-10 shadow-inner border-t-8 border-b-8 border-[#2a1f1b]"></div>
+        <div className="absolute inset-0 corkboard-bg -z-10 shadow-inner border-t-4 md:border-t-8 border-b-4 md:border-b-8 border-[#2a1f1b]"></div>
         
-        <div className="text-center mb-12 relative z-10">
-          <div className="inline-block bg-white px-6 py-2 transform rotate-1 shadow-lg border border-gray-300">
-            <h2 className="text-4xl font-bold text-black font-typewriter tracking-tighter uppercase">
+        <div className="text-center mb-8 md:mb-12 relative z-10">
+          <div className="inline-block bg-white px-4 md:px-6 py-1.5 md:py-2 transform rotate-1 shadow-lg border border-gray-300">
+            <h2 className="text-2xl md:text-4xl font-bold text-black font-typewriter tracking-tighter uppercase">
               EVIDENCE BOARD
             </h2>
           </div>
-          <p className="text-[#e7e5e4] mt-4 bg-black/50 inline-block px-4 py-1 backdrop-blur-sm">
+          <p className="text-[#e7e5e4] mt-3 md:mt-4 bg-black/50 inline-block px-3 md:px-4 py-1 backdrop-blur-sm text-sm md:text-base">
             Active cases from the detective bureau
           </p>
         </div>
         
         {podcasts.length === 0 ? (
-          <div className="text-center py-16 bg-black/20 rounded-xl border-2 border-dashed border-white/20 backdrop-blur-sm">
-            <Skull className="w-16 h-16 text-white/50 mx-auto mb-4" />
-            <p className="text-white/70 text-lg font-typewriter">No investigations yet. Issue a warrant above.</p>
+          <div className="text-center py-12 md:py-16 bg-black/20 rounded-xl border-2 border-dashed border-white/20 backdrop-blur-sm mx-2">
+            <Skull className="w-12 h-12 md:w-16 md:h-16 text-white/50 mx-auto mb-4" />
+            <p className="text-white/70 text-base md:text-lg font-typewriter">No investigations yet. Issue a warrant above.</p>
           </div>
         ) : (
-          <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 p-8">
+          <div className="grid gap-6 md:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 p-4 md:p-8">
             {podcasts.map((podcast, index) => {
               const statusConfig: Record<string, {
                 stampColor: string;
@@ -757,13 +820,13 @@ export default function LandingPage({ initialPodcasts, initialStats }: LandingPa
                   onClick={() => {
                     router.push(`/case/${podcast.id}`);
                   }}
-                  className="manila-folder p-6 h-64 flex flex-col justify-between cursor-pointer group relative"
+                  className="manila-folder p-4 md:p-6 h-56 md:h-64 flex flex-col justify-between cursor-pointer group relative"
                 >
                   {/* Paperclip */}
-                  <div className="paperclip"></div>
+                  <div className="paperclip hidden sm:block"></div>
                   
                   {/* Polaroid Thumbnail */}
-                  <div className="absolute -top-6 -left-6 w-24 h-24 bg-white p-2 shadow-lg transform -rotate-6 z-20 transition-transform group-hover:scale-110 group-hover:rotate-0">
+                  <div className="absolute -top-4 md:-top-6 -left-4 md:-left-6 w-16 md:w-24 h-16 md:h-24 bg-white p-1.5 md:p-2 shadow-lg transform -rotate-6 z-20 transition-transform group-hover:scale-110 group-hover:rotate-0">
                     <div className="w-full h-full bg-gray-200 overflow-hidden flex items-center justify-center">
                       {/* Generate a unique gradient based on ID */}
                       <div className="w-full h-full" style={{
@@ -772,31 +835,31 @@ export default function LandingPage({ initialPodcasts, initialStats }: LandingPa
                     </div>
                   </div>
 
-                  <div className="mt-4 ml-12">
-                    <h3 className="text-xl font-bold text-black font-typewriter leading-tight mb-1 group-hover:text-red-800 transition-colors line-clamp-2">
+                  <div className="mt-3 md:mt-4 ml-10 md:ml-12">
+                    <h3 className="text-base md:text-xl font-bold text-black font-typewriter leading-tight mb-1 group-hover:text-red-800 transition-colors line-clamp-2">
                       {podcast.title}
                     </h3>
-                    <p className="text-gray-600 text-xs font-mono flex items-center gap-1">
+                    <p className="text-gray-600 text-[10px] md:text-xs font-mono flex items-center gap-1">
                       <Github className="w-3 h-3" />
-                      {podcast.repo_name}
+                      <span className="truncate">{podcast.repo_name}</span>
                     </p>
                   </div>
                   
-                  <div className="flex flex-col gap-2 mt-4">
+                  <div className="flex flex-col gap-2 mt-3 md:mt-4">
                     <div className="border-t border-gray-400 pt-2">
-                      <div className="flex justify-between text-xs font-mono text-gray-600">
+                      <div className="flex justify-between text-[10px] md:text-xs font-mono text-gray-600">
                         <span>DATE:</span>
                         <span>{new Date(podcast.created_at).toLocaleDateString('en-US')}</span>
                       </div>
-                      <div className="flex justify-between text-xs font-mono text-gray-600">
+                      <div className="flex justify-between text-[10px] md:text-xs font-mono text-gray-600">
                         <span>STYLE:</span>
                         <span className="uppercase">{podcast.narrative_style || 'UNKNOWN'}</span>
                       </div>
                     </div>
                     
                     {/* Status Stamp */}
-                    <div className={`self-end mt-2 border-4 ${config.stampColor} px-2 py-1 transform -rotate-12 opacity-80 mask-stamp`}>
-                      <span className={`font-bold text-xs ${config.stampColor} uppercase tracking-widest`}>
+                    <div className={`self-end mt-1 md:mt-2 border-2 md:border-4 ${config.stampColor} px-1.5 md:px-2 py-0.5 md:py-1 transform -rotate-12 opacity-80 mask-stamp`}>
+                      <span className={`font-bold text-[10px] md:text-xs ${config.stampColor} uppercase tracking-widest`}>
                         {config.stampText}
                       </span>
                     </div>

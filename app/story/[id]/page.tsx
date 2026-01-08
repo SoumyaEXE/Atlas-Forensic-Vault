@@ -15,7 +15,8 @@ import {
   Share2,
   Printer,
   Fingerprint,
-  Siren
+  Siren,
+  Menu,
 } from 'lucide-react';
 import DevelopingEvidence from '@/components/ui/DevelopingEvidence';
 import { useAudio } from '@/components/layout/AudioProvider';
@@ -145,6 +146,7 @@ export default function StoryEditorPage() {
   const [isTorchEnabled, setIsTorchEnabled] = useState(true);
   const [showShutter, setShowShutter] = useState(true);
   const [isHoveringNav, setIsHoveringNav] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { isPlaying: isBgmPlaying, toggleAudio: toggleBgm } = useAudio();
   
   // Player State (if audio exists)
@@ -527,7 +529,7 @@ export default function StoryEditorPage() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, ease: "easeOut" }}
-        className="relative mx-auto mt-2 md:mt-6 z-60 w-[95%] md:w-full max-w-5xl bg-zinc-950/90 backdrop-blur-sm border border-zinc-800 shadow-2xl rounded-sm"
+        className="relative mx-auto mt-2 md:mt-6 z-50 w-[95%] md:w-full max-w-5xl bg-zinc-950/90 backdrop-blur-sm border border-zinc-800 shadow-2xl rounded-sm"
       >
         {/* Texture Overlay */}
         <div className="absolute inset-0 opacity-10 pointer-events-none mix-blend-overlay" style={{backgroundImage: 'url("https://www.transparenttextures.com/patterns/brushed-alum.png")'}}></div>
@@ -537,24 +539,24 @@ export default function StoryEditorPage() {
            <div className="w-full h-full bg-[repeating-linear-gradient(45deg,transparent,transparent_10px,#000_10px,#000_20px)] opacity-20"></div>
         </div>
 
-        <div className="px-6 h-24 flex items-center justify-between relative">
+        <div className="px-3 md:px-6 h-16 md:h-24 flex items-center justify-between relative">
           {/* Bolts */}
           <div className="absolute top-2 left-2 text-zinc-700"><div className="w-3 h-3 rounded-full border border-zinc-600 flex items-center justify-center bg-zinc-800 shadow-inner"><div className="w-1.5 h-1.5 bg-zinc-900 rotate-45"></div></div></div>
           <div className="absolute top-2 right-2 text-zinc-700"><div className="w-3 h-3 rounded-full border border-zinc-600 flex items-center justify-center bg-zinc-800 shadow-inner"><div className="w-1.5 h-1.5 bg-zinc-900 rotate-45"></div></div></div>
           <div className="absolute bottom-4 left-2 text-zinc-700"><div className="w-3 h-3 rounded-full border border-zinc-600 flex items-center justify-center bg-zinc-800 shadow-inner"><div className="w-1.5 h-1.5 bg-zinc-900 rotate-45"></div></div></div>
           <div className="absolute bottom-4 right-2 text-zinc-700"><div className="w-3 h-3 rounded-full border border-zinc-600 flex items-center justify-center bg-zinc-800 shadow-inner"><div className="w-1.5 h-1.5 bg-zinc-900 rotate-45"></div></div></div>
 
-          <div className="flex items-center gap-12">
+          <div className="flex items-center gap-4 md:gap-12">
             {/* ID Badge */}
             <div className="relative group flex items-center mt-2">
-              {/* Lanyard Clip */}
-              <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-8 h-8 z-20 flex flex-col items-center">
+              {/* Lanyard Clip - Hidden on mobile */}
+              <div className="absolute -top-6 left-1/2 -translate-x-1/2 w-8 h-8 z-20 flex-col items-center hidden md:flex">
                   <div className="w-1 h-4 bg-zinc-400 rounded-full"></div>
                   <div className="w-6 h-3 bg-zinc-300 rounded-sm border border-zinc-400 shadow-sm"></div>
               </div>
               
-              <div className="relative z-10 bg-white text-black px-3 py-2 transform rotate-1 shadow-lg drop-shadow-xl border border-gray-300 flex items-center gap-3 max-w-55">
-                <div className="w-10 h-10 bg-gray-200 border border-gray-400 overflow-hidden grayscale contrast-125 shrink-0 relative">
+              <div className="relative z-10 bg-white text-black px-2 md:px-3 py-1 md:py-2 transform rotate-1 shadow-lg drop-shadow-xl border border-gray-300 flex items-center gap-2 md:gap-3 max-w-[140px] md:max-w-55">
+                <div className="w-8 h-8 md:w-10 md:h-10 bg-gray-200 border border-gray-400 overflow-hidden grayscale contrast-125 shrink-0 relative">
                   <Image 
                     src="/mongodben.jpg" 
                     alt="Detective Mongo D. Bane" 
@@ -562,7 +564,7 @@ export default function StoryEditorPage() {
                     className="object-cover"
                   />
                 </div>
-                <div className="leading-tight">
+                <div className="leading-tight hidden sm:block">
                   <h1 className="text-xs font-bold font-typewriter uppercase tracking-tighter">Det. Mongo D. Bane</h1>
                   <p className="text-[8px] font-mono text-red-700 font-bold">CODE CRIME UNIT</p>
                   <p className="text-[8px] font-mono text-gray-500">ID: 8492-A</p>
@@ -572,8 +574,8 @@ export default function StoryEditorPage() {
               </div>
             </div>
 
-            {/* System Status Bezel */}
-            <div className="flex flex-col bg-zinc-900 border border-zinc-700 rounded-sm p-1 shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)]">
+            {/* System Status Bezel - Hidden on mobile */}
+            <div className="hidden lg:flex flex-col bg-zinc-900 border border-zinc-700 rounded-sm p-1 shadow-[inset_0_2px_4px_rgba(0,0,0,0.5)]">
                 <div className="text-[8px] text-zinc-500 font-mono text-center uppercase tracking-widest mb-0.5 border-b border-zinc-800 pb-0.5">System Status</div>
                 <div className="flex items-center gap-2">
                     {/* LED */}
@@ -611,7 +613,8 @@ export default function StoryEditorPage() {
             </div>
           </div>
 
-          <div className="flex items-center gap-8" onMouseEnter={() => setIsHoveringNav(true)} onMouseLeave={() => setIsHoveringNav(false)}>
+          {/* Desktop Navigation */}
+          <div className="hidden md:flex items-center gap-8" onMouseEnter={() => setIsHoveringNav(true)} onMouseLeave={() => setIsHoveringNav(false)}>
             <button onClick={() => router.push('/')} className="font-typewriter font-bold text-lg text-gray-400 hover:text-green-400 transition-all hover:shadow-[0_0_8px_rgba(74,222,128,0.5)] hover:animate-flicker uppercase tracking-widest leading-none flex items-center">
               Open Case
             </button>
@@ -622,7 +625,65 @@ export default function StoryEditorPage() {
               Locker
             </button>
           </div>
+
+          {/* Mobile Hamburger Menu */}
+          <button 
+            className="md:hidden p-2 text-zinc-400 hover:text-white transition-colors"
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+          </button>
         </div>
+
+        {/* Mobile Menu Dropdown */}
+        <AnimatePresence>
+          {isMobileMenuOpen && (
+            <motion.div
+              initial={{ opacity: 0, height: 0 }}
+              animate={{ opacity: 1, height: 'auto' }}
+              exit={{ opacity: 0, height: 0 }}
+              className="md:hidden border-t border-zinc-800 overflow-hidden"
+            >
+              <div className="px-4 py-4 flex flex-col gap-4">
+                <button 
+                  onClick={() => { router.push('/'); setIsMobileMenuOpen(false); }}
+                  className="font-typewriter font-bold text-base text-gray-400 hover:text-green-400 transition-all uppercase tracking-widest py-2 text-left"
+                >
+                  Open Case
+                </button>
+                <button 
+                  onClick={() => { router.push('/'); setIsMobileMenuOpen(false); }}
+                  className="font-typewriter font-bold text-base text-gray-400 hover:text-green-400 transition-all uppercase tracking-widest py-2 text-left"
+                >
+                  Cases
+                </button>
+                <button 
+                  onClick={() => { router.push('/'); setIsMobileMenuOpen(false); }}
+                  className="font-typewriter font-bold text-base text-gray-400 hover:text-green-400 transition-all uppercase tracking-widest py-2 text-left"
+                >
+                  Locker
+                </button>
+                {/* Mobile System Controls */}
+                <div className="flex items-center gap-4 pt-2 border-t border-zinc-800">
+                  <button 
+                    onClick={toggleBgm}
+                    className={`flex items-center gap-2 px-3 py-2 bg-black/40 rounded-sm ${isBgmPlaying || isPlaying ? 'text-amber-500' : 'text-zinc-500'}`}
+                  >
+                    <div className={`w-2 h-2 rounded-full ${isBgmPlaying || isPlaying ? 'bg-amber-500' : 'bg-zinc-700'}`}></div>
+                    <span className="text-xs font-mono uppercase">Wire</span>
+                  </button>
+                  <button 
+                    onClick={() => setIsTorchEnabled(!isTorchEnabled)}
+                    className={`flex items-center gap-2 px-3 py-2 bg-black/40 rounded-sm ${isTorchEnabled ? 'text-yellow-500' : 'text-zinc-500'}`}
+                  >
+                    <div className={`w-2 h-2 rounded-full ${isTorchEnabled ? 'bg-yellow-500' : 'bg-zinc-700'}`}></div>
+                    <span className="text-xs font-mono uppercase">Light</span>
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
       </motion.nav>
 
       {/* Main Content */}
@@ -630,13 +691,13 @@ export default function StoryEditorPage() {
         initial={{ opacity: 0, filter: 'blur(10px)' }}
         animate={{ opacity: 1, filter: 'blur(0px)' }}
         transition={{ duration: 1.2, ease: "easeOut" }}
-        className="max-w-5xl mx-auto px-4 py-12 relative z-10"
+        className="max-w-5xl mx-auto px-3 md:px-4 py-6 md:py-12 relative z-10"
       >
         
-        <div className="mb-8">
+        <div className="mb-6 md:mb-8">
             <button
                 onClick={() => router.push(`/podcast/${podcastId}`)}
-                className="flex items-center gap-2 text-gray-500 hover:text-red-500 transition font-bold uppercase tracking-widest text-sm group"
+                className="flex items-center gap-2 text-gray-500 hover:text-red-500 transition font-bold uppercase tracking-widest text-xs md:text-sm group"
             >
                 <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
                 Back to Evidence Board
@@ -644,40 +705,40 @@ export default function StoryEditorPage() {
         </div>
 
         {/* Top Secret Header */}
-        <div className="relative mb-16 border-b-4 border-zinc-800 pb-8">
-          <div className="absolute top-0 right-0 transform rotate-12 opacity-10 pointer-events-none">
-             <Fingerprint className="w-64 h-64 text-white" />
+        <div className="relative mb-10 md:mb-16 border-b-4 border-zinc-800 pb-6 md:pb-8">
+          <div className="absolute top-0 right-0 transform rotate-12 opacity-10 pointer-events-none hidden md:block">
+             <Fingerprint className="w-48 md:w-64 h-48 md:h-64 text-white" />
           </div>
 
-          <div className="flex flex-col md:flex-row justify-between items-start gap-8">
+          <div className="flex flex-col md:flex-row justify-between items-start gap-6 md:gap-8">
             <div className="relative">
-              <div className="absolute -top-6 -left-6 border-4 border-red-800 text-red-800 px-4 py-2 text-2xl font-bold transform -rotate-12 opacity-80 mask-stamp z-20 bg-red-900/10 backdrop-blur-sm">
+              <div className="absolute -top-4 md:-top-6 -left-4 md:-left-6 border-2 md:border-4 border-red-800 text-red-800 px-2 md:px-4 py-1 md:py-2 text-lg md:text-2xl font-bold transform -rotate-12 opacity-80 mask-stamp z-20 bg-red-900/10 backdrop-blur-sm">
                 CONFIDENTIAL
               </div>
-              <h1 className="text-2xl md:text-5xl font-bold mb-4 mt-4 leading-tight max-w-2xl text-[#e7e5e4]">
+              <h1 className="text-xl sm:text-2xl md:text-5xl font-bold mb-3 md:mb-4 mt-4 leading-tight max-w-2xl text-[#e7e5e4]">
                 {script?.title || podcast.title}
               </h1>
-              <div className="flex flex-wrap gap-4 text-sm font-bold text-gray-400 uppercase tracking-wider font-mono">
-                <span className="bg-zinc-900 border border-zinc-700 px-2 py-1 text-red-500">Target: {podcast.repo_name}</span>
+              <div className="flex flex-wrap gap-2 md:gap-4 text-[10px] md:text-sm font-bold text-gray-400 uppercase tracking-wider font-mono">
+                <span className="bg-zinc-900 border border-zinc-700 px-2 py-1 text-red-500 break-all">Target: {podcast.repo_name}</span>
                 <span className="border border-zinc-700 px-2 py-1">Lang: {podcast.repo_metadata?.language || 'Unknown'}</span>
                 <span className="border border-zinc-700 px-2 py-1">Stars: {podcast.repo_metadata?.stars || 0}</span>
               </div>
             </div>
 
             {/* Psychological Profile Box - Sticky Note */}
-            <div className="w-full md:w-80 bg-[#fef3c7] text-black p-6 shadow-lg transform rotate-2 relative font-handwriting">
+            <div className="w-full md:w-80 bg-[#fef3c7] text-black p-4 md:p-6 shadow-lg transform rotate-0 md:rotate-2 relative font-handwriting">
               {/* Push Pin */}
-              <div className="absolute -top-3 left-1/2 transform -translate-x-1/2 z-20">
-                <div className="w-4 h-4 rounded-full bg-red-600 shadow-md border border-red-800"></div>
-                <div className="w-1 h-2 bg-gray-400 mx-auto"></div>
+              <div className="absolute -top-2 md:-top-3 left-1/2 transform -translate-x-1/2 z-20">
+                <div className="w-3 h-3 md:w-4 md:h-4 rounded-full bg-red-600 shadow-md border border-red-800"></div>
+                <div className="w-0.5 md:w-1 h-1.5 md:h-2 bg-gray-400 mx-auto"></div>
               </div>
               
-              <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-black/10 w-16 h-4 blur-sm"></div>
+              <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-black/10 w-12 md:w-16 h-3 md:h-4 blur-sm"></div>
 
-              <div className="text-xs font-bold uppercase tracking-widest mb-2 border-b border-black/20 pb-1 text-red-800">
+              <div className="text-[10px] md:text-xs font-bold uppercase tracking-widest mb-1 md:mb-2 border-b border-black/20 pb-1 text-red-800">
                 Psychological Profile
               </div>
-              <p className="text-sm leading-relaxed font-typewriter text-gray-800">
+              <p className="text-xs md:text-sm leading-relaxed font-typewriter text-gray-800">
                 &ldquo;{script?.dramatic_arc || "Subject shows signs of complex architectural patterns. Motive unclear."}&rdquo;
               </p>
             </div>
@@ -850,11 +911,11 @@ export default function StoryEditorPage() {
           <div className="absolute bottom-8 left-8 text-xs font-mono text-gray-500">CONFIDENTIAL</div>
           <div className="absolute bottom-8 right-8 text-xs font-mono text-gray-500">DO NOT DUPLICATE</div>
 
-          <div className="flex flex-col items-center justify-center mb-12 mt-8 border-b-2 border-black/20 pb-4 relative z-30">
-            <h2 className="text-xl md:text-4xl font-bold uppercase tracking-widest flex items-center gap-4 text-black font-typewriter mb-4">
-              <Siren className="w-8 h-8 text-red-800 animate-pulse" />
+          <div className="flex flex-col items-center justify-center mb-8 md:mb-12 mt-6 md:mt-8 border-b-2 border-black/20 pb-4 relative z-30">
+            <h2 className="text-lg sm:text-xl md:text-4xl font-bold uppercase tracking-widest flex items-center gap-2 md:gap-4 text-black font-typewriter mb-4">
+              <Siren className="w-5 h-5 md:w-8 md:h-8 text-red-800 animate-pulse" />
               Interrogation Log
-              <Siren className="w-8 h-8 text-red-800 animate-pulse transform scale-x-[-1]" />
+              <Siren className="w-5 h-5 md:w-8 md:h-8 text-red-800 animate-pulse transform scale-x-[-1]" />
             </h2>
             
             {/* Export Controls */}

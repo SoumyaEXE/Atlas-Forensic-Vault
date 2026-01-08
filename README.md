@@ -491,7 +491,7 @@ http://localhost:3000
 <div align="center">
   
 _**"🕵️ Case Closed."**_ <br/>
-**Built with ❤️ for MLH Hack For Hackers!**
+**Built with ❤️ for Hackers!**
 
 [![MongoDB Atlas](https://img.shields.io/badge/Powered_by-MongoDB_Atlas-47A248?style=for-the-badge&logo=mongodb&logoColor=white)](https://www.mongodb.com/atlas)
 [![Cloudflare](https://img.shields.io/badge/Powered_by-Cloudflare-F38020?style=for-the-badge&logo=cloudflare&logoColor=white)](https://www.cloudflare.com/)
