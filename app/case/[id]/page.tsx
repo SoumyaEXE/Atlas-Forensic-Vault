@@ -102,13 +102,13 @@ export default async function CaseDetailPage({ params }: PageProps) {
       {/* Global Atmosphere */}
       <div className="fixed inset-0 pointer-events-none z-50">
         {/* Film Grain - Top Layer */}
-        <div className="absolute inset-0 opacity-[0.05] bg-[url('/grain.gif')]"></div>
+        <div className="absolute inset-0 opacity-[0.025] bg-[url('/grain.gif')]"></div>
       </div>
       <div className="fixed inset-0 pointer-events-none z-0">
         {/* Harsh Desk Lamp Vignette */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_10%,rgba(255,255,255,0.03)_0%,rgba(0,0,0,0.8)_80%)]"></div>
         {/* Paper Texture Overlay */}
-        <div className="absolute inset-0 opacity-[0.02] bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')]"></div>
+        <div className="absolute inset-0 opacity-[0.015] bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')]"></div>
       </div>
 
       {/* Header - Case File Label */}
@@ -145,17 +145,17 @@ export default async function CaseDetailPage({ params }: PageProps) {
               <Fingerprint className="w-16 h-16 text-zinc-500" />
             </div>
             
-            <div className="flex flex-wrap gap-3 mt-2 relative z-10">
+            <div className="flex flex-wrap gap-2 mt-2 relative z-10">
               {sortedLanguages.map(([lang]) => (
                 <div key={lang} className="relative group/stamp">
-                  <div className="border-2 border-red-900/40 text-red-800/60 px-3 py-1 text-xs font-bold uppercase tracking-widest transform rotate-[-2deg] group-hover/stamp:rotate-0 transition-transform bg-[#d4c5a9]/10 backdrop-blur-sm font-typewriter">
+                  <div className="border-2 border-red-900/40 text-red-800/80 px-3 py-1 text-xs font-bold uppercase tracking-widest transform rotate-[-2deg] group-hover/stamp:rotate-0 transition-transform bg-[#d4c5a9]/20 backdrop-blur-sm font-typewriter drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)]">
                     {lang}
                   </div>
                 </div>
               ))}
               {podcast.repo_metadata?.topics?.slice(0, 4).map((topic: string) => (
                 <div key={topic} className="relative group/stamp">
-                  <div className="border-2 border-blue-900/30 text-blue-800/50 px-3 py-1 text-xs font-bold uppercase tracking-widest transform rotate-[1deg] group-hover/stamp:rotate-0 transition-transform font-typewriter">
+                  <div className="border-2 border-blue-900/30 text-blue-800/70 px-3 py-1 text-[10px] font-bold uppercase tracking-widest transform rotate-[1deg] group-hover/stamp:rotate-0 transition-transform font-typewriter drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)]">
                     {topic}
                   </div>
                 </div>
