@@ -1,9 +1,9 @@
 import React from 'react';
 import Link from 'next/link';
 import { getCollection } from '@/lib/mongodb';
-import { getGitHubClient, FileNode, RepoStructure } from '@/lib/github/client';
+import { getGitHubClient, RepoStructure } from '@/lib/github/client';
 import { Podcast } from '@/lib/types';
-import { FileText, Folder, PlayCircle, Fingerprint, Siren, Search, AlertTriangle, Paperclip, FileWarning, ArrowLeft } from 'lucide-react';
+import { PlayCircle, Fingerprint, Siren, Search, AlertTriangle, Paperclip, ArrowLeft } from 'lucide-react';
 
 import CodeChatbot from '@/components/case/CodeChatbot';
 import EvidenceLocker from '@/components/case/EvidenceLocker';
@@ -31,7 +31,7 @@ async function getRepoStructure(repoName: string) {
     const client = getGitHubClient();
     
     // Add timeout to prevent infinite loading
-    const timeoutPromise = new Promise<any>((_, reject) => 
+    const timeoutPromise = new Promise<never>((_, reject) => 
       setTimeout(() => reject(new Error('Timeout fetching repo structure')), 5000)
     );
 
@@ -93,8 +93,6 @@ export default async function CaseDetailPage({ params }: PageProps) {
     ))
     .slice(0, 5) || [];
 
-  // Mock metrics using deterministic random
-  const rand = pseudoRandom(podcast.id);
   const [owner, repo] = podcast.repo_name.split('/');
   
   return (
@@ -118,7 +116,7 @@ export default async function CaseDetailPage({ params }: PageProps) {
             <Link href="/" className="text-zinc-600 hover:text-zinc-400 transition-colors flex items-center gap-1 text-xs uppercase tracking-widest font-bold">
               <ArrowLeft className="w-3 h-3" /> HQ
             </Link>
-            <div className="inline-block bg-zinc-900 text-zinc-500 px-2 md:px-3 py-1 text-[10px] md:text-xs font-bold tracking-[0.1em] md:tracking-[0.2em] transform -rotate-1 border border-zinc-800 shadow-sm font-typewriter">
+            <div className="inline-block bg-zinc-900 text-zinc-500 px-2 md:px-3 py-1 text-[10px] md:text-xs font-bold tracking-widest md:tracking-[0.2em] transform -rotate-1 border border-zinc-800 shadow-sm font-typewriter">
               CONFIDENTIAL // DO NOT DISTRIBUTE
             </div>
           </div>
@@ -132,7 +130,7 @@ export default async function CaseDetailPage({ params }: PageProps) {
         </div>
       </header>
 
-      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-8 flex-grow mb-6 min-h-0 overflow-y-auto lg:overflow-visible">
+      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-4 md:gap-8 grow mb-6 min-h-0 overflow-y-auto lg:overflow-visible">
         
         {/* Left Column: The Suspect's Rap Sheet */}
         <div className="lg:col-span-3 flex flex-col gap-4 md:gap-6 lg:overflow-y-auto lg:pr-2 custom-scrollbar lg:h-full">
@@ -148,14 +146,14 @@ export default async function CaseDetailPage({ params }: PageProps) {
             <div className="flex flex-wrap gap-2 mt-2 relative z-10">
               {sortedLanguages.map(([lang]) => (
                 <div key={lang} className="relative group/stamp">
-                  <div className="border-2 border-red-900/40 text-red-800/80 px-3 py-1 text-xs font-bold uppercase tracking-widest transform rotate-[-2deg] group-hover/stamp:rotate-0 transition-transform bg-[#d4c5a9]/20 backdrop-blur-sm font-typewriter drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)]">
+                  <div className="border-2 border-red-900/40 text-red-800/80 px-3 py-1 text-xs font-bold uppercase tracking-widest transform -rotate-2 group-hover/stamp:rotate-0 transition-transform bg-[#d4c5a9]/20 backdrop-blur-sm font-typewriter drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)]">
                     {lang}
                   </div>
                 </div>
               ))}
               {podcast.repo_metadata?.topics?.slice(0, 4).map((topic: string) => (
                 <div key={topic} className="relative group/stamp">
-                  <div className="border-2 border-blue-900/30 text-blue-800/70 px-3 py-1 text-[10px] font-bold uppercase tracking-widest transform rotate-[1deg] group-hover/stamp:rotate-0 transition-transform font-typewriter drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)]">
+                  <div className="border-2 border-blue-900/30 text-blue-800/70 px-3 py-1 text-[10px] font-bold uppercase tracking-widest transform rotate-1 group-hover/stamp:rotate-0 transition-transform font-typewriter drop-shadow-[0_1px_1px_rgba(0,0,0,0.8)]">
                     {topic}
                   </div>
                 </div>
@@ -217,7 +215,7 @@ export default async function CaseDetailPage({ params }: PageProps) {
             <button className="w-full relative bg-[#1a0505] border-2 border-red-900/40 text-red-500 hover:text-red-400 py-4 md:py-6 px-4 md:px-6 shadow-[inset_0_0_20px_rgba(0,0,0,1)] transition-all flex flex-col items-center justify-center gap-2 group-hover:border-red-600/60">
               <div className="flex items-center gap-2 md:gap-3">
                 <PlayCircle className="w-5 h-5 md:w-6 md:h-6 animate-pulse" />
-                <span className="font-bold tracking-[0.1em] md:tracking-[0.2em] text-xs md:text-sm font-typewriter">[ ACCESS SURVEILLANCE TAPE ]</span>
+                <span className="font-bold tracking-widest md:tracking-[0.2em] text-xs md:text-sm font-typewriter">[ ACCESS SURVEILLANCE TAPE ]</span>
               </div>
               <span className="text-[8px] md:text-[10px] text-red-800 uppercase tracking-widest opacity-60 group-hover:opacity-100 transition-opacity font-typewriter">
                 Authorized Personnel Only
