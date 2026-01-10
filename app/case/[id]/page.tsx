@@ -102,13 +102,13 @@ export default async function CaseDetailPage({ params }: PageProps) {
       {/* Global Atmosphere */}
       <div className="fixed inset-0 pointer-events-none z-50">
         {/* Film Grain - Top Layer */}
-        <div className="absolute inset-0 opacity-[0.025] bg-[url('/grain.gif')]"></div>
+        <div className="absolute inset-0 opacity-[0.035] bg-[url('/grain.gif')]"></div>
       </div>
       <div className="fixed inset-0 pointer-events-none z-0">
         {/* Harsh Desk Lamp Vignette */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_10%,rgba(255,255,255,0.03)_0%,rgba(0,0,0,0.8)_80%)]"></div>
         {/* Paper Texture Overlay */}
-        <div className="absolute inset-0 opacity-[0.015] bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')]"></div>
+        <div className="absolute inset-0 opacity-[0.018] bg-[url('https://www.transparenttextures.com/patterns/paper-fibers.png')]"></div>
       </div>
 
       {/* Header - Case File Label */}
@@ -226,7 +226,7 @@ export default async function CaseDetailPage({ params }: PageProps) {
           </Link>
 
           {/* Autopsy Report */}
-          <section className="bg-[#0a0a0a] border border-zinc-800 p-5 shadow-lg relative max-h-[50vh] lg:max-h-[40vh] overflow-y-auto custom-scrollbar">
+          <section className="bg-[#0a0a0a] border border-zinc-800 p-5 shadow-lg relative min-h-[45vh] lg:min-h-[50vh] overflow-y-auto custom-scrollbar">
             <div className="sticky top-0 right-0 float-right z-10">
                <div className="border border-zinc-700 px-1 text-[8px] text-zinc-600 uppercase font-typewriter bg-[#0a0a0a]">CONFIDENTIAL</div>
             </div>
